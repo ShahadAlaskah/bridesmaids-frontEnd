@@ -25,6 +25,8 @@ import Places from './pages/Places';
 import PlaceDetails from './pages/PlaceDetails';
 import ProductCard from './component/ProductCard';
 import Products from './pages/Vender/Products';
+import CustomerRegister from './pages/Customer/CustomerRegister';
+import VendorRegister from './pages/Vender/VendorRegister';
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/vendorRegiter" element={<VendorRegister />} />
+          <Route path="/customerRegister" element={<CustomerRegister />} />
           <Route path="/role" element={<Role />} />
           <Route path="/places" element={<Places />} />
           <Route path='/placeDetails/:id' element={<PlaceDetails/>}/>

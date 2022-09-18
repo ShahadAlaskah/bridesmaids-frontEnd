@@ -4,13 +4,15 @@ import {Box , HStack, Text, VStack , Heading , Button , Spinner , Input,  Modal,
     ModalHeader,
     ModalFooter,
     ModalBody,
-    ModalCloseButton,useDisclosure } from "@chakra-ui/react";
+    ModalCloseButton,useDisclosure, Flex } from "@chakra-ui/react";
 import Navbar from "../component/Navbar";
 import Title from "../component/Title";
 import ImagesGallery from "../component/ImagesGallery";
-import React, { useEffect, useState , DatePicker ,subDays } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Calendar from 'react-calendar';
+import React, { useEffect, useState } from 'react';
+import {useParams} from 'react-router-dom';
+import 'react-modern-calendar-datepicker/lib/DatePicker.css';
+import { Calendar, utils } from "react-modern-calendar-datepicker";
+
 
 
 const PlaceDetails=()=>{
@@ -49,14 +51,25 @@ const PlaceDetails=()=>{
     const[lan,setLan]=useState('')
     const[lng,setLng]=useState('')
     const[loading, setLoading] = useState(true);
-    const[showModel,setShowModel]= useState(false);
+    const [selectedDay, setSelectedDay] = useState(null);
     const { isOpen, onOpen, onClose } = useDisclosure()
-    // const [value, onChange] = useState(new Date());
-    const [startDate, setStartDate] = useState(new Date());
-
-
-    
-
+    const disabledDays = [
+      {
+        year: 2022,
+        month: 9,
+        day: 20,
+      },
+      {
+        year: 2022,
+        month: 9,
+        day: 21,
+      },
+      {
+        year: 2022,
+        month: 9,
+        day: 22,
+      }
+    ];
 
 
 
@@ -114,7 +127,11 @@ const PlaceDetails=()=>{
     //     };
     //     fetchVendorName();
     // },[]);
+  
 
+    const sendRequest=()=>{
+      console.log(selectedDay)
+    }
 
 return(
     
@@ -159,7 +176,7 @@ return(
           <HStack spacing={"10rem"}>
 
           <VStack>
-          <Button backgroundColor={"#CAA892"}  textColor={"white"} variant='solid' >
+          <Button backgroundColor={"#CAA892"} onClick={onOpen} textColor={"white"} variant='solid' >
            طلب حجز
           </Button>
           </VStack>
@@ -176,32 +193,39 @@ return(
           </HStack>
 
         </VStack>
-
-
+      
     </HStack>
     
-      <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader textAlign={"center"}>طلب حجز</ModalHeader>
+        <ModalHeader textAlign={"center"}>طلب حجز</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <VStack>
-            {/* <Calendar onChange={onChange} value={value} /> */}
-            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+          <ModalBody pb={6}>
+          <VStack>
+
+<Flex>
+<Calendar
+      value={selectedDay}
+      onChange={(date) => setSelectedDay(date)}
+      disabledDays={disabledDays} 
+      colorPrimary="#CAA892"
+    />
+    </Flex>
+
             <Input type="text" variant={"flushed"} placeholder="الملاحظات" textAlign={"right"} />
             </VStack>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
-              Close
+            <Button onClick={sendRequest} colorScheme='blue' mr={3}>
+              ارسال طلب حجز
             </Button>
-            <Button variant='ghost'>Secondary Action</Button>
+            <Button onClick={onClose}>الغاء</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-    
+
     </>
 }
     </VStack>

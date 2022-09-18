@@ -1,4 +1,5 @@
 import { Image, Text, VStack } from "@chakra-ui/react";
+import line from "../Images/line.png"
 
 const Title=({title})=>{
     return(
@@ -10,7 +11,7 @@ const Title=({title})=>{
      >
         {title}
     </Text>
-    <Image src='./line.png' alt='...' w={'15rem'} h={"1.4rem"}/>
+    <Image src={line} alt='...' w={'15rem'} h={"1.4rem"}/>
     </VStack>
     )
 }

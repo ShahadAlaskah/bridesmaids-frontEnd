@@ -57,7 +57,7 @@ const Navbar = ({ navbarItems, navbarItems2 }) => {
         >
           {navItemMap2}
           <Image
-            src="./logo.png"
+            src="/logo.png"
             alt="Dan Abramov"
             w="4rem"
             h="4rem"
