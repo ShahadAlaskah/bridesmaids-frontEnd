@@ -22,6 +22,9 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Role from './pages/Role';
 import Places from './pages/Places';
+import PlaceDetails from './pages/PlaceDetails';
+import ProductCard from './component/ProductCard';
+import Products from './pages/Vender/Products';
 
 function App() {
   return (
@@ -29,14 +32,16 @@ function App() {
       <BrowserRouter>
         {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
         <Routes>
-          <Route path="/venderRequests" element={<VenderRequests />} />
+          <Route path="/venderRequests" element={<VenderRequests/>} />
           <Route path="/addProduct" element={<AddProduct />} />
-          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<Products/>}/>
+          <Route path="/" element={<HomePage/>} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/role" element={<Role />} />
           <Route path="/places" element={<Places />} />
+          <Route path='/placeDetails/:id' element={<PlaceDetails/>}/>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
