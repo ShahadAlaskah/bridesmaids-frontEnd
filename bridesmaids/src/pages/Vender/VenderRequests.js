@@ -10,88 +10,196 @@ import {
   Stack,
   Divider,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
 import AccordionList from '../../component/Admin/AllUsers/AccordionList';
 import Decoration from '../../component/Decoration';
 import FilterBar from '../../component/FilterBar';
 import Navbar from '../../component/Navbar';
+import Title from '../../component/Title';
 
 const VenderRequests = () => {
-  const details = [
-    {
-      title: 'قاعه لورا',
-      body: (
-        <>
-          <Text>الوقت : 10:30</Text>
-          <Text>التاريخ: 10/202022</Text>
-          <Text>طريقه التواصل: هاتف - 0596159810</Text>
-          <Text>
-            ملاحضات : ***************************************************
-            ****************************
-          </Text>
-        </>
-      ),
-      listButton: (
+  const [details, setDetails] = useState([]);
+  const [renderFetchDataAll, setRenderFetchDataAll] = useState(false);
+  const detailsMap = [];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const requestR = await fetch(
+        '/api/v1/request/getAllByVendorIdAndStatusIsNotLike'
+      );
+      const dataR = await requestR.json();
+
+      for (let index = 0; index < dataR.length; index++) {
+        const requestP = await fetch(
+          '/api/v1/product/byProductId/' + dataR[index].productId
+        );
+        const dataP = await requestP.json();
+        detailsMap.push({
+          title: dataP.name,
+          body: [
+            {
+              titleTd: 'التاريخ',
+              bodyTd: dataR[index].bookDate,
+            },
+            {
+              titleTd: 'طريقه التواصل',
+              bodyTd: dataR[index].wayToCommunicate,
+            },
+            {
+              titleTd: 'ملاحضات',
+              bodyTd: dataR[index].note,
+            },
+            {
+              titleTd: 'حاله الحجز',
+              bodyTd: requestStatus(dataR[index].status),
+            },
+          ],
+          listButton: listButtonValue(dataR[index].status, dataR[index].id),
+        });
+      }
+
+      setDetails(detailsMap);
+    };
+
+    fetchData();
+  }, [renderFetchDataAll]);
+  const requestStatus = status => {
+    if (status === 'new') {
+      return 'جديد';
+    } else if (status === 'underNegotiation') {
+      return 'قيد المفاوضه';
+    } else if (status === 'confirmedByVendor') {
+      return '....في انتظار قبول العميل';
+    } else if (status === 'rejected') {
+      return 'مرفوضه';
+    }
+  };
+  const listButtonValue = (status, id) => {
+    //new-underNegotiation-confirmedByVendor-confirmedByCustomer-rejected
+    if (status === 'new') {
+      return (
         <>
           <HStack>
-            <Button>تفاوض</Button>
-            <Button>رفض</Button>
+            <Button
+              id={id}
+              onClick={e => changeStatus('underNegotiation', e.target.id)}
+            >
+              تفاوض
+            </Button>
+            <Button
+              id={id}
+              onClick={e => changeStatus('rejected', e.target.id)}
+            >
+              رفض
+            </Button>
           </HStack>
         </>
-      ),
-    },
-    {
-      title: 'قاعه لورا',
-      body: (
-        <>
-          <Text>الوقت : 10:30</Text>
-          <Text>التاريخ: 10/202022</Text>
-          <Text>طريقه التواصل: هاتف - 0596159810</Text>
-          <Text>
-            ملاحضات : ***************************************************
-            ****************************
-          </Text>
-        </>
-      ),
-      listButton: (
+      );
+    } else if (status === 'underNegotiation') {
+      return (
         <>
           <HStack>
-            <Button>تفاوض</Button>
-            <Button>رفض</Button>
+            <Button
+              id={id}
+              onClick={e => changeStatus('confirmedByVendor', e.target.id)}
+            >
+              قبول
+            </Button>
+            <Button
+              id={id}
+              onClick={e => changeStatus('rejected', e.target.id)}
+            >
+              رفض
+            </Button>
           </HStack>
         </>
-      ),
-    },
-  ];
+      );
+    }
+  };
+
+  const fetchDataByStatus = async status => {
+    const requestR = await fetch(
+      '/api/v1/request/getAllByVendorIdAndAndStatus/' + status
+    );
+    const dataR = await requestR.json();
+
+    for (let index = 0; index < dataR.length; index++) {
+      const requestP = await fetch(
+        '/api/v1/product/byProductId/' + dataR[index].productId
+      );
+      const dataP = await requestP.json();
+      detailsMap.push({
+        title: dataP.name,
+        body: [
+          {
+            titleTd: 'التاريخ',
+            bodyTd: dataR[index].bookDate,
+          },
+          {
+            titleTd: 'طريقه التواصل',
+            bodyTd: dataR[index].wayToCommunicate,
+          },
+          {
+            titleTd: 'ملاحضات',
+            bodyTd: dataR[index].note,
+          },
+          {
+            titleTd: 'حاله الحجز',
+            bodyTd: requestStatus(dataR[index].status),
+          },
+        ],
+        listButton: listButtonValue(dataR[index].status, dataR[index].id),
+      });
+    }
+
+    setDetails(detailsMap);
+  };
+  const changeStatus = async (status, requestId) => {
+    console.log(status, requestId);
+    const requestR = await fetch(
+      `/api/v1/request/changeRequestStatus/${requestId}/${status}`,
+      { method: 'PUT', headers: { 'Content-Type': 'application/json' } }
+    );
+    const dataR = await requestR.json();
+    console.log(dataR);
+    setRenderFetchDataAll(!renderFetchDataAll);
+  };
+
   const filterBarDetails = [
     {
       title: 'الكل',
       fun: () => {
-        console.log('hi');
+        setDetails([]);
+        setRenderFetchDataAll(!renderFetchDataAll);
       },
     },
     {
       title: 'جديدة',
       fun: () => {
-        console.log('hi');
+        setDetails([]);
+        fetchDataByStatus('new');
       },
     },
     {
       title: 'قيد المفاوضه ',
       fun: () => {
-        console.log('hi');
+        setDetails([]);
+        fetchDataByStatus('underNegotiation');
       },
     },
     {
       title: 'مؤكدة',
       fun: () => {
-        console.log('hi');
+        setDetails([]);
+        fetchDataByStatus('confirmedByVendor');
       },
     },
     {
       title: 'مرفوضة',
       fun: () => {
-        console.log('hi');
+        setDetails([]);
+        fetchDataByStatus('rejected');
       },
     },
   ];
@@ -109,7 +217,7 @@ const VenderRequests = () => {
   const navbarItems2 = [
     {
       label: 'حجوزات',
-      path: '/contact',
+      path: '/VenderReservations',
     },
     {
       label: 'اعدادات',
@@ -121,18 +229,7 @@ const VenderRequests = () => {
       <VStack>
         <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2} />
 
-        <VStack
-          p={5}
-          display={'flex'}
-          width={'100%'}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
-          <Text>إضافة منتج منتجات</Text>
-
-          <Divider w="150px" />
-        </VStack>
-
+        <Title title={'طلبات'} />
         <Flex p={5} alignSelf="end">
           <FilterBar buttonList={filterBarDetails} />
         </Flex>

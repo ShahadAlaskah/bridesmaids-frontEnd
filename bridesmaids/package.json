@@ -7,6 +7,7 @@
     "@chakra-ui/react": "^2.3.2",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@googlemaps/react-wrapper": "^1.1.35",
     "@react-google-maps/api": "^2.12.2",
     "@react-icons/all-files": "^4.1.0",
     "@testing-library/jest-dom": "^5.16.5",
