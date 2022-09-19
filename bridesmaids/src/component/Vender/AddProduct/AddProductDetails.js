@@ -27,22 +27,22 @@ import { useEffect, useState } from 'react';
 const AddProductDetails = () => {
   const { categoryId } = useParams();
 
-  const [subCategoryList, setSubCategoryList] = useState([]);
-  const [subCategoryId, setSubCategoryId] = useState(0);
+  // const [subCategoryList, setSubCategoryList] = useState([]);
+  // const [subCategoryId, setSubCategoryId] = useState(0);
 
-  useEffect(() => {
-    
-    const fetchData = async () => {
-      const request = await fetch(
-        '/api/v1/Category/getAllByCategoryid/' + categoryId
-      );
-      const data = await request.json();
+  // useEffect(() => {
 
-      setSubCategoryList(data);
-    };
+  //   const fetchData = async () => {
+  //     const request = await fetch(
+  //       '/api/v1/Category/getAllByCategoryid/' + categoryId
+  //     );
+  //     const data = await request.json();
 
-    fetchData();
-  }, []);
+  //     setSubCategoryList(data);
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   const navbarItems = [
     {
@@ -71,7 +71,7 @@ const AddProductDetails = () => {
         <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2} />
         <Title title={'أضافة منتج'} />
 
-        <HStack p={10} alignSelf="end">
+        {/* <HStack p={10} alignSelf="end">
           <FormControl>
             <HStack m={10}>
               <VStack>
@@ -122,7 +122,7 @@ const AddProductDetails = () => {
               </VStack>
             </HStack>
           </FormControl>
-        </HStack>
+        </HStack> */}
       </VStack>
 
       <Decoration />

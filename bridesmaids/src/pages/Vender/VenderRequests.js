@@ -17,8 +17,10 @@ import Decoration from '../../component/Decoration';
 import FilterBar from '../../component/FilterBar';
 import Navbar from '../../component/Navbar';
 import Title from '../../component/Title';
+import Spinner from '../../component/Spinner';
 
 const VenderRequests = () => {
+  const [loading, setLoading] = useState(true);
   const [details, setDetails] = useState([]);
   const [renderFetchDataAll, setRenderFetchDataAll] = useState(false);
   const detailsMap = [];
@@ -60,6 +62,7 @@ const VenderRequests = () => {
       }
 
       setDetails(detailsMap);
+      setLoading(false);
     };
 
     fetchData();
@@ -83,13 +86,19 @@ const VenderRequests = () => {
           <HStack>
             <Button
               id={id}
-              onClick={e => changeStatus('underNegotiation', e.target.id)}
+              onClick={e => {
+                setLoading(true);
+                changeStatus('underNegotiation', e.target.id);
+              }}
             >
               تفاوض
             </Button>
             <Button
               id={id}
-              onClick={e => changeStatus('rejected', e.target.id)}
+              onClick={e => {
+                setLoading(true);
+                changeStatus('rejected', e.target.id);
+              }}
             >
               رفض
             </Button>
@@ -102,13 +111,19 @@ const VenderRequests = () => {
           <HStack>
             <Button
               id={id}
-              onClick={e => changeStatus('confirmedByVendor', e.target.id)}
+              onClick={e => {
+                setLoading(true);
+                changeStatus('confirmedByVendor', e.target.id);
+              }}
             >
               قبول
             </Button>
             <Button
               id={id}
-              onClick={e => changeStatus('rejected', e.target.id)}
+              onClick={e => {
+                setLoading(true);
+                changeStatus('rejected', e.target.id);
+              }}
             >
               رفض
             </Button>
@@ -154,6 +169,7 @@ const VenderRequests = () => {
     }
 
     setDetails(detailsMap);
+    setLoading(false);
   };
   const changeStatus = async (status, requestId) => {
     console.log(status, requestId);
@@ -235,7 +251,7 @@ const VenderRequests = () => {
         </Flex>
 
         <Flex p={5} width={'70%'} alignSelf="end">
-          <AccordionList details={details} />
+          {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
       </VStack>
 
