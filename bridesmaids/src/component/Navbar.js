@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Flex, Button, IconButton, Image } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
+import logo from '../Images/logo.png'
 
 const Navbar = ({ navbarItems, navbarItems2 }) => {
   const [display, changeDisplay] = useState('none');
@@ -57,7 +58,7 @@ const Navbar = ({ navbarItems, navbarItems2 }) => {
         >
           {navItemMap2}
           <Image
-            src="/logo.png"
+            src={logo}
             alt="Dan Abramov"
             w="4rem"
             h="4rem"
