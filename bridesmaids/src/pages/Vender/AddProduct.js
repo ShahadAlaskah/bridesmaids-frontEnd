@@ -30,23 +30,16 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 const AddProduct = () => {
   const [categoryList, setCategoryList] = useState([]);
-  const [categoryId, setCategoryId] = useState(1);
-  const [options, setOptions] = React.useState([
-    { label: 'قاعات زفاف', value: 1 },
-  ]);
+  const [categoryId, setCategoryId] = useState(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       const request = await fetch('/api/v1/Category/Category');
       const data = await request.json();
-
+      console.log(data);
       setCategoryList(data);
-      // setOptions(
-      //   categoryList.map(op => {
-      //     return { label: op.name, value: op.id };
-      //   })
-      // );
     };
 
     fetchData();
@@ -81,44 +74,18 @@ const AddProduct = () => {
         <Title title={'أضافة منتج'} />
 
         <VStack spacing="50px" p={20} width={'50%'} alignSelf="end" mr={5}>
-          {/* <Menu>
-            <MenuButton
-              borderBottom="2px"
-              borderColor="black"
-              borderRadius={0}
-              bg={'white'}
-              w="100%"
-              as={Button}
-              rightIcon={<ChevronDownIcon />}
-            >
-              تصنيف المتتج
-            </MenuButton>
-            <MenuList>
-              {categoryList.map(i => {
-                return (
-                  <MenuItemOption
-                    value={categoryId}
-                    //  onClick={e => setCategoryId(e.target.itemID)}
-                  >
-                    {i.name}
-                  </MenuItemOption>
-                );
-              })}
-            </MenuList>
-          </Menu> */}
           <Select
             variant="flushed"
             isSearchable
-            //defaultValue={options[0].value}
-            //value={categoryId}
-            // options={options}
-            onChange={e => {
-              console.log(e.target.value);
+            value={categoryId}
+            onClick={e => {
               setCategoryId(e.target.value);
             }}
             textAlign="right"
           >
-            <option value={1}>قاعات زفاف</option>
+            {categoryList.map(i => (
+              <option value={i.id}>{i.name}</option>
+            ))}
           </Select>
           <Button
             w="100%"
