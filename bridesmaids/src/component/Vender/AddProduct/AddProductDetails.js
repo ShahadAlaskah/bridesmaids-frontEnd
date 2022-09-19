@@ -28,10 +28,14 @@ const AddProductDetails = () => {
   const { categoryId } = useParams();
 
   const [subCategoryList, setSubCategoryList] = useState([]);
+  const [subCategoryId, setSubCategoryId] = useState(0);
 
   useEffect(() => {
+    
     const fetchData = async () => {
-      const request = await fetch('/api/v1/Category/Category');
+      const request = await fetch(
+        '/api/v1/Category/getAllByCategoryid/' + categoryId
+      );
       const data = await request.json();
 
       setSubCategoryList(data);
@@ -71,31 +75,19 @@ const AddProductDetails = () => {
           <FormControl>
             <HStack m={10}>
               <VStack>
-                <Menu>
-                  <MenuButton
-                    borderBottom="2px"
-                    borderColor="black"
-                    borderRadius={0}
-                    bg={'white'}
-                    w="100%"
-                    as={Button}
-                    rightIcon={<ChevronDownIcon />}
-                  >
-                    تصنيف المتتج
-                  </MenuButton>
-                  <MenuList>
-                    {/* {categoryList.map(i => {
-                return (
-                  <MenuItemOption
-                    value={categoryId}
-                    //  onClick={e => setCategoryId(e.target.itemID)}
-                  >
-                    {i.name}
-                  </MenuItemOption>
-                );
-              })} */}
-                  </MenuList>
-                </Menu>
+                <Select
+                  variant="flushed"
+                  isSearchable
+                  value={categoryId}
+                  onClick={e => {
+                    setCategoryId(e.target.value);
+                  }}
+                  textAlign="right"
+                >
+                  {categoryList.map(i => (
+                    <option value={i.id}>{i.name}</option>
+                  ))}
+                </Select>
                 <Map />
               </VStack>
               <VStack>
