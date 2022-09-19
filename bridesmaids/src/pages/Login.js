@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const request = await fetch('/api/v1/auth/login', {
+      const request = await fetch('/api/v1/user/login', {
         method: 'POST',
         headers: {
           Authorization: 'Basic ' + btoa(username + ':' + password),

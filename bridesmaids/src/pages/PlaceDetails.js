@@ -1,17 +1,19 @@
-import {Box , HStack, Text, VStack , Heading , Button , Spinner , Input,  Modal,
+import  {HStack, Text, VStack , Heading , Button , Spinner , Input,  Modal,
     ModalOverlay,
     ModalContent,
     ModalHeader,
     ModalFooter,
     ModalBody,
-    ModalCloseButton,useDisclosure, Flex } from "@chakra-ui/react";
+    ModalCloseButton,useDisclosure, Radio , RadioGroup } from "@chakra-ui/react";
 import Navbar from "../component/Navbar";
 import Title from "../component/Title";
 import ImagesGallery from "../component/ImagesGallery";
 import React, { useEffect, useState } from 'react';
 import {useParams} from 'react-router-dom';
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
-import { Calendar, utils } from "react-modern-calendar-datepicker";
+import {Calendar, utils } from "react-modern-calendar-datepicker";
+import {useNavigate } from 'react-router-dom';
+
 
 
 
@@ -38,7 +40,7 @@ const PlaceDetails=()=>{
         }
     ]
     const params = useParams();
-    const id = params.id;
+    const productId = params.id;
     const[name,setName]=useState('');
     const[vendorName,setVendorName]=useState('');
     const[vendorId,setVendorId]=useState()
@@ -51,7 +53,7 @@ const PlaceDetails=()=>{
     const[lan,setLan]=useState('')
     const[lng,setLng]=useState('')
     const[loading, setLoading] = useState(true);
-    const [selectedDay, setSelectedDay] = useState(null);
+    const navigate = useNavigate();
     const { isOpen, onOpen, onClose } = useDisclosure()
     const disabledDays = [
       {
@@ -71,12 +73,19 @@ const PlaceDetails=()=>{
       }
     ];
 
+    // Radio button
+    const[selectedDay, setSelectedDay] = useState(null);
+    const[note,setNote] = useState("")
+    const[value, setValue] = useState()
+
+
+
 
 
     // Get Product Data
     useEffect(()=>{
         const fetchProductDetails = async () => {
-            const request = await fetch("/api/v1/product/byProductId/"+id);
+            const request = await fetch("/api/v1/product/byProductId/"+productId);
             const data = await request.json();
             setName(data.name)
             setDescription(data.description)
@@ -90,7 +99,7 @@ const PlaceDetails=()=>{
     // Get Place Data
      useEffect(()=>{
         const fetchPlaceDetails = async () => {
-            const request = await fetch("/api/v1/place/getPlaceByProductId/"+id);
+            const request = await fetch("/api/v1/place/getPlaceByProductId/"+productId);
             const data = await request.json();
             setCapacity(data.capacity)
             setCountry(data.country)
@@ -105,7 +114,7 @@ const PlaceDetails=()=>{
     // Get Product Pictures
     useEffect(()=>{
         const fetchPictures= async()=>{
-            const request= await fetch("/api/v1/picture/byProduct/"+id);
+            const request= await fetch("/api/v1/picture/byProduct/"+productId);
             const data = await request.json();
             const pic = data.map((pic) =>{
                 return pic.pictureUlr
@@ -129,9 +138,68 @@ const PlaceDetails=()=>{
     // },[]);
   
 
-    const sendRequest=()=>{
+    const sendRequest= async ()=>{
       console.log(selectedDay)
+      let way=''
+      if(value===("هاتف")){
+        way="هاتف"+"0567445859"
+      }
+      const bodyValue = {
+        vendorId,
+        productId,
+        dateReceived:"2022/08/8",
+        bookDate:selectedDay.year+"/"+selectedDay.month+"/"+selectedDay.day,
+        wayToCommunicate:"way",
+        price,
+        note,
+      };
+      try {
+        const request = await fetch('/api/v1/request/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(bodyValue),
+        });
+  
+        const data = await request.json();
+  
+       
+        if (request.status === 201) {
+        //   <Alert
+        //   status='success'
+        //   variant='subtle'
+        //   flexDirection='column'
+        //   alignItems='center'
+        //   justifyContent='center'
+        //   textAlign='center'
+        //   height='200px'
+        // >
+        //   <AlertIcon boxSize='40px' mr={0} />
+        //   <AlertTitle mt={4} mb={1} fontSize='lg'>
+        //     تم التسجيل بنجاح
+        //   </AlertTitle>
+        //   <AlertDescription maxWidth='sm'>
+        //    سنقوم بتفعيل حسابك بعد التحقق منه
+        //   </AlertDescription>
+        // </Alert>
+        console.log("ok")
+        } else {
+          console.log("erroe")
+        }
+      } catch (e) {
+        alert('Server error');
+        console.log(e);
+      }
+    };
+
+
+    const check=()=>{
+      if (!localStorage.getItem('loggedIn')) {
+        navigate('/login');
+      }
     }
+  
 
 return(
     
@@ -176,7 +244,7 @@ return(
           <HStack spacing={"10rem"}>
 
           <VStack>
-          <Button backgroundColor={"#CAA892"} onClick={onOpen} textColor={"white"} variant='solid' >
+          <Button backgroundColor={"#CAA892"} onClick={()=>{localStorage.getItem('loggedIn')?onOpen():onClose()}} textColor={"white"} variant='solid' >
            طلب حجز
           </Button>
           </VStack>
@@ -196,32 +264,46 @@ return(
       
     </HStack>
     
-    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+        <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
         <ModalHeader textAlign={"center"}>طلب حجز</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-          <VStack>
+       <ModalCloseButton />
 
-<Flex>
-<Calendar
-      value={selectedDay}
-      onChange={(date) => setSelectedDay(date)}
-      disabledDays={disabledDays} 
-      colorPrimary="#CAA892"
-    />
-    </Flex>
+         <ModalBody pb={10}> 
+         <VStack spacing={"2rem"}>
 
-            <Input type="text" variant={"flushed"} placeholder="الملاحظات" textAlign={"right"} />
-            </VStack>
-          </ModalBody>
+         <Calendar
+         value={selectedDay}
+         onChange={(date) => setSelectedDay(date)}
+         disabledDays={disabledDays} 
+         //minimumDate={new Date()}
+         colorPrimary="#CAA892"
+         />
 
-          <ModalFooter>
-            <Button onClick={sendRequest} colorScheme='blue' mr={3}>
+         <Input type="text" variant={"flushed"} placeholder="الملاحظات" color={"gray.800"} textAlign={"right"} value={note} onChange={(e)=>setNote(e.target.value)}/>
+
+         <RadioGroup onChange={setValue} alignSelf={"end"}>
+         <HStack spacing={5}>
+         <Radio colorScheme='gray' value='1'>
+          هاتف
+         </Radio>
+         <Radio colorScheme='gray' value='2'>
+          زيارة القاعة
+         </Radio>
+         <Text  color={"gray.600"} fontWeight={"bold"}> : طريقة التواصل المفضلة</Text>
+         </HStack>
+         </RadioGroup>
+
+         
+         </VStack>
+         </ModalBody>
+
+          <ModalFooter alignItems={"center"}>
+          <Button onClick={onClose} mr={3}>الغاء</Button>
+            <Button onClick={sendRequest} backgroundColor={"#CAA892"} textColor={"white"}>
               ارسال طلب حجز
             </Button>
-            <Button onClick={onClose}>الغاء</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
