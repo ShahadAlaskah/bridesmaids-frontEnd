@@ -23,8 +23,8 @@ const Login = () => {
 
       if (request.status === 200) {
         localStorage.setItem('loggedIn', true);
-        navigate('/');
-      } else {
+        navigate(-1);
+        } else {
         alert(data.message);
       }
     } catch (e) {

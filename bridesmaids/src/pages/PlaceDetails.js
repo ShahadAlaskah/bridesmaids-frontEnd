@@ -244,7 +244,14 @@ return(
           <HStack spacing={"10rem"}>
 
           <VStack>
-          <Button backgroundColor={"#CAA892"} onClick={()=>{localStorage.getItem('loggedIn')?onOpen():onClose()}} textColor={"white"} variant='solid' >
+          <Button backgroundColor={"#CAA892"} onClick={()=>{
+            if(localStorage.getItem('loggedIn')){
+              onOpen()
+            }else{
+            onClose()
+            navigate("/login")
+            }
+            }} textColor={"white"} variant='solid' >
            طلب حجز
           </Button>
           </VStack>
