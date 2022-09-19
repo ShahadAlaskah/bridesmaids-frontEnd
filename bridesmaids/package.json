@@ -47,5 +47,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8090"
+  "proxy": "http://10.20.40.32:8090"
 }

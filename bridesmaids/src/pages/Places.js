@@ -1,9 +1,10 @@
-import { Flex, Image, Text, VStack , Grid, GridItem , Spinner } from "@chakra-ui/react";
+import { Flex, Image, Text, VStack , Grid, GridItem  } from "@chakra-ui/react";
 import FilterBar from "../component/FilterBar";
 import Navbar from "../component/Navbar";
 import ProductCard from "../component/ProductCard";
 import Title from "../component/Title";
 import { useState , useEffect } from "react";
+import Spinner from "../component/Spinner";
 
 const Places=()=>{
     const navbarItems=[
@@ -184,7 +185,7 @@ return(
     <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2}/>
     <Title title={"أماكن الزفاف"}/>
     <FilterBar buttonList={buttonList}/>
-    {loading? <Spinner /> :
+    {loading? <Spinner/> :
     <ProductCard productList={places}/>
     }
 

@@ -49,7 +49,7 @@ function About() {
         <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2} />
         <HStack spacing={300}>
           <Image
-            src="HomePage.PNG"
+            src="https://images.unsplash.com/photo-1588436199517-f2b12041a7cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTEyfHx3ZWRkaW5nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
             alt="صفحة البداية"
             width={450}
             height={600}

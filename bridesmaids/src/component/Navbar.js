@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Flex, Button, IconButton, Image } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
-import logo from '../Images/logo.png'
+import logo from '../Images/logo.png';
 
 const Navbar = ({ navbarItems, navbarItems2 }) => {
   const [display, changeDisplay] = useState('none');
@@ -42,7 +42,7 @@ const Navbar = ({ navbarItems, navbarItems2 }) => {
       <Flex
         //position="fixed"
         top="1rem"
-        right="1rem"
+        // right="1rem"
         align="center"
         justify={'center'}
       >
