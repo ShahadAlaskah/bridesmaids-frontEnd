@@ -28,7 +28,7 @@ import ProductCard from './component/ProductCard';
 import Products from './pages/Vender/Products';
 import CustomerRegister from './pages/Customer/CustomerRegister';
 import VendorRegister from './pages/Vender/VendorRegister';
-import VenderReservations from './pages/Vender/VenderReservations';
+import VendorReservations from './pages/Vender/VenderReservations';
 import AddProductDetails from './component/Vender/AddProduct/AddProductDetails';
 import Map from './component/Map';
 import CustomerRequests from './pages/Customer/CustomerRequests';
@@ -36,7 +36,12 @@ import CustomerReservations from './pages/Customer/CustomerReservations';
 import AllUsers from './pages/Admin/AllUsers';
 import AllRequest from './pages/Admin/AllRequest';
 import RegistrationRequests from './pages/Admin/RegistrationRequests';
+
+import VendorSetting from './pages/Vender/VendorSetting';
+import CustomerSetting from './pages/Customer/CustomerSetting';
+
 import EditProduct from './pages/Vender/EditProduct';
+
 
 function App() {
   return (
@@ -46,16 +51,23 @@ function App() {
         <Routes>
           <Route path="/venderRequests" element={<VenderRequests />} />
           <Route path="/addProduct" element={<AddProduct />} />
+
           <Route path="/products" element={<Products />} />
           <Route path="/" element={<HomePage />} />
+
           {/* Vender */}
           <Route path="/venderRequests" element={<VenderRequests />} />
-          <Route path="/VenderReservations" element={<VenderReservations />} />
+          <Route path="/VenderReservations" element={<VendorReservations />} />
+          <Route path="/products" element={<Products/>}/>
           <Route
             path="/addProductDetails/:categoryId"
             element={<AddProductDetails />}
           />
+
+          <Route path="/vendor-setting" element={<VendorSetting />} />
+
           <Route path="/editProduct/:productId" element={<EditProduct />} />
+
           <Route path="/addProduct" element={<AddProduct />} />
           {/* Admin */}
           <Route path="/allRequest" element={<AllRequest />} />
@@ -65,10 +77,15 @@ function App() {
           />
           {/* Customer */}
           <Route path="/customerRequests" element={<CustomerRequests />} />
+
+          <Route path="/customerReservations" element={<CustomerReservations />}/>
+          <Route path="/customer-setting" element={<CustomerSetting />} />
+
           <Route
             path="/customerReservations"
             element={<CustomerReservations />}
           />
+
           {/* All */}
           <Route path="/map" element={<Map />} />
           <Route path="/" element={<HomePage />} />
