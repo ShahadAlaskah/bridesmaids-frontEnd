@@ -67,6 +67,7 @@ const VenderRequests = () => {
 
     fetchData();
   }, [renderFetchDataAll]);
+  
   const requestStatus = status => {
     if (status === 'new') {
       return 'جديد';
@@ -171,6 +172,7 @@ const VenderRequests = () => {
     setDetails(detailsMap);
     setLoading(false);
   };
+
   const changeStatus = async (status, requestId) => {
     console.log(status, requestId);
     const requestR = await fetch(
