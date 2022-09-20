@@ -1,1 +1,23 @@
 .hhhhh{ width: 100%; height: 100vm }
+
+
+.hhhhh{ width: 100%; height: 100vm }
+
+.image-gallery {
+    width: 40rem;
+    height: 30rem;
+}
+
+.image-gallery-slide img {
+    width: 10rem;
+    height: 30rem;
+    object-fit: cover;
+    overflow: hidden;
+    object-position: center center ;
+}
+
+.fullscreen .image-gallery-slide img {
+    max-height: 500vh;
+    object-position: center center ;
+
+} 

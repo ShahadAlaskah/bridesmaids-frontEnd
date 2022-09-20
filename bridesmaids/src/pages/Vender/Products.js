@@ -32,40 +32,41 @@ const Products=()=>{
 
     const [places,setPlaces]=useState([]);
     const [loading, setLoading] = useState(true);
+    let placesMap=[]
 
    
    // PLACES
     useEffect(()=>{
-      const fetchProducts= async()=>{
-          const request= await fetch("api/v1/product/myProducts");
-          const data= await request.json();
-
-          const placesMap = data.map((place) =>{
-
-              return {
-                id: place.id,
-                name:place.name,
-                description: place.description,
-                picture:"/",
-                };
-           })
-
-            setPlaces(placesMap); 
-            setLoading(false)
-      };
-      fetchProducts();
+            const fetchPlaces= async()=>{
+                const request= await fetch("api/v1/product/myProducts/");
+                const products= await request.json();
+                console.log(products)
+      
+                for (let index = 0; index < products.length; index++) {
+      
+                  //Get product pic
+                  const requestPic= await fetch("api/v1/picture/byProduct/"+products[index].id);
+                  const pictures= await requestPic.json()
+      
+                  placesMap.push({
+                    id: products[index].id,
+                    name:products[index].name,
+                    description: products[index].description,
+                    picture:pictures[0].pictureUlr,
+                  })            
+                }
+                  setPlaces(placesMap)
+                  setLoading(false)
+                }
+            fetchPlaces();
     },[]);
-
-
-    
-  
 
 return(
     <>
     <VStack>
     
     <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2}/>
-    <Title title={"منتجاتي"}/>
+    <Title title={"خدماتي"}/>
     {loading? <Spinner /> :
     <ProductCard productList={places}/>
     }
