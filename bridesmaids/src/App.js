@@ -76,14 +76,14 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login user={user} />} />
-          <Route element={<AuthRoute setUser={setUser}/>} />
+          <Route path="/login" element={<Login/>} />
+          <Route element={<AuthRoute/>} />
           <Route path="/vendorRegiter" element={<VendorRegister />} />
           <Route path="/customerRegister" element={<CustomerRegister />} />
           <Route path="/role" element={<Role />} />
           <Route path="/places" element={<Places />} />
           <Route path='/placeDetails/:id' element={<PlaceDetails/>}/>
-          <Route path='/vendordetails'element={<VendorDetails/>}/>
+          <Route path='/vendordetails/:id'element={<VendorDetails/>}/>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
