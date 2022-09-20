@@ -1,5 +1,6 @@
 import { Button, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 import AccordionList from '../../component/Admin/AllUsers/AccordionList';
 import Decoration from '../../component/Decoration';
@@ -11,6 +12,7 @@ const RegistrationRequests = () => {
   const [details, setDetails] = useState([]);
   const [renderFetchDataAll, setRenderFetchDataAll] = useState(false);
   const detailsMap = [];
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       const requestR = await fetch('/api/v1/user/notApproved');
@@ -77,6 +79,14 @@ const RegistrationRequests = () => {
     console.log(dataR);
     setRenderFetchDataAll(!renderFetchDataAll);
   };
+  const logout = async () => {
+    const request = await fetch('/api/v1/auth/logout');
+    if (request.status === 204) {
+      localStorage.removeItem('loggedIn');
+      navigate('/login');
+    }
+  };
+  
 
   const navbarItems = [
     {
@@ -91,14 +101,16 @@ const RegistrationRequests = () => {
 
   const navbarItems2 = [
     {
+      label: 'تسجيل الخروج',
+
+      onClick: logout,
+    },
+    {
       label: 'الطلبات',
       path: '/allRequest',
     },
-    {
-      label: 'اعدادات',
-      path: '/non',
-    },
   ];
+
   return (
     <>
       <VStack>

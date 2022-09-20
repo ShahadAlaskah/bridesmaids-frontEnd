@@ -22,9 +22,10 @@ const Navbar = ({ navbarItems, navbarItems2 }) => {
     </Link>
   ));
 
-  const navItemMap2 = navbarItems2.map((item, index) => (
+  const navItemMap2 = navbarItems2.map((item, index, onClick) => (
     <Link to={item.path} index={index}>
       <Button
+        onClick={onClick}
         as="a"
         variant="ghost"
         aria-label="Home"

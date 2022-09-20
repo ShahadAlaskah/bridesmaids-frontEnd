@@ -76,12 +76,12 @@ const AllRequest = () => {
 
   const navbarItems2 = [
     {
-      label: 'الطلبات',
-      path: '/allRequest',
+      label: 'تسجيل الخروج',
+      path: '/non',
     },
     {
-      label: 'اعدادات',
-      path: '/non',
+      label: 'الطلبات',
+      path: '/allRequest',
     },
   ];
   return (
