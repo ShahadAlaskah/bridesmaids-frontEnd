@@ -36,6 +36,7 @@ import CustomerReservations from './pages/Customer/CustomerReservations';
 import AllUsers from './pages/Admin/AllUsers';
 import AllRequest from './pages/Admin/AllRequest';
 import RegistrationRequests from './pages/Admin/RegistrationRequests';
+import EditProduct from './pages/Vender/EditProduct';
 
 function App() {
   return (
@@ -43,10 +44,10 @@ function App() {
       <BrowserRouter>
         {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
         <Routes>
-          <Route path="/venderRequests" element={<VenderRequests/>} />
+          <Route path="/venderRequests" element={<VenderRequests />} />
           <Route path="/addProduct" element={<AddProduct />} />
-          <Route path="/products" element={<Products/>}/>
-          <Route path="/" element={<HomePage/>} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/" element={<HomePage />} />
           {/* Vender */}
           <Route path="/venderRequests" element={<VenderRequests />} />
           <Route path="/VenderReservations" element={<VenderReservations />} />
@@ -54,15 +55,19 @@ function App() {
             path="/addProductDetails/:categoryId"
             element={<AddProductDetails />}
           />
+          <Route path="/editProduct/:productId" element={<EditProduct />} />
           <Route path="/addProduct" element={<AddProduct />} />
           {/* Admin */}
-          <Route path="/allUsers" element={<AllUsers />} />
           <Route path="/allRequest" element={<AllRequest />} />
-          <Route path="/registrationRequests" element={<RegistrationRequests />}
+          <Route
+            path="/registrationRequests"
+            element={<RegistrationRequests />}
           />
           {/* Customer */}
           <Route path="/customerRequests" element={<CustomerRequests />} />
-          <Route path="/customerReservations" element={<CustomerReservations />}
+          <Route
+            path="/customerReservations"
+            element={<CustomerReservations />}
           />
           {/* All */}
           <Route path="/map" element={<Map />} />
@@ -74,7 +79,7 @@ function App() {
           <Route path="/customerRegister" element={<CustomerRegister />} />
           <Route path="/role" element={<Role />} />
           <Route path="/places" element={<Places />} />
-          <Route path='/placeDetails/:id' element={<PlaceDetails/>}/>
+          <Route path="/placeDetails/:id" element={<PlaceDetails />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
