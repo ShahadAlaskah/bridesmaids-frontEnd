@@ -1,6 +1,6 @@
 import './App.css';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ChakraProvider,
   Box,
@@ -36,8 +36,13 @@ import CustomerReservations from './pages/Customer/CustomerReservations';
 import AllUsers from './pages/Admin/AllUsers';
 import AllRequest from './pages/Admin/AllRequest';
 import RegistrationRequests from './pages/Admin/RegistrationRequests';
+import AuthRoute from './component/AuthRoute'
+import ProductDetails from './pages/Vender/ProductDetails';
+import VendorDetails from './pages/VendorDetails';
+
 
 function App() {
+  const [user,setUser]=useState(null);
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
@@ -54,6 +59,8 @@ function App() {
             path="/addProductDetails/:categoryId"
             element={<AddProductDetails />}
           />
+          <Route
+            path="/ProductDetails" element={<ProductDetails/>}/>
           <Route path="/addProduct" element={<AddProduct />} />
           {/* Admin */}
           <Route path="/allUsers" element={<AllUsers />} />
@@ -69,12 +76,14 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login user={user} />} />
+          <Route element={<AuthRoute setUser={setUser}/>} />
           <Route path="/vendorRegiter" element={<VendorRegister />} />
           <Route path="/customerRegister" element={<CustomerRegister />} />
           <Route path="/role" element={<Role />} />
           <Route path="/places" element={<Places />} />
           <Route path='/placeDetails/:id' element={<PlaceDetails/>}/>
+          <Route path='/vendordetails'element={<VendorDetails/>}/>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

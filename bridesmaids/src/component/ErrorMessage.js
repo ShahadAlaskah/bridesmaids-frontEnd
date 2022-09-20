@@ -1,20 +1,14 @@
 import React from 'react'
+import { Alert,AlertIcon,AlertTitle } from '@chakra-ui/react';
 
 const ErrorMessage = ({ children }) => {
     return (
-      <div
-        style={{
-          width: "100%",
-          padding: 10,
-          marginBottom: 10,
-          borderRadius: 4,
-          textAlign: "center",
-          color: "red",
-          textTransform: "capitalize",
-        }}
-      >
-        {children}
-      </div>
+      <>
+      <Alert status='error' width={"90%"} height={'30%'}> 
+      <AlertTitle ml={"10rem"}>{children}</AlertTitle>
+      <AlertIcon />
+    </Alert>
+      </>
     );
   };
   

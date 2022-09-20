@@ -11,8 +11,14 @@ import {
   HStack,
   Button,
   VStack,
+  useToast,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  useDisclosure
 } from '@chakra-ui/react';
-import ErrorMessage from '../../component/ErrorMessage';
 import logo from '../../Images/logo.png';
 
 const CustomerRegister = () => {
@@ -25,8 +31,10 @@ const CustomerRegister = () => {
   const [location, setLocation] = React.useState('');
   const [age, setAge] = React.useState('');
   const [gender, setGender] = React.useState('');
-  const [error, setError] = React.useState(false);
   const [confirmPass, setConfirmPass] = React.useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = React.useRef()
+  const toast=useToast();
   const options = {
     value1: 'F',
     label1: 'Female',
@@ -37,8 +45,9 @@ const CustomerRegister = () => {
   const navigate = useNavigate();
 
   const formSubmit = async e => {
+    
     e.preventDefault();
-
+   
     const bodyValue = {
       username,
       name,
@@ -51,46 +60,65 @@ const CustomerRegister = () => {
     };
 
     try {
-      const request = await fetch('/api/v1/user/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bodyValue),
-      });
+      if (!username ||!name ||!email||!password ||!phoneNumber || !age ||!gender
+        ) {
+          toast({
+            title: 'الرجاء تعبئة جميع العناصر',
+            position:'top',
+            status:'error',
+            isClosable: true,
+          })
+          return;
+        } else 
+        if (password !== confirmPass) {
+          toast({
+            title: 'الرمز السري غير متطابق',
+            position:'top',
+            status:'error',
+            isClosable: true,
+          })
+          return;
+        }else {
+          const request = await fetch('/api/v1/user/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(bodyValue),
+            
+          })
+        const data=await request.json();
+          if(request.status === 201) {
+            onOpen();
+            navigate('/login');
+        }else if(request.status===400){  
+          if(data.message.startsWith('Duplicate entry ')){
+            toast({
+              title: 'البريد الالكتروني او اسم المستخدم موجود مسبقا يرجى استخدام بريد الكتروني اخر',
+              position:'top',
+              status:'error',
+              isClosable: true,
+            })
+          }else{   
+          toast({
+            title: data.message,
+            position:'top',
+            status:'error',
+            isClosable: true,
+          })
+        }
+        }
 
-      const data = await request.json();
-
-      const getdata = await fetch('/api/v1/user/register', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bodyValue),
-      });
-
-      const info = await request.json();
-
-      if (request.status === 201) {
-        navigate('/login');
-      } else if (
-        !username ||
-        !name ||
-        !email ||
-        !password ||
-        !phoneNumber ||
-        !age ||
-        !gender
-      ) {
-        setError(true);
-      } else if (password != confirmPass) {
-        setError(true);
-        console.log(confirmPass);
-      } else {
-      }
+      } 
     } catch (e) {
-      alert('Server error');
+      toast({
+        title: 'server error',
+        position:'top',
+        status:'error',
+        isClosable: true,
+      })
     }
+ 
   };
 
   useEffect(() => {
@@ -113,9 +141,6 @@ const CustomerRegister = () => {
           <Image src={logo} width={'2.5rem'} />
         </HStack>
         <FormControl marginLeft={'4rem'}>
-          {error && (
-            <ErrorMessage>الرجاء التأكد من تعبئة جميع العناصر</ErrorMessage>
-          )}
           <VStack marginRight={'2rem'}>
             <Box>
               <FormLabel
@@ -175,7 +200,6 @@ const CustomerRegister = () => {
               />
             </Box>
             <Box>
-              {error && <ErrorMessage>الرمز السري غير متطابق</ErrorMessage>}
               <FormLabel
                 fontSize={'14px'}
                 htmlFor="InputPassword1"
@@ -300,6 +324,24 @@ const CustomerRegister = () => {
             {/* <Link to='/Login' marginLeft={'50rem'}>تسجيل الدخول</Link> */}
           </VStack>
         </FormControl>
+        <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent alignItems={'center'}>
+            
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+             !تم التسجيل بنجاح
+            </AlertDialogHeader>
+
+            <AlertDialogFooter>
+            <Button backgroundColor={"#CAA892"} onClick={onClose} textColor={"white"} width={"120px"}>موافق</Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog> 
       </Box>
     </HStack>
   );

@@ -3,10 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
   Image,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
+useDisclosure,
+AlertDialog,
+AlertDialogOverlay,
+AlertDialogContent,
+AlertDialogHeader,
+AlertDialogBody,
+AlertDialogFooter,
   FormControl,
   Text,
   FormLabel,
@@ -15,8 +18,10 @@ import {
   Button,
   VStack,
   Heading,
+  useToast
 } from '@chakra-ui/react';
 import logo from '../../Images/logo.png';
+
 
 const VendorRegister = () => {
   const [username, setUsername] = React.useState('');
@@ -24,13 +29,17 @@ const VendorRegister = () => {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [confirmPass, setConfirmPass] = React.useState('');
   const [phoneNumber, setPhoneNumber] = React.useState('');
   const [location, setLocation] = React.useState('');
   const [pic, setPic] = React.useState('');
   const [maeroufNumber, setMaeroufNumber] = React.useState('');
   const [about, setAbout] = React.useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = React.useRef()
 
   const navigate = useNavigate();
+  const toast=useToast();
 
   const formSubmit = async e => {
     e.preventDefault();
@@ -49,6 +58,25 @@ const VendorRegister = () => {
     };
 
     try {
+      if (!username ||!name ||!email||!password ||!phoneNumber || !maeroufNumber
+        ) {
+          toast({
+            title: 'الرجاء تعبئة جميع العناصر',
+            position:'top',
+            status:'error',
+            isClosable: true,
+          })
+          return;
+        } else 
+        if (password !== confirmPass) {
+          toast({
+            title: 'الرمز السري غير متطابق',
+            position:'top',
+            status:'error',
+            isClosable: true,
+          })
+          return;
+        }else {
       const request = await fetch('/api/v1/user/register', {
         method: 'POST',
         headers: {
@@ -60,25 +88,26 @@ const VendorRegister = () => {
       const data = await request.json();
 
       if (request.status === 201) {
-        <Alert
-          status="success"
-          variant="subtle"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          textAlign="center"
-          height="200px"
-        >
-          <AlertIcon boxSize="40px" mr={0} />
-          <AlertTitle mt={4} mb={1} fontSize="lg">
-            تم التسجيل بنجاح
-          </AlertTitle>
-          <AlertDescription maxWidth="sm">
-            سنقوم بتفعيل حسابك بعد التحقق منه
-          </AlertDescription>
-        </Alert>;
-      } else {
+        onOpen();  
+      }else if(request.status===400){  
+        if(data.message.startsWith('Duplicate entry ')){
+          toast({
+            title: 'البريد الالكتروني او اسم المستخدم موجود مسبقا يرجى استخدام بريد الكتروني اخر',
+            position:'top',
+            status:'error',
+            isClosable: true,
+          })
+        }else{
+        toast({
+          title: data.message,
+          position:'top',
+          status:'error',
+          isClosable: true,
+        })
       }
+      }
+
+     } 
     } catch (e) {
       alert('Server error');
       console.log(e);
@@ -92,19 +121,20 @@ const VendorRegister = () => {
   }, []);
 
   return (
-    <Box boxShadow={'lg'} maxW="80%" pb={'1rem'} ml={'7rem'} mt={'4rem'}>
+    <Box boxShadow={'lg'} maxW="80%"  pb={'1rem'} ml={'7rem'} mt={'4rem'}>
       <HStack ml={'15rem'}>
-        <Text className="text-center" fontSize={'1.5rem'} ml={'28rem'}>
-          تسجيل كمزود خدمه
+        <Text className="text-center" fontSize={'1.5rem'} ml={'35rem'}>
+        تسجيل كمزود خدمه
+
         </Text>
         <Image src={logo} width={'4rem'} alt={'logo'} />
       </HStack>
-      <FormControl marginTop={'2rem'} marginLeft={'4rem'}>
-        <HStack spacing={'12'} marginRight={'2rem'}>
+      <FormControl marginTop={'2rem'} marginLeft={'20rem'}>
+        <HStack spacing={'12'} marginRight={'12rem'}>
           <Box>
             <Heading marginBottom={'4rem'}>Location</Heading>
           </Box>
-          <Box className="mb-3">
+          <Box>
             <FormLabel htmlFor="InputName1" textAlign={'right'}>
               الاسم
             </FormLabel>
@@ -183,26 +213,28 @@ const VendorRegister = () => {
               تأكيد كلمة السر
             </FormLabel>
             <Input
-              width={'15rem'}
-              textAlign={'right'}
-              type="password"
-              id="InputConfirmPass"
-              variant={'flushed'}
-            />
+                size={'5px'}
+                width={'15rem'}
+                textAlign={'right'}
+                type="password"
+                value={confirmPass}
+                onChange={e => setConfirmPass(e.target.value)}
+                id="InputConfirmPass"
+                variant={'flushed'}
+              />
           </Box>
         </HStack>
         <HStack spacing={'12'} marginLeft={'12rem'}>
           {/* <Box className='mb-3'>
         <FormLabel htmlFor='InputPic' textAlign={'right'}>
-        pic
+        اضف صورة 
           </FormLabel>
           <Input
            textAlign={'right'}
             value={pic}
             onChange={(e) => setPic(e.target.value)}
-            type='text'
+            type='file'
             id='InputPic'
-            variant={'flushed'}
           />
         </Box> */}
           <Box className="mb-3">
@@ -249,6 +281,28 @@ const VendorRegister = () => {
           {/* <Link to='/Login' marginLeft={'50rem'}>تسجيل الدخول</Link> */}
         </VStack>
       </FormControl>
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent alignItems={'center'}>
+            
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+             !تم التسجيل بنجاح
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+            سنقوم بتفعيل حسابك بعدالتحقق منه
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+            <Button backgroundColor={"#CAA892"} onClick={onClose} textColor={"white"} width={"120px"}>موافق</Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog> 
     </Box>
   );
 };
