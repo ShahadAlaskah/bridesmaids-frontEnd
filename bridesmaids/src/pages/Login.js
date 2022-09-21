@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -12,14 +12,27 @@ import {
   Button,
   VStack,
   Heading,
+  useDisclosure,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
 } from '@chakra-ui/react';
 import logo from '../Images/logo.png';
 const Login = () => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [title,setTitle]=React.useState('');
+  const [details,setDetails]=React.useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = React.useRef()
 
   const navigate = useNavigate();
 
+
+ 
   const formSubmit = async e => {
     e.preventDefault();
 
@@ -32,13 +45,28 @@ const Login = () => {
       });
 
       const data = await request.json();
-
       if (request.status === 200) {
-        localStorage.setItem('loggedIn', true);
+        localStorage.setItem('loggedIn', true );
+        if(data.role==='CUSTOMER'){
         navigate(-1);
-      } else {
-        alert(data.message);
-      }
+        }else if(data.role==='VENDOR'){
+          navigate('/venderRequests')
+        }else if(data.role==='ADMIN'){
+          navigate('/allUsers')
+        }
+      }  else 
+      if(request.status===401){
+       if(data.message==='Bad credentials'){
+      onOpen();
+         setTitle('خطأ في اسم المستخدم او الرمز السري')
+         setDetails('الرجاء التأكد من البيانات المدخله')
+     }else 
+     if (data.message==='User is disabled'){
+      onOpen();
+      setTitle('!حسابك غير مفعل بعد')
+      setDetails('انتظر حتى نقوم بتفعيل حسابك')
+     }
+     }
     } catch (e) {
       alert('Server error');
       console.log(e);
@@ -116,12 +144,33 @@ const Login = () => {
               marginLeft={'8rem'}
               width={'8rem'}
             >
-              {' '}
               تسجيل الدخول
             </Button>
             {/* <Link to='/Login' marginLeft={'50rem'}>تسجيل الدخول</Link> */}
           </VStack>
         </FormControl>
+        <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent alignItems={'center'}>
+            
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+             {title}
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+            {details}
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+            <Button backgroundColor={"#CAA892"} onClick={onClose} textColor={"white"} width={"120px"}>موافق</Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog> 
       </Box>
     </HStack>
   );

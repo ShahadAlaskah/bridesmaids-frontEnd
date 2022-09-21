@@ -52,6 +52,10 @@
     ]
   },
 
+ 
+
+
   "proxy": "http://localhost:8090"
+
 
 }
