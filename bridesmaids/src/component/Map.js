@@ -9,7 +9,7 @@ import React, { useCallback, useRef, useState } from 'react';
 
 const Map = ({ setLocation }) => {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
   const [markers, setMarkers] = useState([]);
@@ -39,7 +39,7 @@ const Map = ({ setLocation }) => {
         onClick={onMapClick}
       >
         {markers.map(marker => (
-          <Marker position={{ lat: marker.lat, lng: marker.lng }} />
+          <Marker position={{ lat: Number(marker.lat), lng: Number(marker.lng) }} />
         ))}
       </GoogleMap>
     </AspectRatio>

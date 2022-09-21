@@ -32,10 +32,12 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import Map from '../../component/Map';
+import DisplayMap from '../../component/DisplayMap';
 const EditProduct = () => {
-  const { productId } = useParams();
+  const { productId,categoryId } = useParams();
+  
   const navigate = useNavigate();
-  const { categoryId } = useParams();
+  //const {  } = useParams();
   const toast = useToast();
   const [subCategoryList, setSubCategoryList] = useState([
     { id: '', name: '' },
@@ -50,7 +52,7 @@ const EditProduct = () => {
   const [file, setFile] = useState();
   const [disableEditing, setDisableEditing] = useState(true);
   const [cancelEditing, setCancelEditing] = useState(true);
-  // const [categoryId, setCategoryId] = useState(0);
+ //const [categoryId, setCategoryId] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,11 +68,12 @@ const EditProduct = () => {
       setCity(dataP.city);
       setCapacity(dataP.capacity);
       setLocation({ lat: dataP.lat, lng: dataP.lng });
-      // setCategoryList(data);
+      //setCategoryList(data);
     };
 
     fetchData();
   }, [cancelEditing]);
+ // console.log()
   const cancel = () => {
     setCancelEditing(!cancelEditing);
     setDisableEditing(true);
@@ -85,20 +88,28 @@ const EditProduct = () => {
       lat: location.lat,
       lng: location.lng,
       categoryId: categoryId,
-      subCategoryId: subCategoryId,
+      subCategoryId: 1,
     };
 
     const request = await fetch(`/api/v1/product/update/${productId}`, {
-      method: 'POST',
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
     const data = await request.json();
-    if (request.status === 201) {
+    if (request.status === 200) {
       setCancelEditing(!cancelEditing);
       setDisableEditing(true);
     }
   };
+  const deleteProduct = async () => {
+    const request = await fetch(`/api/v1/product/delete/${productId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+     
+    });
+    const data = await request.json();
+  }
   // console.log(categoryId);
 
   const navbarItems = [
@@ -149,7 +160,7 @@ const EditProduct = () => {
                   <Image src={file} />
                 </Box>
                 <Box backgroundColor={'gray.100'} w={235} h={150}>
-                  {/* <Map setLocation={setLocation} /> */}
+                  {disableEditing? <DisplayMap lat={location.lat} lng={location.lng}/>: <Map setLocation={setLocation} />}
                 </Box>
               </VStack>
               <VStack w={'30%'}>
@@ -272,7 +283,7 @@ const EditProduct = () => {
                   <Button
                     type="submit"
                     mt={'5rem'}
-                    // onClick={formSubmit}
+                    onClick={deleteProduct}
                     backgroundColor={'#CAA892'}
                     textColor={'white'}
                     textAlign={'right'}
