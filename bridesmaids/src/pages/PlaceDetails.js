@@ -1,4 +1,4 @@
-import  {HStack, Text, VStack , Heading , Button , Spinner , Input,  Modal,
+import  {HStack, Text, VStack ,Box , Heading , Button , Spinner , Input,  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -16,6 +16,7 @@ import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import {Calendar, utils } from '@hassanmojab/react-modern-calendar-datepicker';
 import {useNavigate } from 'react-router-dom';
 import emailjs from 'emailjs-com'
+import DisplayMap from "../component/DisplayMap";
 
 
 
@@ -52,7 +53,7 @@ const PlaceDetails=()=>{
   const[capacity,setCapacity]=useState();
   const[pictures,setPictures]=useState([]);
   const[city,setCity]=useState('')
-  const[lan,setLan]=useState('')
+  const[lat,setLat]=useState('')
   const[lng,setLng]=useState('')
   const[loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -120,7 +121,7 @@ const PlaceDetails=()=>{
           const data = await request.json();
           setCapacity(data.capacity)
           setCity(data.city)
-          setLan(data.lan)
+          setLat(data.lat)
           setLng(data.lng)
         };
         fetchPlaceDetails();
@@ -286,6 +287,11 @@ return(
         </VStack>
 
         </HStack>
+
+        
+        <Box backgroundColor={'gray.100'} w={235} h={150}>
+        <DisplayMap  lat={lat} lng={lng}/>
+        </Box>
 
       </VStack>
     

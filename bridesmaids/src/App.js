@@ -75,7 +75,7 @@ function App() {
 
           <Route path="/vendor-setting" element={<VendorSetting />} />
 
-          <Route path="/editProduct/:productId" element={<EditProduct />} />
+          <Route path="/editProduct/:productId/:categoryId" element={<EditProduct />} />
 
 
           <Route path="/addProduct" element={<AddProduct />} />

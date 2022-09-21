@@ -1,28 +1,12 @@
 import React from 'react';
 import {
   Box,
-  Text,
-  Link,
   VStack,
   Select,
-  Code,
-  Grid,
-  theme,
   HStack,
-  useEditableControls,
-  ButtonGroup,
-  Flex,
-  Editable,
-  EditablePreview,
   Input,
-  EditableInput 
-, EditableTextarea , IconButton, Button 
-,  FormControl,
-FormLabel,
-FormErrorMessage,
-FormHelperText,
-Center,
-color} from '@chakra-ui/react';
+  Button 
+} from '@chakra-ui/react';
 import { useState , useEffect } from 'react';
 import Decoration from '../../component/Decoration';
 import Navbar from "../../component/Navbar";
@@ -66,16 +50,13 @@ const CustomerSetting=()=> {
     const [age,setAge]=useState('')
     const [disableEditing, setDisableEditing] = useState(true);
     const [cancelEditing, setCancelEditing] = useState(true);
+    const navigate = useNavigate();
     const options = {
         value1: 'F',
         label1: 'انثى',
         value2: 'M',
         label2: 'ذكر',
       };
-
-    const navigate = useNavigate();
-
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -137,11 +118,10 @@ const CustomerSetting=()=> {
    <VStack spacing={50}>
    
    <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2}/>
-
    
-    <Title title={"اعدادات"}/>
+   <Title title={"اعدادات"}/>
    
-    <HStack spacing={50} px={20} alignSelf="end" width={'70%'} >
+   <HStack spacing={50} px={20} alignSelf="end" width={'70%'} >
 
     <VStack align='end' spacing={"3rem"} >
     <Box p={5} width={'50%'} alignSelf="end">
@@ -177,7 +157,7 @@ const CustomerSetting=()=> {
 
     </HStack>
 
-    <HStack w={'30%'} spacing={50}>
+   <HStack w={'30%'} spacing={50}>
               {disableEditing ? (
                 <>
                   <Button
@@ -231,18 +211,10 @@ const CustomerSetting=()=> {
                   </Button>
                 </>
               )}
-            </HStack>
+    </HStack>
 
-    {/* <HStack spacing={100} >
-    <Button   >تسجيل خروج</Button>
-    <Button  >تعديل</Button>
-    </HStack> */}
-      
    </VStack>
-   
-   <Box  mt={"50px"}>
-   {/* <Footer /> */}
-   </Box>
+
    <Decoration />
    </>
   );
