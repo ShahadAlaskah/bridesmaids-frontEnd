@@ -37,7 +37,6 @@ import AllUsers from './pages/Admin/AllUsers';
 import AllRequest from './pages/Admin/AllRequest';
 import RegistrationRequests from './pages/Admin/RegistrationRequests';
 import AuthRoute from './component/AuthRoute'
-import ProductDetails from './pages/Vender/ProductDetails';
 import VendorDetails from './pages/VendorDetails';
 
 
@@ -54,60 +53,41 @@ function App() {
       <BrowserRouter>
         {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
         <Routes>
-          <Route path="/venderRequests" element={<VenderRequests />} />
-          <Route path="/addProduct" element={<AddProduct />} />
 
-          <Route path="/products" element={<Products />} />
-          <Route path="/" element={<HomePage />} />
+        <Route element={<AuthRoute setUser={setUser} />}>
 
           {/* Vender */}
-          <Route path="/venderRequests" element={<VenderRequests />} />
-          <Route path="/VenderReservations" element={<VendorReservations />} />
-          <Route path="/products" element={<Products/>}/>
-          <Route
-            path="/addProductDetails/:categoryId"
-            element={<AddProductDetails />}
-          />
-
-          <Route
-            path="/ProductDetails" element={<ProductDetails/>}/>
+          <Route path="/venderRequests" element={<VenderRequests user={user}/>} />
+          <Route path="/VenderReservations" element={<VendorReservations user={user} />} />
+          <Route path="/products" element={<Products user={user}/>}/>
+          <Route path="/addProductDetails/:categoryId" element={<AddProductDetails user={user} />} />
+          <Route path="/vendor-setting" element={<VendorSetting user={user} />} />
+          <Route path="/editProduct/:productId/:categoryId" element={<EditProduct user={user} />} />
+          <Route path="/addProduct" element={<AddProduct user={user} />} />
 
 
-          <Route path="/vendor-setting" element={<VendorSetting />} />
-
-          <Route path="/editProduct/:productId/:categoryId" element={<EditProduct />} />
-
-
-          <Route path="/addProduct" element={<AddProduct />} />
           {/* Admin */}
-          <Route path="/allRequest" element={<AllRequest />} />
-          <Route
-            path="/registrationRequests"
-            element={<RegistrationRequests />}
-          />
+          <Route path="/allRequest" element={<AllRequest user={user} />} />
+          <Route path="/registrationRequests" element={<RegistrationRequests user={user} />} />
+         
+         
           {/* Customer */}
-          <Route path="/customerRequests" element={<CustomerRequests />} />
+          <Route path="/customerRequests" element={<CustomerRequests user={user}/>} />
+          <Route path="/customerReservations" element={<CustomerReservations user={user}/>}/>
+          <Route path="/customer-setting" element={<CustomerSetting user={user} />} />
 
-          <Route path="/customerReservations" element={<CustomerReservations />}/>
-          <Route path="/customer-setting" element={<CustomerSetting />} />
-
-          <Route
-            path="/customerReservations"
-            element={<CustomerReservations />}
-          />
+          </Route>
+        
 
           {/* All */}
-          <Route path="/map" element={<Map />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login/>} />
-          <Route element={<AuthRoute/>} />
           <Route path="/vendorRegiter" element={<VendorRegister />} />
           <Route path="/customerRegister" element={<CustomerRegister />} />
           <Route path="/role" element={<Role />} />
           <Route path="/places" element={<Places />} />
-
           <Route path='/placeDetails/:id' element={<PlaceDetails/>}/>
           <Route path='/vendordetails/:id'element={<VendorDetails/>}/>
 

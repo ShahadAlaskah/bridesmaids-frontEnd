@@ -28,7 +28,40 @@ import Title from '../../component/Title';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-const AddProduct = () => {
+const AddProduct = ({user}) => {
+
+  useEffect(() => {
+    if (user && user.role !== 'VENDOR') {
+      if(user && user.role ==='ADMIN')
+      navigate('/registrationRequests');
+      else{
+        navigate('/')
+      }
+    }
+  }, [user]);
+
+const navbarItems = [
+    {
+      label: 'منتجات',
+      path: '/products',
+    },
+    {
+      label: 'طلبات',
+      path: '/venderRequests',
+    },
+  ];
+
+  const navbarItems2 = [
+    {
+      label: 'حجوزات',
+      path: '/VenderReservations',
+    },
+    {
+      label: 'اعدادات',
+      path: '/vendor-setting',
+    },
+  ];
+
   const [categoryList, setCategoryList] = useState([]);
   const [categoryId, setCategoryId] = useState(0);
 
@@ -46,27 +79,8 @@ const AddProduct = () => {
   }, []);
   console.log(categoryId);
 
-  const navbarItems = [
-    {
-      label: 'منتجات',
-      path: '/addProduct',
-    },
-    {
-      label: 'طلبات',
-      path: '/venderRequests',
-    },
-  ];
+ 
 
-  const navbarItems2 = [
-    {
-      label: 'حجوزات',
-      path: '/VenderReservations',
-    },
-    {
-      label: 'اعدادات',
-      path: '/map',
-    },
-  ];
   return (
     <>
       <VStack>

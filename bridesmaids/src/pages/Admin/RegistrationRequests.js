@@ -8,7 +8,37 @@ import Decoration from '../../component/Decoration';
 import Navbar from '../../component/Navbar';
 import Title from '../../component/Title';
 
-const RegistrationRequests = () => {
+const RegistrationRequests = ({user}) => {
+
+  useEffect(() => {
+    if (user && user.role !== 'ADMIN') {
+      if(user && user.role ==='VENDOR')
+      navigate('/products');
+      else{
+        navigate('/')
+      }
+    }
+  }, [user]);
+
+  const navbarItems = [
+    {
+      label: ' طلبات تزويد الخدمة',
+      path: '/registrationRequests',
+    }
+  ];
+
+  const navbarItems2 = [
+    {
+      label: 'تسجيل الخروج',
+      path: '/non',
+    },
+    {
+      label: 'الطلبات',
+      path: '/allRequest',
+    },
+  ];
+
+
   const [details, setDetails] = useState([]);
   const [renderFetchDataAll, setRenderFetchDataAll] = useState(false);
   const detailsMap = [];
@@ -87,29 +117,6 @@ const RegistrationRequests = () => {
     }
   };
   
-
-  const navbarItems = [
-    {
-      label: 'مستخدمين',
-      path: '/allUsers',
-    },
-    {
-      label: ' طلبات تزويد الخدمة',
-      path: '/registrationRequests',
-    },
-  ];
-
-  const navbarItems2 = [
-    {
-      label: 'تسجيل الخروج',
-
-      onClick: logout,
-    },
-    {
-      label: 'الطلبات',
-      path: '/allRequest',
-    },
-  ];
 
   return (
     <>

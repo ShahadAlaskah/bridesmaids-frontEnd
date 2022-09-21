@@ -18,8 +18,20 @@ import FilterBar from '../../component/FilterBar';
 import Navbar from '../../component/Navbar';
 import Title from '../../component/Title';
 import Spinner from '../../component/Spinner';
+import { useNavigate } from 'react-router';
+const VenderRequests = ({user}) => {
+const navigate=useNavigate('');
+  useEffect(() => {
+    if (user && user.role !== 'VENDOR') {
+      if(user && user.role ==='ADMIN')
+      navigate('/registrationRequests');
+      else{
+        navigate('/')
+      }
+    }
+  }, [user]);
 
-const VenderRequests = () => {
+
   const [loading, setLoading] = useState(true);
   const [details, setDetails] = useState([]);
   const [renderFetchDataAll, setRenderFetchDataAll] = useState(false);
@@ -224,7 +236,7 @@ const VenderRequests = () => {
   const navbarItems = [
     {
       label: 'منتجات',
-      path: '/addProduct',
+      path: '/products',
     },
     {
       label: 'طلبات',
@@ -239,7 +251,7 @@ const VenderRequests = () => {
     },
     {
       label: 'اعدادات',
-      path: '/about',
+      path: '/vendor-setting',
     },
   ];
   return (

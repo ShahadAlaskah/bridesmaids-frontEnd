@@ -26,8 +26,41 @@ import Decoration from '../../Decoration';
 import Navbar from '../../Navbar';
 import Title from '../../Title';
 import Map from '../../Map';
-import { useEffect, useState } from 'react';
-const AddProductDetails = () => {
+import { useEffect, useState} from 'react';
+const AddProductDetails = ({user}) => {
+const navigate=useNavigate('');
+  useEffect(() => {
+    if (user && user.role !== 'VENDOR') {
+      if(user && user.role ==='ADMIN')
+      navigate('/registrationRequests');
+      else{
+        navigate('/')
+      }
+    }
+  }, [user]);
+
+const navbarItems = [
+    {
+      label: 'منتجات',
+      path: '/products',
+    },
+    {
+      label: 'طلبات',
+      path: '/venderRequests',
+    },
+  ];
+
+  const navbarItems2 = [
+    {
+      label: 'حجوزات',
+      path: '/VenderReservations',
+    },
+    {
+      label: 'اعدادات',
+      path: '/vendor-setting',
+    },
+  ];
+
   const { categoryId } = useParams();
   const toast = useToast();
   const [subCategoryList, setSubCategoryList] = useState([
@@ -104,27 +137,7 @@ const AddProductDetails = () => {
     }
   };
   console.log(location);
-  const navbarItems = [
-    {
-      label: 'منتجات',
-      path: '/addProduct',
-    },
-    {
-      label: 'طلبات',
-      path: '/venderRequests',
-    },
-  ];
-
-  const navbarItems2 = [
-    {
-      label: 'حجوزات',
-      path: '/VenderReservations',
-    },
-    {
-      label: 'اعدادات',
-      path: '/map',
-    },
-  ];
+ 
   return (
     <>
       <VStack>

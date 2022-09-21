@@ -3,10 +3,39 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import AccordionList from '../../component/Admin/AllUsers/AccordionList';
 import Decoration from '../../component/Decoration';
-
+import { useNavigate } from 'react-router';
 import Navbar from '../../component/Navbar';
 import Title from '../../component/Title';
-const AllRequest = () => {
+const AllRequest = ({user}) => {
+const navigate=useNavigate('');
+  useEffect(() => {
+    if (user && user.role !== 'ADMIN') {
+      if(user && user.role ==='VENDOR')
+      navigate('/products');
+      else{
+        navigate('/')
+      }
+    }
+  }, [user]);
+
+  const navbarItems = [
+    {
+      label: ' طلبات تزويد الخدمة',
+      path: '/registrationRequests',
+    }
+  ];
+
+  const navbarItems2 = [
+    {
+      label: 'تسجيل الخروج',
+      path: '/non',
+    },
+    {
+      label: 'الطلبات',
+      path: '/allRequest',
+    },
+  ];
+
   const [details, setDetails] = useState([]);
   const detailsMap = [];
 
@@ -63,27 +92,8 @@ const AllRequest = () => {
       return 'مرفوضه';
     }
   };
-  const navbarItems = [
-    {
-      label: 'مستخدمين',
-      path: '/allUsers',
-    },
-    {
-      label: ' طلبات تزويد الخدمة',
-      path: '/registrationRequests',
-    },
-  ];
+ 
 
-  const navbarItems2 = [
-    {
-      label: 'تسجيل الخروج',
-      path: '/non',
-    },
-    {
-      label: 'الطلبات',
-      path: '/allRequest',
-    },
-  ];
   return (
     <>
       <VStack>
