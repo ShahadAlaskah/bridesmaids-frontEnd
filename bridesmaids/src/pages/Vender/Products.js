@@ -4,30 +4,41 @@ import Navbar from "../../component/Navbar";
 import ProductCard from "../../component/ProductCard";
 import Title from "../../component/Title";
 import { useState , useEffect } from "react";
+import { useNavigate } from "react-router";
 
-const Products=()=>{
-    const navbarItems=[
-        {
-            label:"منتجات",
-            path:"/products"
-        },{
-            label:"طلباتي",
-            path:"/venderRequests"
+const Products=({user})=>{
+    const navigate=useNavigate('');
+    useEffect(() => {
+        if (user && user.role !== 'VENDOR') {
+          if(user && user.role ==='ADMIN')
+          navigate('/registrationRequests');
+          else{
+            navigate('/')
+          }
         }
-    ]
-    // change this
-    const navbarItems2=[
+      }, [user]);
+    
+    const navbarItems = [
         {
-            label:"تواصل معنا",
-            path:"/contact"
-        },{
-            label:"عن وصيفة",
-            path:"/about"
-        },{
-            label:"اماكن الزفاف",
-            path:"/places"
-        }
-    ]
+          label: 'منتجات',
+          path: '/products',
+        },
+        {
+          label: 'طلبات',
+          path: '/venderRequests',
+        },
+      ];
+    
+      const navbarItems2 = [
+        {
+          label: 'حجوزات',
+          path: '/VenderReservations',
+        },
+        {
+          label: 'اعدادات',
+          path: '/vendor-setting',
+        },
+      ];
 
 
     const [places,setPlaces]=useState([]);
@@ -66,7 +77,7 @@ return(
     <VStack>
     
     <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2}/>
-    <Title title={"خدماتي"}/>
+    <Title title={"خدمات"}/>
     {loading? <Spinner /> :
     <ProductCard productList={places}/>
     }

@@ -15,8 +15,19 @@ import AccordionList from '../../component/Admin/AllUsers/AccordionList';
 import Decoration from '../../component/Decoration';
 import Navbar from '../../component/Navbar';
 import Title from '../../component/Title';
+import { useNavigate } from 'react-router';
+const VenderReservations = ({user}) => {
+const navigate=useNavigate('');
+  useEffect(() => {
+    if (user && user.role !== 'VENDOR') {
+      if(user && user.role ==='ADMIN')
+      navigate('/registrationRequests');
+      else{
+        navigate('/')
+      }
+    }
+  }, [user]);
 
-const VenderReservations = () => {
   const [details, setDetails] = useState([]);
   const detailsMap = [];
   useEffect(() => {
@@ -60,11 +71,10 @@ const VenderReservations = () => {
 
     fetchData();
   }, []);
-
-  const navbarItems = [
+ const navbarItems = [
     {
       label: 'منتجات',
-      path: '/addProduct',
+      path: '/products',
     },
     {
       label: 'طلبات',
@@ -79,9 +89,10 @@ const VenderReservations = () => {
     },
     {
       label: 'اعدادات',
-      path: '/about',
+      path: '/vendor-setting',
     },
   ];
+
   return (
     <>
       <VStack>

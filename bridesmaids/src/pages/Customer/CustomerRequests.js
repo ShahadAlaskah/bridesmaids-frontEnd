@@ -1,13 +1,51 @@
 import { Button, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-
+import { useNavigate } from 'react-router';
 import AccordionList from '../../component/Admin/AllUsers/AccordionList';
 import Decoration from '../../component/Decoration';
 import FilterBar from '../../component/FilterBar';
 import Navbar from '../../component/Navbar';
 import Title from '../../component/Title';
 
-const CustomerRequests = () => {
+const CustomerRequests = ({user}) => {
+const navigate=useNavigate('');
+  useEffect(() => {
+    if (user && user.role !== 'CUSTOMER') {
+      if(user && user.role ==='VENDOR')
+      navigate('/products');
+      else{
+        navigate('/registrationRequests');
+      }
+    }
+  }, [user]);
+
+  const navbarItems = [
+    {
+      label: 'اعدادات',
+      path: '/customer-setting',
+    },{
+      label: 'طلبات',
+      path: '/customerRequests',
+    },{
+      label: 'حجوزات',
+      path: '/customerReservations',
+    }
+  ];
+
+  const navbarItems2=[
+    {
+        label:"تواصل معنا",
+        path:"/contact"
+    },{
+        label:"عن وصيفة",
+        path:"/about"
+    },{
+        label:"اماكن الزفاف",
+        path:"/places"
+    }
+]
+
+
   const [details, setDetails] = useState([]);
   const [renderFetchDataAll, setRenderFetchDataAll] = useState(false);
   const detailsMap = [];
@@ -171,27 +209,7 @@ const CustomerRequests = () => {
     },
   ];
 
-  const navbarItems = [
-    {
-      label: 'طلباتي',
-      path: '/customerRequests',
-    },
-    {
-      label: 'حجوزاتي',
-      path: '/customerReservations',
-    },
-  ];
-
-  const navbarItems2 = [
-    {
-      label: 'اماكن زفاف',
-      path: '/non',
-    },
-    {
-      label: 'اعدادات',
-      path: '/non',
-    },
-  ];
+ 
   return (
     <>
       <VStack>

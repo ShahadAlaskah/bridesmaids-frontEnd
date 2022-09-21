@@ -6,9 +6,11 @@ const AuthRoute = ({setUser}) => {
   useEffect(() => {
     const checkAuth = async () => {
       const request = await fetch('/api/v1/user/me');
-      const dataU=request.json();
+      const data= await request.json();
+      console.log(data)
       if (request.status === 200) {
-        setUser(dataU);
+        console.log(data)
+        setUser(data);
       } else 
       if (request.status === 401) {
         localStorage.removeItem('loggedIn');
@@ -16,7 +18,7 @@ const AuthRoute = ({setUser}) => {
       }
     };
     checkAuth();
-  }, []);
+  }, [navigate]);
   if (!localStorage.getItem('loggedIn')) {
    
     return <Navigate to="/login" />;

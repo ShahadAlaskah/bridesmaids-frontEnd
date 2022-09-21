@@ -33,7 +33,40 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import Map from '../../component/Map';
 import DisplayMap from '../../component/DisplayMap';
-const EditProduct = () => {
+const EditProduct = ({user}) => {
+
+  useEffect(() => {
+    if (user && user.role !== 'VENDOR') {
+      if(user && user.role ==='ADMIN')
+      navigate('/registrationRequests');
+      else{
+        navigate('/')
+      }
+    }
+  }, [user]);
+
+const navbarItems = [
+    {
+      label: 'منتجات',
+      path: '/products',
+    },
+    {
+      label: 'طلبات',
+      path: '/venderRequests',
+    },
+  ];
+
+  const navbarItems2 = [
+    {
+      label: 'حجوزات',
+      path: '/VenderReservations',
+    },
+    {
+      label: 'اعدادات',
+      path: '/vendor-setting',
+    },
+  ];
+
   const { productId,categoryId } = useParams();
   
   const navigate = useNavigate();
@@ -112,27 +145,7 @@ const EditProduct = () => {
   }
   // console.log(categoryId);
 
-  const navbarItems = [
-    {
-      label: 'منتجات',
-      path: '/addProduct',
-    },
-    {
-      label: 'طلبات',
-      path: '/venderRequests',
-    },
-  ];
 
-  const navbarItems2 = [
-    {
-      label: 'حجوزات',
-      path: '/VenderReservations',
-    },
-    {
-      label: 'اعدادات',
-      path: '/map',
-    },
-  ];
   return (
     <>
       <VStack width={'95%'}>

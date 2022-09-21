@@ -14,33 +14,40 @@ import Title from "../../component/Title";
 // import Footer from "../../component/Footer";
 import {useNavigate } from 'react-router-dom';
 
-const CustomerSetting=()=> {
-    const navbarItems=[
-        {
-            label:"طلباتي",
-            path:"/products",
-          
-        },{
-            label:"حجوزاتي",
-            path:"/venderRequests" 
-        }
-    ]
-    // change this
-    const navbarItems2=[
-        {
-            label:"اعدادات",
-            path:"/about" ,
-            color:"#CAA892"
-        } , 
-        {
-            label:"اضافة عنوان",
-            path:"/contact" 
-           
-        },{
-            label:"تغيير الرمز السري ",
-            path:"/about"
-        }
-    ]
+const CustomerSetting=({user})=> {
+ 
+  useEffect(() => {
+    if (user && user.role !== 'VENDOR') {
+      if(user && user.role ==='ADMIN')
+      navigate('/registrationRequests');
+      else{
+        navigate('/')
+      }
+    }
+  }, [user]);
+
+const navbarItems = [
+    {
+      label: 'منتجات',
+      path: '/products',
+    },
+    {
+      label: 'طلبات',
+      path: '/venderRequests',
+    },
+  ];
+
+  const navbarItems2 = [
+    {
+      label: 'حجوزات',
+      path: '/VenderReservations',
+    },
+    {
+      label: 'اعدادات',
+      path: '/vendor-setting',
+    },
+  ];
+
 
     const [username, setUsername] = useState('');
     const [name, setName] = useState('');
