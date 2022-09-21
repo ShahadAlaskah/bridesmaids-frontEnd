@@ -51,7 +51,8 @@ const VendorRegister = () => {
       email,
       password,
       phoneNumber,
-      location,
+      lat:location.lat,
+      lng:location.lng,
       pic,
       maeroufNumber,
       about,
@@ -60,23 +61,23 @@ const VendorRegister = () => {
     try {
       if (!username ||!name ||!email||!password ||!phoneNumber || !maeroufNumber
         ) {
-          toast({
+         return toast({
             title: 'الرجاء تعبئة جميع العناصر',
             position:'top',
             status:'error',
             isClosable: true,
           })
-          return;
+      
         } else 
         if (password !== confirmPass) {
-          toast({
+          return toast({
             title: 'الرمز السري غير متطابق',
             position:'top',
             status:'error',
             isClosable: true,
           })
-          return;
-        }else {
+         
+        }else{   
       const request = await fetch('/api/v1/user/register', {
         method: 'POST',
         headers: {
@@ -89,25 +90,65 @@ const VendorRegister = () => {
 
       if (request.status === 201) {
         onOpen();  
-      }else if(request.status===400){  
-        if(data.message.startsWith('Duplicate entry ')){
-          toast({
-            title: 'البريد الالكتروني او اسم المستخدم موجود مسبقا يرجى استخدام بريد الكتروني اخر',
-            position:'top',
-            status:'error',
-            isClosable: true,
-          })
-        }else{
-        toast({
-          title: data.message,
-          position:'top',
-          status:'error',
-          isClosable: true,
-        })
-      }
+      }else if(request.status===400){
+        if(data.message.startsWith('Duplicate')){
+          const requeste = await fetch('/api/v1/user/checkemail/'+email, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const dataE=await requeste.json();
+          if(dataE===true){
+            return toast({
+              title: " البريد الالكتروني موجود من قبل يرجى اختيار  بريد الكتروني اخر",
+              position:'top',
+              status:'error',
+              isClosable: true,
+            })
+          }
+          const requestu = await fetch('/api/v1/user/checkusername/'+username, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const dataU=await requestu.json();
+          if(dataU===true){
+            return toast({
+              title: " الاسم المستخدم موجود من قبل يرجى اختيار اسم مستخدم اخر",
+              position:'top',
+              status:'error',
+              isClosable: true,
+            })
+          } const requestm = await fetch('/api/v1/vendor/checkmaerouf/'+maeroufNumber, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const dataM=await requestm.json();
+          if(dataM===true){
+             toast({
+              title: " الرقم المعروف موجود من قبل يرجى اختيار اسم مستخدم اخر",
+              position:'top',
+              status:'error',
+              isClosable: true,
+            })
+            return;
+          }} else{
+            return toast({
+              title: data.message,
+              position:'top',
+              status:'error',
+              isClosable: true,
+            })
+          }
+        }
+      
       }
 
-     } 
+     
     } catch (e) {
       alert('Server error');
       console.log(e);
