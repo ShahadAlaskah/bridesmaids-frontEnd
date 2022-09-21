@@ -28,7 +28,7 @@ import ProductCard from './component/ProductCard';
 import Products from './pages/Vender/Products';
 import CustomerRegister from './pages/Customer/CustomerRegister';
 import VendorRegister from './pages/Vender/VendorRegister';
-import VenderReservations from './pages/Vender/VenderReservations';
+import VendorReservations from './pages/Vender/VenderReservations';
 import AddProductDetails from './component/Vender/AddProduct/AddProductDetails';
 import Map from './component/Map';
 import CustomerRequests from './pages/Customer/CustomerRequests';
@@ -41,6 +41,12 @@ import ProductDetails from './pages/Vender/ProductDetails';
 import VendorDetails from './pages/VendorDetails';
 
 
+import VendorSetting from './pages/Vender/VendorSetting';
+import CustomerSetting from './pages/Customer/CustomerSetting';
+
+import EditProduct from './pages/Vender/EditProduct';
+
+
 function App() {
   const [user,setUser]=useState(null);
   return (
@@ -48,29 +54,48 @@ function App() {
       <BrowserRouter>
         {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
         <Routes>
-          <Route path="/venderRequests" element={<VenderRequests/>} />
+          <Route path="/venderRequests" element={<VenderRequests />} />
           <Route path="/addProduct" element={<AddProduct />} />
-          <Route path="/products" element={<Products/>}/>
-          <Route path="/" element={<HomePage/>} />
+
+          <Route path="/products" element={<Products />} />
+          <Route path="/" element={<HomePage />} />
+
           {/* Vender */}
           <Route path="/venderRequests" element={<VenderRequests />} />
-          <Route path="/VenderReservations" element={<VenderReservations />} />
+          <Route path="/VenderReservations" element={<VendorReservations />} />
+          <Route path="/products" element={<Products/>}/>
           <Route
             path="/addProductDetails/:categoryId"
             element={<AddProductDetails />}
           />
+
           <Route
             path="/ProductDetails" element={<ProductDetails/>}/>
+
+
+          <Route path="/vendor-setting" element={<VendorSetting />} />
+
+          <Route path="/editProduct/:productId" element={<EditProduct />} />
+
+
           <Route path="/addProduct" element={<AddProduct />} />
           {/* Admin */}
-          <Route path="/allUsers" element={<AllUsers />} />
           <Route path="/allRequest" element={<AllRequest />} />
-          <Route path="/registrationRequests" element={<RegistrationRequests />}
+          <Route
+            path="/registrationRequests"
+            element={<RegistrationRequests />}
           />
           {/* Customer */}
           <Route path="/customerRequests" element={<CustomerRequests />} />
-          <Route path="/customerReservations" element={<CustomerReservations />}
+
+          <Route path="/customerReservations" element={<CustomerReservations />}/>
+          <Route path="/customer-setting" element={<CustomerSetting />} />
+
+          <Route
+            path="/customerReservations"
+            element={<CustomerReservations />}
           />
+
           {/* All */}
           <Route path="/map" element={<Map />} />
           <Route path="/" element={<HomePage />} />
@@ -82,8 +107,10 @@ function App() {
           <Route path="/customerRegister" element={<CustomerRegister />} />
           <Route path="/role" element={<Role />} />
           <Route path="/places" element={<Places />} />
+
           <Route path='/placeDetails/:id' element={<PlaceDetails/>}/>
           <Route path='/vendordetails/:id'element={<VendorDetails/>}/>
+
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

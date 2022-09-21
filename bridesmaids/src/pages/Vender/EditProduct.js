@@ -21,13 +21,20 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import React from 'react';
+import AccordionList from '../../component/Admin/AllUsers/AccordionList';
+import Decoration from '../../component/Decoration';
+import FilterBar from '../../component/FilterBar';
+import Navbar from '../../component/Navbar';
+import { useLoadScript } from '@react-google-maps/api';
+import Title from '../../component/Title';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import Decoration from '../../Decoration';
-import Navbar from '../../Navbar';
-import Title from '../../Title';
-import Map from '../../Map';
-import { useEffect, useState } from 'react';
-const AddProductDetails = () => {
+import Map from '../../component/Map';
+const EditProduct = () => {
+  const { productId } = useParams();
+  const navigate = useNavigate();
   const { categoryId } = useParams();
   const toast = useToast();
   const [subCategoryList, setSubCategoryList] = useState([
@@ -41,25 +48,34 @@ const AddProductDetails = () => {
   const [capacity, setCapacity] = useState('');
   const [location, setLocation] = useState({ lat: '', lng: '' });
   const [file, setFile] = useState();
+  const [disableEditing, setDisableEditing] = useState(true);
+  const [cancelEditing, setCancelEditing] = useState(true);
+  // const [categoryId, setCategoryId] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
-      const request = await fetch(
-        '/api/v1/SubCategory/getAllByCategoryid/' + categoryId
-      );
+      const request = await fetch('/api/v1/product/byProductId/' + productId);
       const data = await request.json();
-
-      setSubCategoryList(data);
+      const requestP = await fetch(
+        '/api/v1/place/getPlaceByProductId/' + productId
+      );
+      const dataP = await requestP.json();
+      setName(data.name);
+      setDescription(data.description);
+      setPrice(data.price);
+      setCity(dataP.city);
+      setCapacity(dataP.capacity);
+      setLocation({ lat: dataP.lat, lng: dataP.lng });
+      // setCategoryList(data);
     };
 
     fetchData();
-  }, []);
-
-  function handleChange(e) {
-    setFile(URL.createObjectURL(e.target.files[0]));
-    console.log(e.target.files[0]);
-  }
-  const formSubmit = async () => {
+  }, [cancelEditing]);
+  const cancel = () => {
+    setCancelEditing(!cancelEditing);
+    setDisableEditing(true);
+  };
+  const saveEditing = async () => {
     const body = {
       name: name,
       description: description,
@@ -72,38 +88,19 @@ const AddProductDetails = () => {
       subCategoryId: subCategoryId,
     };
 
-    const request = await fetch(`/api/v1/product/add`, {
+    const request = await fetch(`/api/v1/product/update/${productId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
     const data = await request.json();
     if (request.status === 201) {
-      setName('');
-      setCapacity('');
-      setCity('');
-      setDescription('');
-      setLocation({ lat: '', lng: '' });
-      setPrice('');
-      setSubCategoryId('');
-      toast({
-        title: 'تم اضافة المنتج بنجاح',
-        position: 'top',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      });
-    } else {
-      toast({
-        title: 'لم يتم اضافة المنتج :(',
-        position: 'top',
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      });
+      setCancelEditing(!cancelEditing);
+      setDisableEditing(true);
     }
   };
-  console.log(location);
+  // console.log(categoryId);
+
   const navbarItems = [
     {
       label: 'منتجات',
@@ -127,10 +124,9 @@ const AddProductDetails = () => {
   ];
   return (
     <>
-      <VStack>
+      <VStack width={'95%'}>
         <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2} />
-        <Title title={'أضافة منتج'} />
-
+        <Title title={'تعديل منتج'} />
         <HStack px={10} alignSelf="end" width={'70%'}>
           <FormControl w={'100%'} marginTop={'2rem'} marginLeft={'4rem'}>
             <HStack alignSelf="end" spacing={8}>
@@ -141,19 +137,19 @@ const AddProductDetails = () => {
                   </FormLabel>
                   <Input
                     type="file"
-                    onChange={handleChange}
+                    //onChange={handleChange}
                     width={'15rem'}
                     textAlign={'right'}
                     // value={password}
                     // onChange={e => setPassword(e.target.value)}
-
+                    disabled={disableEditing}
                     id="InputPassword1"
                     variant={'flushed'}
                   />
                   <Image src={file} />
                 </Box>
                 <Box backgroundColor={'gray.100'} w={235} h={150}>
-                  <Map setLocation={setLocation} />
+                  {/* <Map setLocation={setLocation} /> */}
                 </Box>
               </VStack>
               <VStack w={'30%'}>
@@ -169,6 +165,7 @@ const AddProductDetails = () => {
                     type="text"
                     id="InputPasswrord1"
                     variant={'flushed'}
+                    disabled={disableEditing}
                     required
                   />
                 </Box>
@@ -183,6 +180,7 @@ const AddProductDetails = () => {
                     onChange={e => setPrice(e.target.value)}
                     type="number"
                     id="InputEmail1"
+                    disabled={disableEditing}
                     variant={'flushed'}
                   />
                 </Box>
@@ -197,6 +195,7 @@ const AddProductDetails = () => {
                     variant="flushed"
                     isSearchable
                     value={subCategoryId}
+                    disabled={disableEditing}
                     onClick={e => {
                       setSubCategoryId(e.target.value);
                     }}
@@ -219,6 +218,7 @@ const AddProductDetails = () => {
                     onChange={e => setName(e.target.value)}
                     type="text"
                     id="InputName1"
+                    disabled={disableEditing}
                     variant={'flushed'}
                   />
                 </Box>
@@ -230,6 +230,7 @@ const AddProductDetails = () => {
                     width={'15rem'}
                     textAlign={'right'}
                     value={description}
+                    disabled={disableEditing}
                     onChange={e => setDescription(e.target.value)}
                     type="text"
                     id="InputUserName1"
@@ -242,6 +243,7 @@ const AddProductDetails = () => {
                   </FormLabel>
                   <Input
                     width={'15rem'}
+                    disabled={disableEditing}
                     textAlign={'right'}
                     value={capacity}
                     onChange={e => setCapacity(e.target.value)}
@@ -252,20 +254,63 @@ const AddProductDetails = () => {
                 </Box>
               </VStack>
             </HStack>
-            <VStack w={'100%'}>
-              <Button
-                type="submit"
-                mt={'5rem'}
-                onClick={formSubmit}
-                backgroundColor={'#CAA892'}
-                textColor={'white'}
-                textAlign={'right'}
-                marginRight={'7rem'}
-                w={'50%'}
-              >
-                أضافة منتج
-              </Button>
-            </VStack>
+            <HStack w={'100%'}>
+              {disableEditing ? (
+                <>
+                  <Button
+                    type="submit"
+                    mt={'5rem'}
+                    onClick={() => setDisableEditing(false)}
+                    backgroundColor={'#CAA892'}
+                    textColor={'white'}
+                    textAlign={'right'}
+                    marginRight={'7rem'}
+                    w={'50%'}
+                  >
+                    تعديل
+                  </Button>
+                  <Button
+                    type="submit"
+                    mt={'5rem'}
+                    // onClick={formSubmit}
+                    backgroundColor={'#CAA892'}
+                    textColor={'white'}
+                    textAlign={'right'}
+                    marginRight={'7rem'}
+                    w={'50%'}
+                  >
+                    حذف المنتج
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    type="submit"
+                    mt={'5rem'}
+                    onClick={saveEditing}
+                    backgroundColor={'#CAA892'}
+                    textColor={'white'}
+                    textAlign={'right'}
+                    marginRight={'7rem'}
+                    w={'50%'}
+                  >
+                    حفظ التغيرات
+                  </Button>
+                  <Button
+                    type="submit"
+                    mt={'5rem'}
+                    onClick={cancel}
+                    backgroundColor={'#CAA892'}
+                    textColor={'white'}
+                    textAlign={'right'}
+                    marginRight={'7rem'}
+                    w={'50%'}
+                  >
+                    الغاء
+                  </Button>
+                </>
+              )}
+            </HStack>
           </FormControl>
         </HStack>
       </VStack>
@@ -275,4 +320,4 @@ const AddProductDetails = () => {
   );
 };
 
-export default AddProductDetails;
+export default EditProduct;

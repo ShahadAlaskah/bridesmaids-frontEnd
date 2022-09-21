@@ -43,7 +43,7 @@ const Login = () => {
           Authorization: 'Basic ' + btoa(username + ':' + password),
         },
       });
-
+      console.log(request);
       const data = await request.json();
       if (request.status === 200) {
         localStorage.setItem('loggedIn', true );

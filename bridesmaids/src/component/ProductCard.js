@@ -8,16 +8,17 @@ import {
     Text,
     SimpleGrid,
   } from '@chakra-ui/react';
-const ProductCard=({productList})=>{
-  console.log("3")
- 
+  import {useNavigate } from 'react-router-dom';
+
+const ProductCard=({productList})=>{ 
+  const navigate = useNavigate();
+
 
 return(
 
     <HStack py={6} spacing={"2rem"}>
       <SimpleGrid columns={{sm:1 , md:2 , lg:2}} spacingX="40px" spacingY="20px">
       { productList.map((product ,index) =>
-      <Link to={"/placeDetails/"+product.id}>
       <Stack
         borderWidth="1px"
         borderRadius="lg"
@@ -27,13 +28,14 @@ return(
         bg={'white'}
         boxShadow={'md'}
         key={index}
+        onClick={()=>{navigate('/placeDetails/'+product.id)}}
         >
 
         <Flex flex={1} bg="blue.200">
           <Image
             objectFit="cover"
             boxSize="100%"
-            src={"./place1.jpg"}
+            src={product.picture}
           />
         </Flex>
 
@@ -48,8 +50,8 @@ return(
           <Heading fontSize={'1rem'} fontFamily={'body'}>
             {product.name}
           </Heading>
-          <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-            {product.venderName} 
+          <Text fontWeight={300} color={'gray.500'} size="sm" mb={4}>
+            {product.vendorName} 
           </Text>
           <Text
             textAlign={'end'}
@@ -60,7 +62,6 @@ return(
         </Stack>
 
       </Stack>
-      </Link>
         )}
 
         </SimpleGrid>

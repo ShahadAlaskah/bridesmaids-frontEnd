@@ -7,7 +7,7 @@ import {
 } from '@react-google-maps/api';
 import React, { useCallback, useRef, useState } from 'react';
 
-const Map = () => {
+const Map = ({ setLocation }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
@@ -23,6 +23,10 @@ const Map = () => {
         lng: e.latLng.lng(),
       },
     ]);
+    setLocation({
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+    });
   }, []);
   console.log(markers);
   if (!isLoaded) return <div>Lood...</div>;
@@ -31,7 +35,7 @@ const Map = () => {
       <GoogleMap
         id="map"
         zoom={10}
-        center={{ lat: 44, lng: -80 }}
+        center={{ lat: 24.774265, lng: 46.738586 }}
         onClick={onMapClick}
       >
         {markers.map(marker => (

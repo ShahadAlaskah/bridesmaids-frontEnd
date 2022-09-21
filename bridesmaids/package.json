@@ -8,11 +8,14 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@googlemaps/react-wrapper": "^1.1.35",
+    "@hassanmojab/react-modern-calendar-datepicker": "^3.1.7",
     "@react-google-maps/api": "^2.12.2",
     "@react-icons/all-files": "^4.1.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
+    "emailjs": "^4.0.1",
+    "emailjs-com": "^3.2.0",
     "framer-motion": "^6.5.1",
     "react": "^18.2.0",
     "react-calendar": "^3.8.0",
@@ -24,6 +27,7 @@
     "react-router": "^6.4.0",
     "react-router-dom": "^6.4.0",
     "react-scripts": "5.0.1",
+    "react-toastify": "^9.0.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -47,5 +51,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8090"
+
+  "proxy": "http://10.20.40.20/:8090"
+
 }
