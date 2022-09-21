@@ -30,7 +30,7 @@ const Login = () => {
           Authorization: 'Basic ' + btoa(username + ':' + password),
         },
       });
-
+      console.log(request);
       const data = await request.json();
 
       if (request.status === 200) {
@@ -116,7 +116,6 @@ const Login = () => {
               marginLeft={'8rem'}
               width={'8rem'}
             >
-              {' '}
               تسجيل الدخول
             </Button>
             {/* <Link to='/Login' marginLeft={'50rem'}>تسجيل الدخول</Link> */}

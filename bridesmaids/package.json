@@ -47,5 +47,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://10.20.40.52:8090"
+  "proxy": "http://10.20.40.20/:8090"
 }

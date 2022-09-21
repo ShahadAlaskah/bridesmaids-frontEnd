@@ -126,7 +126,7 @@ const EditProduct = () => {
     <>
       <VStack width={'95%'}>
         <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2} />
-        <Title title={'أضافة منتج'} />
+        <Title title={'تعديل منتج'} />
         <HStack px={10} alignSelf="end" width={'70%'}>
           <FormControl w={'100%'} marginTop={'2rem'} marginLeft={'4rem'}>
             <HStack alignSelf="end" spacing={8}>
