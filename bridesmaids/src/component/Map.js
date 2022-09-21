@@ -9,8 +9,8 @@ import React, { useCallback, useRef, useState } from 'react';
 
 const Map = ({ setLocation }) => {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-  });
+    googleMapsApiKey: 'AIzaSyAW6sOrKTFfNNoffD-8zHKzAitI1VnsdoA'
+    });
 
   const [markers, setMarkers] = useState([]);
 

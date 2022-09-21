@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Map from '../../component/Map';
 import {
   Box,
   Image,
@@ -31,7 +32,7 @@ const VendorRegister = () => {
   const [password, setPassword] = React.useState('');
   const [confirmPass, setConfirmPass] = React.useState('');
   const [phoneNumber, setPhoneNumber] = React.useState('');
-  const [location, setLocation] = React.useState('');
+  const [location, setLocation] = React.useState({lat:'',lng:""});
   const [pic, setPic] = React.useState('');
   const [maeroufNumber, setMaeroufNumber] = React.useState('');
   const [about, setAbout] = React.useState('');
@@ -77,7 +78,23 @@ const VendorRegister = () => {
             isClosable: true,
           })
          
-        }else{   
+        }else{
+          const requestm = await fetch('/api/v1/vendor/checkmaerouf/'+maeroufNumber, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const dataM=await requestm.json();
+          if(dataM===true){
+             toast({
+              title: " الرقم المعروف موجود من قبل يرجى اختيارادخال رقم اخر",
+              position:'top',
+              status:'error',
+              isClosable: true,
+            })
+            return;
+          }   
       const request = await fetch('/api/v1/user/register', {
         method: 'POST',
         headers: {
@@ -121,21 +138,6 @@ const VendorRegister = () => {
               status:'error',
               isClosable: true,
             })
-          } const requestm = await fetch('/api/v1/vendor/checkmaerouf/'+maeroufNumber, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          const dataM=await requestm.json();
-          if(dataM===true){
-             toast({
-              title: " الرقم المعروف موجود من قبل يرجى اختيار اسم مستخدم اخر",
-              position:'top',
-              status:'error',
-              isClosable: true,
-            })
-            return;
           }} else{
             return toast({
               title: data.message,
@@ -170,11 +172,12 @@ const VendorRegister = () => {
         </Text>
         <Image src={logo} width={'4rem'} alt={'logo'} />
       </HStack>
-      <FormControl marginTop={'2rem'} marginLeft={'20rem'}>
+      <FormControl marginTop={'2rem'} marginLeft={'10rem'}>
         <HStack spacing={'12'} marginRight={'12rem'}>
-          <Box>
-            <Heading marginBottom={'4rem'}>Location</Heading>
-          </Box>
+        <Box backgroundColor={'gray.100'} w={235} h={150}>
+                 <Map    setLocation={setLocation}/>
+                 </Box>   
+
           <Box>
             <FormLabel htmlFor="InputName1" textAlign={'right'}>
               الاسم
@@ -204,7 +207,7 @@ const VendorRegister = () => {
             />
           </Box>
         </HStack>
-        <HStack spacing={'12'} marginLeft={'12rem'}>
+        <HStack spacing={'12'} marginLeft={'17.5rem'}>
           <Box className="mb-3">
             <FormLabel htmlFor="InputEmail1" textAlign={'right'}>
               البريد الالكتروني
@@ -234,8 +237,8 @@ const VendorRegister = () => {
             />
           </Box>
         </HStack>
-        <HStack spacing={'12'} marginLeft={'12rem'}>
-          <Box className="mb-3">
+        <HStack spacing={'12'} marginLeft={'17.5rem'}>
+          <Box>
             <FormLabel htmlFor="InputPhoneNumber1" textAlign={'right'}>
               رقم الهاتف
             </FormLabel>
@@ -249,7 +252,7 @@ const VendorRegister = () => {
               variant={'flushed'}
             />
           </Box>
-          <Box className="mb-3">
+          <Box>
             <FormLabel htmlFor="InputConfirmPass" textAlign={'right'}>
               تأكيد كلمة السر
             </FormLabel>
@@ -265,7 +268,7 @@ const VendorRegister = () => {
               />
           </Box>
         </HStack>
-        <HStack spacing={'12'} marginLeft={'12rem'}>
+        <HStack spacing={'12'} marginLeft={'17.5rem'}>
           {/* <Box className='mb-3'>
         <FormLabel htmlFor='InputPic' textAlign={'right'}>
         اضف صورة 
@@ -278,7 +281,7 @@ const VendorRegister = () => {
             id='InputPic'
           />
         </Box> */}
-          <Box className="mb-3">
+          <Box>
             <FormLabel htmlFor="InputAbout" textAlign={'right'}>
               وصف
             </FormLabel>
@@ -292,9 +295,9 @@ const VendorRegister = () => {
               variant={'flushed'}
             />
           </Box>
-          <Box className="mb-3">
+          <Box>
             <FormLabel htmlFor="InputMaeroufNumber" textAlign={'right'}>
-              الرقم المعروف
+            رقم معروف
             </FormLabel>
             <Input
               width={'15rem'}
@@ -307,20 +310,20 @@ const VendorRegister = () => {
             />
           </Box>
         </HStack>
-        <VStack>
+        <HStack>
           <Button
-            mt={'2rem'}
+            mt={'1rem'}
             onClick={formSubmit}
             backgroundColor={'#CAA892'}
             textColor={'white'}
             textAlign={'right'}
-            marginRight={'7rem'}
+            marginRight={'40rem'}
             width={'10rem'}
           >
             تسجيل
           </Button>
-          {/* <Link to='/Login' marginLeft={'50rem'}>تسجيل الدخول</Link> */}
-        </VStack>
+          <Link to='/Login' marginRight={'40rem'} mt={'4rem'}>تسجيل الدخول</Link>
+        </HStack>
       </FormControl>
       <AlertDialog
         isOpen={isOpen}

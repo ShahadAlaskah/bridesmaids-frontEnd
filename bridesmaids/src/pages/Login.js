@@ -134,19 +134,17 @@ const Login = () => {
             />
           </Box>
 
-          <VStack>
-            <Button
+          <VStack   marginTop={'2rem'} spacing={'4rem'} ml={'1rem'}>
+          <Button
               onClick={formSubmit}
               backgroundColor={'#CAA892'}
               textColor={'white'}
               textAlign={'right'}
-              marginTop={'3rem'}
-              marginLeft={'8rem'}
               width={'8rem'}
             >
               تسجيل الدخول
-            </Button>
-            {/* <Link to='/Login' marginLeft={'50rem'}>تسجيل الدخول</Link> */}
+            </Button> 
+          <Link to='/role'>تسجيل جديد</Link> 
           </VStack>
         </FormControl>
         <AlertDialog

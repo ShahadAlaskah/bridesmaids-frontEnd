@@ -91,14 +91,38 @@ const CustomerRegister = () => {
           if(request.status === 201) {
             onOpen();
             navigate('/login');
-        }else if(request.status===400){  
-          if(data.message.startsWith('Duplicate entry ')){
-            toast({
-              title: 'البريد الالكتروني او اسم المستخدم موجود مسبقا يرجى استخدام بريد الكتروني اخر',
-              position:'top',
-              status:'error',
-              isClosable: true,
-            })
+        }else if(request.status===400){
+          if(data.message.startsWith('Duplicate')){
+            const requeste = await fetch('/api/v1/user/checkemail/'+email, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+            const dataE=await requeste.json();
+            if(dataE===true){
+              return toast({
+                title: " البريد الالكتروني موجود من قبل يرجى اختيار  بريد الكتروني اخر",
+                position:'top',
+                status:'error',
+                isClosable: true,
+              })
+            }
+            const requestu = await fetch('/api/v1/user/checkusername/'+username, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+            const dataU=await requestu.json();
+            if(dataU===true){
+              return toast({
+                title: " الاسم المستخدم موجود من قبل يرجى اختيار اسم مستخدم اخر",
+                position:'top',
+                status:'error',
+                isClosable: true,
+              })
+            }
           }else{   
           toast({
             title: data.message,
