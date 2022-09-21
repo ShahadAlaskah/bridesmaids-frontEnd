@@ -4,6 +4,7 @@ import { Box,Input,FormLabel,FormControl, HStack, Flex,WrapItem,Image,Avatar, Co
 import Navbar from '../component/Navbar'
 import Title from '../component/Title'
 import { useParams } from 'react-router'
+import ProductCard from '../component/ProductCard'
 const VendorDetails = () => {
     const params=useParams();
     const vendorid=params.id;
@@ -11,9 +12,12 @@ const VendorDetails = () => {
     const [vendorName,setVendorName]=useState('');
     const [pic,setPic]=useState('');
     const [about,setAbout]=useState('');
+    const [places,setPlaces]=useState('');
+    const [loading, setLoading] = useState(true);
+    let placesMap=[]
   useEffect(()=>{
       const fetchProductDetails = async () => {
-          const request = await fetch("/api/v1/vendor/get/36");
+          const request = await fetch("/api/v1/vendor/get/"+vendorid);
           const data = await request.json();
            setPic(data.pic);
            setAbout(data.about);
@@ -23,6 +27,34 @@ const VendorDetails = () => {
         };
         fetchProductDetails();
   },[]);
+  useEffect(()=>{
+    const fetchPlaces= async()=>{
+        const request= await fetch("api/v1/product/byVendorId/"+vendorid);
+        const products= await request.json();
+        console.log(products)
+  console.log("1")
+        for (let index = 0; index < products.length; index++) {
+          console.log("2")
+
+          //Get product pic
+          const requestPic= await fetch("api/v1/picture/byProduct/"+products[index].id);
+          const pictures= await requestPic.json()
+
+          placesMap.push({
+            id: products[index].id,
+            name:products[index].name,
+            description: products[index].description,
+            picture:pictures[0].pictureUlr,
+          })
+        }
+        console.log("3")
+
+        console.log(placesMap)
+          setPlaces(placesMap)
+          setLoading(false)
+        }
+    fetchPlaces();
+},[]);
     const navbarItems = [
         {
           label: 'تسجيل الدخول',
@@ -83,6 +115,9 @@ const VendorDetails = () => {
              borderRadius={'94px'}
             border={'1px solid '}
       ></Box>
+      {loading? <></> :
+      <ProductCard productList={places}/>
+  }
        </HStack>
           <Decoration /> 
          
