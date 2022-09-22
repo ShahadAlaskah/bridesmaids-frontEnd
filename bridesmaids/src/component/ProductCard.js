@@ -9,8 +9,21 @@ import {
     SimpleGrid,
   } from '@chakra-ui/react';
   import {useNavigate } from 'react-router-dom';
+  import { useEffect, useState } from 'react';
 
 const ProductCard=({productList})=>{ 
+  const [path,setPath]=useState('')
+
+  useEffect(()=>{
+  const fetchUser = async () => {
+  const request = await fetch('/api/v1/user/me');
+  const data= await request.json();
+  setPath(data.role)
+    }
+    fetchUser();
+  },[])
+
+
   const navigate = useNavigate();
 
 
@@ -28,7 +41,7 @@ return(
         bg={'white'}
         boxShadow={'md'}
         key={index}
-        onClick={()=>{navigate('/placeDetails/'+product.id)}}
+        onClick={()=>{path==='VENDOR'? navigate('/editProduct/'+product.id+'/'+product.categoryId) : navigate('/placeDetails/'+product.id)}}
         >
 
         <Flex flex={1} bg="blue.200">

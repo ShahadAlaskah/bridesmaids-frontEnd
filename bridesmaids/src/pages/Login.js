@@ -52,7 +52,7 @@ const Login = () => {
         }else if(data.role==='VENDOR'){
           navigate('/venderRequests')
         }else if(data.role==='ADMIN'){
-          navigate('/allUsers')
+          navigate('/registrationRequests')
         }
       }  else 
       if(request.status===401){

@@ -64,6 +64,7 @@ const Products=({user})=>{
                     name:products[index].name,
                     description: products[index].description,
                     picture:pictures[0].pictureUlr,
+                    categoryId:products[index].categoryId
                   })            
                 }
                   setPlaces(placesMap)

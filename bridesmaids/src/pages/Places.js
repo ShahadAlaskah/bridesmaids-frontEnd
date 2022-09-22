@@ -7,17 +7,53 @@ import { useState , useEffect } from "react";
 import Spinner from "../component/Spinner";
 
 const Places=()=>{
-    const navbarItems=[
+  const [navbarItems,setNavbarItems]=useState([]);
+  const [navbarItems2,setNavbarItems2]=useState([]);
+  useEffect(()=>{
+    const fetchUser = async () => {
+    const request = await fetch('/api/v1/user/me');
+    const data= await request.json();
+    if(request.status ===401){
+      
+      setNavbarItems([
         {
-            label:"تسجيل الدخول",
-            path:"/login"
+          label: 'تسجيل الدخول',
+          path: '/login',
+        },
+        {
+          label: 'تسجيل',
+          path: '/role',
+        },
+        
+      ])
+      setNavbarItems2([
+        {
+          label: 'تواصل معنا',
+          path: '/contact',
+        },
+        {
+          label: 'عن وصيفة',
+          path: '/about',
+        },
+        {
+          label: 'اماكن الزفاف',
+          path: '/places',
+        },
+      ])
+    }else{
+      setNavbarItems([
+        {
+          label: 'اعدادات',
+          path: '/customer-setting',
         },{
-            label:"تسجيل",
-            path:"/role"
+          label: 'طلبات',
+          path: '/customerRequests',
+        },{
+          label: 'حجوزات',
+          path: '/customerReservations',
         }
-    ]
-
-    const navbarItems2=[
+      ])
+      setNavbarItems2([
         {
             label:"تواصل معنا",
             path:"/contact"
@@ -28,8 +64,11 @@ const Places=()=>{
             label:"اماكن الزفاف",
             path:"/places"
         }
-    ]
-
+    ])
+    }
+    }
+    fetchUser();
+  },[])
     const buttonList = [
       {
         title: 'الكل',
