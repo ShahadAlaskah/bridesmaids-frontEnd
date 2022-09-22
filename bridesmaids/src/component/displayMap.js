@@ -11,7 +11,7 @@ import React, { useCallback, useRef, useState } from 'react';
 const DisplayMap = ({ lat, lng }) => {
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey:  process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+    googleMapsApiKey: "AIzaSyAW6sOrKTFfNNoffD-8zHKzAitI1VnsdoA"
   });
   console.log('lat:', lat, 'lng:', lng);
   if (!isLoaded) return <div>Lood...</div>;

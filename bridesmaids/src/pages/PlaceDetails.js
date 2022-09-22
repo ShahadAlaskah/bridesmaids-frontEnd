@@ -21,27 +21,68 @@ import DisplayMap from "../component/DisplayMap";
 
 
 const PlaceDetails=()=>{
-  const navbarItems=[
-      {
-          label:"تسجيل الدخول",
-          path:"/login"
-      },{
-          label:"تسجيل",
-          path:"/role"
-      }
-  ]
-  const navbarItems2=[
-      {
-          label:"تواصل معنا",
-          path:"/contact"
-      },{
-          label:"عن وصيفة",
-          path:"/about"
-      },{
-          label:"اماكن الزفاف",
-          path:"/places"
-      }
-  ]
+  const [navbarItems,setNavbarItems]=useState([]);
+  const [navbarItems2,setNavbarItems2]=useState([]);
+  useEffect(()=>{
+    const fetchUser = async () => {
+    const request = await fetch('/api/v1/user/me');
+    const data= await request.json();
+    if(request.status ===401){
+      
+      setNavbarItems([
+        {
+          label: 'تسجيل الدخول',
+          path: '/login',
+        },
+        {
+          label: 'تسجيل',
+          path: '/role',
+        },
+        
+      ])
+      setNavbarItems2([
+        {
+          label: 'تواصل معنا',
+          path: '/contact',
+        },
+        {
+          label: 'عن وصيفة',
+          path: '/about',
+        },
+        {
+          label: 'اماكن الزفاف',
+          path: '/places',
+        },
+      ])
+    }else{
+      setNavbarItems([
+        {
+          label: 'اعدادات',
+          path: '/customer-setting',
+        },{
+          label: 'طلبات',
+          path: '/customerRequests',
+        },{
+          label: 'حجوزات',
+          path: '/customerReservations',
+        }
+      ])
+      setNavbarItems2([
+        {
+            label:"تواصل معنا",
+            path:"/contact"
+        },{
+            label:"عن وصيفة",
+            path:"/about"
+        },{
+            label:"اماكن الزفاف",
+            path:"/places"
+        }
+    ])
+    }
+    }
+    fetchUser();
+  },[])
   const toast=useToast()
   const params = useParams();
   const productId = params.id;
