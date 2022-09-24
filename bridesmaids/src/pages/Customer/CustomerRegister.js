@@ -37,9 +37,9 @@ const CustomerRegister = () => {
   const toast=useToast();
   const options = {
     value1: 'F',
-    label1: 'Female',
+    label1: 'انثى',
     value2: 'M',
-    label2: 'Male',
+    label2: 'ذكر',
   };
 
   const navigate = useNavigate();
@@ -155,27 +155,27 @@ const CustomerRegister = () => {
     <HStack justifyContent={'center'}>
       <Image
         src="https://i.pinimg.com/564x/34/ac/14/34ac14926963b749e84dc0e480d4114c.jpg"
-        width={'28rem'}
+        width={['0rem','0rem','28rem']}
       />
       <Box boxShadow={'lg'} scale={'3rem'} px={'1rem'} pb={'1rem'}>
-        <HStack>
-          <Text className="text-center" fontSize={'1.5rem'} ml={'20rem'}>
+        <HStack mr={['2rem','0rem','0rem']}>
+          <Text fontSize={['1rem','1.5rem','1.5rem']} ml={'20rem'}>
             تسجيل جديد
           </Text>
-          <Image src={logo} width={'2.5rem'} />
+          <Image src={logo} width={['2rem','2.5rem','2.5rem']} />
         </HStack>
-        <FormControl marginLeft={'4rem'}>
+        <FormControl marginLeft={'4rem'} mt={['1rem','0rem','0rem']}>
           <VStack marginRight={'2rem'}>
             <Box>
               <FormLabel
-                fontSize={'14px'}
+                fontSize={['14px']}
                 htmlFor="InputName1"
                 textAlign={'right'}
               >
                 الاسم
               </FormLabel>
               <Input
-                size={'15px'}
+                size={'5px'}
                 width={'14rem'}
                 textAlign={'right'}
                 value={name}
@@ -270,7 +270,7 @@ const CustomerRegister = () => {
                 رقم الهاتف
               </FormLabel>
               <Input
-                size={'15px'}
+                size={'5px'}
                 width={'14rem'}
                 textAlign={'right'}
                 value={phoneNumber}
@@ -302,8 +302,8 @@ const CustomerRegister = () => {
                 العمر
               </FormLabel>
               <Input
-                size={'14px'}
-                width={'15rem'}
+                size={'5px'}
+                width={'14rem'}
                 textAlign={'right'}
                 value={age}
                 onChange={e => setAge(e.target.value)}
@@ -312,41 +312,42 @@ const CustomerRegister = () => {
                 variant={'flushed'}
               />
             </Box>
-            <Box className="mb-3">
+            <Box>
               <FormLabel
-                htmlFor="InputAge"
+                htmlFor="InputGender"
                 fontSize={'14px'}
                 textAlign={'right'}
+                ml="11rem"
               >
                 الجنس
               </FormLabel>
               <Select
+              id='InputGender'
                 onChange={e => setGender(e.target.value)}
                 variant={'flushed'}
                 placeholder="Select option"
-                size={'14px'}
-                marginLeft={'4rem'}
+                size={'5px'}
+              
               >
                 <option value={options.value1}>{options.label1}</option>
                 <option value={options.value2}>{options.label2}</option>
               </Select>
             </Box>
           </VStack>
-          <VStack>
+          <HStack spacing={['3rem','8rem','8rem']}  mt={"2rem"}>
+          <Link to='/Login'>تسجيل الدخول</Link>
             <Button
               onClick={formSubmit}
               backgroundColor={'#CAA892'}
               textColor={'white'}
               textAlign={'right'}
-              marginRight={'7rem'}
               size={'sm'}
               width={'10rem'}
-              mt={5}
+             
             >
               تسجيل
             </Button>
-            {/* <Link to='/Login' marginLeft={'50rem'}>تسجيل الدخول</Link> */}
-          </VStack>
+          </HStack>
         </FormControl>
         <AlertDialog
         isOpen={isOpen}

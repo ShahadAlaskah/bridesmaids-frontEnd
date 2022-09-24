@@ -6,16 +6,16 @@ import AccordionList from '../../component/Admin/AllUsers/AccordionList';
 import Decoration from '../../component/Decoration';
 
 import Navbar from '../../component/Navbar';
+import Spinner from '../../component/Spinner';
 import Title from '../../component/Title';
 
-const RegistrationRequests = ({user}) => {
-
+const RegistrationRequests = ({ user }) => {
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (user && user.role !== 'ADMIN') {
-      if(user && user.role ==='VENDOR')
-      navigate('/products');
-      else{
-        navigate('/')
+      if (user && user.role === 'VENDOR') navigate('/products');
+      else {
+        navigate('/');
       }
     }
   }, [user]);
@@ -24,7 +24,7 @@ const RegistrationRequests = ({user}) => {
     {
       label: ' طلبات تزويد الخدمة',
       path: '/registrationRequests',
-    }
+    },
   ];
 
   const navbarItems2 = [
@@ -38,9 +38,9 @@ const RegistrationRequests = ({user}) => {
     },
   ];
 
-
   const [details, setDetails] = useState([]);
   const [renderFetchDataAll, setRenderFetchDataAll] = useState(false);
+
   const detailsMap = [];
   const navigate = useNavigate();
   useEffect(() => {
@@ -95,6 +95,7 @@ const RegistrationRequests = ({user}) => {
       }
 
       setDetails(detailsMap);
+      setLoading(false);
     };
 
     fetchData();
@@ -116,7 +117,6 @@ const RegistrationRequests = ({user}) => {
       navigate('/login');
     }
   };
-  
 
   return (
     <>
@@ -125,8 +125,8 @@ const RegistrationRequests = ({user}) => {
 
         <Title title={'طلبات تزويد الخدمة'} />
 
-        <Flex p={5} width={'70%'} alignSelf="end">
-          <AccordionList details={details} />
+        <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">
+          {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
       </VStack>
 

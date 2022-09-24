@@ -41,7 +41,7 @@ return(
         bg={'white'}
         boxShadow={'md'}
         key={index}
-        onClick={()=>{path==='VENDOR'? navigate('/editProduct/'+product.id+'/'+product.categoryId) : navigate('/placeDetails/'+product.id)}}
+        onClick={()=>{path==='VENDOR'? navigate('/editProduct/'+product.id+'/'+product.categoryId) : navigate('/place-details/'+product.id)}}
         >
 
         <Flex flex={1} bg="blue.200">
@@ -70,7 +70,7 @@ return(
             textAlign={'end'}
             color={'gray.700'}
             >
-                {product.description}
+                {product.description.substring(0, 250)}
           </Text>
         </Stack>
 
