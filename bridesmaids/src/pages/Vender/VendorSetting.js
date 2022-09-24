@@ -31,7 +31,7 @@ const CustomerSetting=({user})=> {
 
 const navbarItems = [
     {
-      label: 'منتجات',
+      label: 'خدمات',
       path: '/products',
       color: 'black'
     },

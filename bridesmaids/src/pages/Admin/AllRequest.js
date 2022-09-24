@@ -6,14 +6,14 @@ import Decoration from '../../component/Decoration';
 import { useNavigate } from 'react-router';
 import Navbar from '../../component/Navbar';
 import Title from '../../component/Title';
-const AllRequest = ({user}) => {
-const navigate=useNavigate('');
+import Spinner from '../../component/Spinner';
+const AllRequest = ({ user }) => {
+  const navigate = useNavigate('');
   useEffect(() => {
     if (user && user.role !== 'ADMIN') {
-      if(user && user.role ==='VENDOR')
-      navigate('/products');
-      else{
-        navigate('/')
+      if (user && user.role === 'VENDOR') navigate('/products');
+      else {
+        navigate('/');
       }
     }
   }, [user]);
@@ -22,7 +22,7 @@ const navigate=useNavigate('');
     {
       label: ' طلبات تزويد الخدمة',
       path: '/registrationRequests',
-    }
+    },
   ];
 
   const navbarItems2 = [
@@ -37,6 +37,7 @@ const navigate=useNavigate('');
   ];
 
   const [details, setDetails] = useState([]);
+  const [loading, setLoading] = useState(true);
   const detailsMap = [];
 
   useEffect(() => {
@@ -75,6 +76,7 @@ const navigate=useNavigate('');
       }
       setDetails([]);
       setDetails(detailsMap);
+      setLoading(false);
     };
 
     fetchData();
@@ -92,7 +94,6 @@ const navigate=useNavigate('');
       return 'مرفوضه';
     }
   };
- 
 
   return (
     <>
@@ -101,8 +102,8 @@ const navigate=useNavigate('');
 
         <Title title={'الطلبات'} />
 
-        <Flex p={5} width={'70%'} alignSelf="end">
-          <AccordionList details={details} />
+        <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">
+          {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
       </VStack>
 

@@ -38,7 +38,7 @@ const AccordionItemList = ({ title, body, listButton }) => {
       <AccordionPanel pb={4}>
         <Box alignSelf="end">
           <VStack>
-            <TableContainer alignSelf="end" w={'80%'}>
+            <TableContainer alignSelf="end" w={['99%', '99%', '80%']}>
               <Table variant="simple">
                 <Tbody>
                   {body.map(i => (

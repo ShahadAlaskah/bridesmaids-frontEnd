@@ -16,14 +16,16 @@ import AccordionList from '../../component/Admin/AllUsers/AccordionList';
 import Decoration from '../../component/Decoration';
 import FilterBar from '../../component/FilterBar';
 import Navbar from '../../component/Navbar';
+import Spinner from '../../component/Spinner';
 import Title from '../../component/Title';
-const CustomerReservations = ({user}) => {
-const navigate=useNavigate('');
+const CustomerReservations = ({ user }) => {
+  const navigate = useNavigate('');
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     if (user && user.role !== 'CUSTOMER') {
-      if(user && user.role ==='VENDOR')
-      navigate('/products');
-      else{
+      if (user && user.role === 'VENDOR') navigate('/products');
+      else {
         navigate('/registrationRequests');
       }
     }
@@ -33,27 +35,31 @@ const navigate=useNavigate('');
     {
       label: 'اعدادات',
       path: '/customer-setting',
-    },{
+    },
+    {
       label: 'طلبات',
       path: '/customerRequests',
-    },{
+    },
+    {
       label: 'حجوزات',
       path: '/customerReservations',
-    }
+    },
   ];
 
-  const navbarItems2=[
+  const navbarItems2 = [
     {
-        label:"تواصل معنا",
-        path:"/contact"
-    },{
-        label:"عن وصيفة",
-        path:"/about"
-    },{
-        label:"اماكن الزفاف",
-        path:"/places"
-    }
-]
+      label: 'تواصل معنا',
+      path: '/contact',
+    },
+    {
+      label: 'عن وصيفة',
+      path: '/about',
+    },
+    {
+      label: 'اماكن الزفاف',
+      path: '/places',
+    },
+  ];
 
   const [details, setDetails] = useState([]);
   const detailsMap = [];
@@ -94,13 +100,13 @@ const navigate=useNavigate('');
       }
 
       setDetails(detailsMap);
+      setLoading(false);
     };
 
     fetchData();
   }, []);
 
   //------------------------------------------------
-
 
   return (
     <>
@@ -109,8 +115,8 @@ const navigate=useNavigate('');
 
         <Title title={'حجوزات'} />
 
-        <Flex p={5} width={'70%'} alignSelf="end">
-          <AccordionList details={details} />
+        <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">
+          {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
       </VStack>
 
