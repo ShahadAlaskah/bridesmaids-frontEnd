@@ -41,6 +41,7 @@ function Contact() {
         {
           label: 'تواصل معنا',
           path: '/contact',
+          color: '#C08D5D'
         },
         {
           label: 'عن وصيفة',
@@ -67,7 +68,8 @@ function Contact() {
       setNavbarItems2([
         {
             label:"تواصل معنا",
-            path:"/contact"
+            path:"/contact",
+            color: '#C08D5D'
         },{
             label:"عن وصيفة",
             path:"/about"

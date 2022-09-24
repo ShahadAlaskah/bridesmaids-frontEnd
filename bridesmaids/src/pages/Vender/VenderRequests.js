@@ -34,6 +34,7 @@ const VenderRequests = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const [details, setDetails] = useState([]);
   const [renderFetchDataAll, setRenderFetchDataAll] = useState(false);
+  const [selected,setSelected]=useState();
   const detailsMap = [];
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const VenderRequests = ({ user }) => {
               bodyTd: dataR[index].wayToCommunicate,
             },
             {
-              titleTd: 'ملاحضات',
+              titleTd: 'ملاحظات',
               bodyTd: dataR[index].note,
             },
             {
@@ -168,7 +169,7 @@ const VenderRequests = ({ user }) => {
             bodyTd: dataR[index].wayToCommunicate,
           },
           {
-            titleTd: 'ملاحضات',
+            titleTd: 'ملاحظات',
             bodyTd: dataR[index].note,
           },
           {
@@ -198,36 +199,41 @@ const VenderRequests = ({ user }) => {
   const filterBarDetails = [
     {
       title: 'الكل',
-      fun: () => {
+      fun: (e) => {
         setDetails([]);
+        setSelected(e.target.value)
         setRenderFetchDataAll(!renderFetchDataAll);
       },
     },
     {
       title: 'جديدة',
-      fun: () => {
+      fun: (e) => {
         setDetails([]);
+        setSelected(e.target.value)
         fetchDataByStatus('new');
       },
     },
     {
       title: 'قيد المفاوضه ',
-      fun: () => {
+      fun: (e) => {
         setDetails([]);
+        setSelected(e.target.value)
         fetchDataByStatus('underNegotiation');
       },
     },
     {
       title: 'مؤكدة',
-      fun: () => {
+      fun: (e) => {
         setDetails([]);
+        setSelected(e.target.value)
         fetchDataByStatus('confirmedByVendor');
       },
     },
     {
       title: 'مرفوضة',
-      fun: () => {
+      fun: (e) => {
         setDetails([]);
+        setSelected(e.target.value)
         fetchDataByStatus('rejected');
       },
     },
@@ -240,6 +246,7 @@ const VenderRequests = ({ user }) => {
     {
       label: 'طلبات',
       path: '/venderRequests',
+      color: '#C08D5D'
     },
   ];
 
@@ -260,7 +267,7 @@ const VenderRequests = ({ user }) => {
 
         <Title title={'طلبات'} />
         <Flex p={5} alignSelf="end">
-          <FilterBar buttonList={filterBarDetails} />
+          <FilterBar buttonList={filterBarDetails} selected={selected} />
         </Flex>
 
         <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">

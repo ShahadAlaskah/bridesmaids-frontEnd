@@ -80,7 +80,7 @@ const Login = () => {
   }, []);
 
   return (
-    <HStack spacing={'2rem'} mt={['2rem','4rem','0rem']} justifyContent={'center'}>
+    <HStack spacing={'2rem'} mt={['2rem','4rem','4.5rem']} justifyContent={'center'}>
       <Image
         src="https://i.pinimg.com/564x/34/ac/14/34ac14926963b749e84dc0e480d4114c.jpg"
         width={['0rem','0rem','28rem']}
@@ -136,7 +136,7 @@ const Login = () => {
             />
           </Box>
 
-          <VStack   marginTop={'2rem'} spacing={'4rem'} ml={'1rem'}>
+          <VStack marginTop={'2rem'} >
           <Button
               onClick={formSubmit}
               backgroundColor={'#CAA892'}

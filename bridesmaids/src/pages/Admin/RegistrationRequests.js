@@ -33,6 +33,7 @@ const RegistrationRequests = ({ user }) => {
     {
       label: ' طلبات تزويد الخدمة',
       path: '/registrationRequests',
+      color: '#C08D5D'
     },
   ];
 
@@ -41,10 +42,12 @@ const RegistrationRequests = ({ user }) => {
       label: 'تسجيل الخروج',
       path: '/allRequest',
       //onClick: logout(),
+      color: 'black'
     },
     {
       label: 'الطلبات',
       path: '/allRequest',
+      color: 'black'
     },
   ];
 

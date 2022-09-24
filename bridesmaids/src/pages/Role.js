@@ -83,44 +83,57 @@ function Role() {
   },[])
   return (
     <>
-      <VStack>
+      <VStack spacing={0}>
         <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2} />
         <HStack
           spacing={0}
-          w={'100vw'}
+          // w={'98vw'}
+          w={['98vw','100%' ,'99%']}
           display={'flex'}
           justifyContent={'center'}
           alignItems={'center'}
         >
+         
           <VStack
             justifyContent={'end'}
             alignItems={'center'}
             bgImage={
               "url('https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fHdlZGRpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60')"
             }
+            onClick={() => navigate('/vendorRegiter')}
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
             width={'50%'}
-            height={550}
+            height={580}
           >
-            <Button mb={10} onClick={() => navigate('/vendorRegiter')}>
-              تسجيل كمزود
-            </Button>
+            {/* <Button colorScheme='blackAlpha' mb={8} onClick={() => navigate('/vendorRegiter')}>
+  تسجيل كمزود خدمة 
+            </Button> */}
+            <Box  background color="black" opacity="2.5">
+            <Text  fontSize={['19','19','25px']} mb={202} fontWeight= 'bold'> تسجيل كمزود خدمة</Text>
+            </Box>
           </VStack>
           <VStack
             justifyContent={'end'}
             alignItems={'center'}
             bgImage={
               "url('https://images.unsplash.com/photo-1579583764988-3e08c6132d2a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=583&q=80')"
+              
             }
+            onClick={() => navigate('/customerRegister')}
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
-            width={'50%'}
-            height={550}
+            width={['50%']}
+            height={690}
+            
           >
-            <Button mb={10} onClick={() => navigate('/customerRegister')}>
+            {/* mr={['3','0','0']} */}
+            {/* <Button  colorScheme='blackAlpha' mb={['20','20','20']}  onClick={() => navigate('/customerRegister')}>
               تسجيل كمستخدم
-            </Button>
+            </Button> */}
+            <Box  background color="black" opacity="2.5">
+               <Text fontSize={['19','19','25px']} mb={259}  fontWeight= 'bold' >تسجيل كمستخدم</Text>
+               </Box>
           </VStack>
         </HStack>
       </VStack>

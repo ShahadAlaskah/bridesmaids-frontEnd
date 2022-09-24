@@ -165,22 +165,26 @@ const VendorRegister = () => {
   }, []);
 
   return (
-    <Box boxShadow={'lg'} maxW={"80%"}  pb={'1rem'} ml={'7rem'} mt={'4rem'} >
-      <HStack ml={'15rem'}>
-        <Text className="text-center" fontSize={'1.5rem'} ml={'35rem'}>
+    <Box boxShadow={'lg'} maxW={"80%"} pb={'2rem'} ml={'8rem'} mt={'6rem'}>
+      <HStack alignItems={"center"} justifyContent={"end"} pr={"1rem"}>
+        <Text className="text-center" fontSize={'1.5rem'}>
         تسجيل كمزود خدمه
-
         </Text>
         <Image src={logo} width={'4rem'} alt={'logo'} />
       </HStack>
-      <FormControl marginTop={'2rem'} marginLeft={['1rem','1rem','10rem']}>
-        <Stack spacing={'12'} marginRight={'12rem'} direction={['column','column','row']}>
-        <Box backgroundColor={'gray.100'} w={235} h={150}>
-                 <Map    setLocation={setLocation}/>
-                 </Box>   
+      <FormControl marginTop={'2rem'}>
 
+      <VStack spacing={"2rem"}>
+        <HStack spacing={"5rem"}>
+          <VStack spacing={"3rem"}>
+          <Box backgroundColor={'gray.100'} w={235} h={150}>
+          <Map setLocation={setLocation}/>
+          </Box> 
+          </VStack>
+
+          <VStack spacing={"3rem"}>
           <Box>
-            <FormLabel htmlFor="InputName1" textAlign={'right'}>
+            <FormLabel htmlFor="InputName1" textAlign={'right'} w={"15rem"}>
               الاسم
             </FormLabel>
             <Input
@@ -193,6 +197,37 @@ const VendorRegister = () => {
               variant={'flushed'}
             />
           </Box>
+          <Box className="mb-3">
+            <FormLabel htmlFor="InputPassword1" textAlign={'right'} w={"15rem"}>
+              الرمز السري
+            </FormLabel>
+            <Input
+              width={'15rem'}
+              textAlign={'right'}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              type="password"
+              id="InputPasswrord1"
+              variant={'flushed'}
+            />
+          </Box>
+          <Box>
+            <FormLabel htmlFor="InputConfirmPass" textAlign={'right'} w={"15rem"}>
+              تأكيد كلمة السر
+            </FormLabel>
+            <Input
+                width={'15rem'}
+                textAlign={'right'}
+                type="password"
+                value={confirmPass}
+                onChange={e => setConfirmPass(e.target.value)}
+                id="InputConfirmPass"
+                variant={'flushed'}
+              />
+          </Box>
+          </VStack>
+
+          <VStack spacing={"3rem"}>
           <Box className="mb-3">
             <FormLabel textAlign={'right'} htmlFor="InputUserName1">
               اسم المستخدم
@@ -207,8 +242,6 @@ const VendorRegister = () => {
               variant={'flushed'}
             />
           </Box>
-        </Stack>
-        <Stack spacing={'12'} marginLeft={'17.5rem'} direction={['column','column','row']}>
           <Box>
             <FormLabel htmlFor="InputEmail1" textAlign={'right'}>
               البريد الالكتروني
@@ -223,22 +256,6 @@ const VendorRegister = () => {
               variant={'flushed'}
             />
           </Box>
-          <Box className="mb-3">
-            <FormLabel htmlFor="InputPassword1" textAlign={'right'}>
-              الرمز السري
-            </FormLabel>
-            <Input
-              width={'15rem'}
-              textAlign={'right'}
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              type="password"
-              id="InputPasswrord1"
-              variant={'flushed'}
-            />
-          </Box>
-        </Stack>
-        <Stack spacing={'12'} marginLeft={'17.5rem'} direction={['column','column','row']}>
           <Box>
             <FormLabel htmlFor="InputPhoneNumber1" textAlign={'right'}>
               رقم الهاتف
@@ -253,78 +270,23 @@ const VendorRegister = () => {
               variant={'flushed'}
             />
           </Box>
-          <Box>
-            <FormLabel htmlFor="InputConfirmPass" textAlign={'right'}>
-              تأكيد كلمة السر
-            </FormLabel>
-            <Input
-                size={'5px'}
-                width={'15rem'}
-                textAlign={'right'}
-                type="password"
-                value={confirmPass}
-                onChange={e => setConfirmPass(e.target.value)}
-                id="InputConfirmPass"
-                variant={'flushed'}
-              />
-          </Box>
-        </Stack>
-        <Stack spacing={'12'} marginLeft={'17.5rem'} direction={['column','column','row']}>
-          {/* <Box className='mb-3'>
-        <FormLabel htmlFor='InputPic' textAlign={'right'}>
-        اضف صورة 
-          </FormLabel>
-          <Input
-           textAlign={'right'}
-            value={pic}
-            onChange={(e) => setPic(e.target.value)}
-            type='file'
-            id='InputPic'
-          />
-        </Box> */}
-          <Box>
-            <FormLabel htmlFor="InputAbout" textAlign={'right'}>
-              وصف
-            </FormLabel>
-            <Input
-              width={'15rem'}
-              textAlign={'right'}
-              value={about}
-              onChange={e => setAbout(e.target.value)}
-              type="text"
-              id="InputAbout"
-              variant={'flushed'}
-            />
-          </Box>
-          <Box>
-            <FormLabel htmlFor="InputMaeroufNumber" textAlign={'right'}>
-            رقم معروف
-            </FormLabel>
-            <Input
-              width={'15rem'}
-              textAlign={'right'}
-              value={maeroufNumber}
-              onChange={e => setMaeroufNumber(e.target.value)}
-              type="text"
-              id="InputMaeroufNumber"
-              variant={'flushed'}
-            />
-          </Box>
-        </Stack>
-        <HStack>
+          </VStack>
+          </HStack>
+
+        <VStack>
           <Button
-            mt={'1rem'}
             onClick={formSubmit}
             backgroundColor={'#CAA892'}
             textColor={'white'}
             textAlign={'right'}
-            marginRight={'40rem'}
-            width={'10rem'}
+            width={'15rem'}
           >
             تسجيل
           </Button>
-          <Link to='/Login' marginRight={'40rem'} mt={'4rem'}>تسجيل الدخول</Link>
-        </HStack>
+          <Link to='/Login'>تسجيل الدخول</Link>
+        </VStack>
+        
+        </VStack>
       </FormControl>
       <AlertDialog
         isOpen={isOpen}

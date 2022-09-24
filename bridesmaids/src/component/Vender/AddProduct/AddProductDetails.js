@@ -44,8 +44,9 @@ const AddProductDetails = ({ user }) => {
 
   const navbarItems = [
     {
-      label: 'منتجات',
+      label: 'خدمات',
       path: '/products',
+      color: '#C08D5D'
     },
     {
       label: 'طلبات',

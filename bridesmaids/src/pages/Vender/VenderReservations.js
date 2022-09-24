@@ -57,7 +57,7 @@ const navigate=useNavigate('');
               bodyTd: dataR[index].wayToCommunicate,
             },
             {
-              titleTd: 'ملاحضات',
+              titleTd: 'ملاحظات',
               bodyTd: dataR[index].note,
             },
             {
@@ -90,6 +90,7 @@ const navigate=useNavigate('');
     {
       label: 'حجوزات',
       path: '/VenderReservations',
+      color: '#C08D5D'
     },
     {
       label: 'اعدادات',

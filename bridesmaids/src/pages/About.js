@@ -44,6 +44,7 @@ function About() {
         {
           label: 'عن وصيفة',
           path: '/about',
+          color: '#C08D5D'
         },
         {
           label: 'اماكن الزفاف',
@@ -69,7 +70,8 @@ function About() {
             path:"/contact"
         },{
             label:"عن وصيفة",
-            path:"/about"
+            path:"/about",
+            color: '#C08D5D'
         },{
             label:"اماكن الزفاف",
             path:"/places"
@@ -79,31 +81,6 @@ function About() {
     }
     fetchUser();
   },[])
-  // const navbarItems = [
-  //   {
-  //     label: 'تسجيل الدخول',
-  //     path: '/login',
-  //   },
-  //   {
-  //     label: 'تسجيل',
-  //     path: '/role',
-  //   },
-  // ];
-
-  // const navbarItems2 = [
-  //   {
-  //     label: 'تواصل معنا',
-  //     path: '/contact',
-  //   },
-  //   {
-  //     label: 'عن وصيفة',
-  //     path: '/about',
-  //   },
-  //   {
-  //     label: 'اماكن الزفاف',
-  //     path: '/places',
-  //   },
-  // ];
 
   return (
     <>
