@@ -1,10 +1,14 @@
 
-import { Flex, Image, Text, VStack , Grid, GridItem , Spinner } from "@chakra-ui/react";
+import { Flex, Image, Text, VStack , Grid, GridItem, HStack } from "@chakra-ui/react";
 import Navbar from "../../component/Navbar";
 import ProductCard from "../../component/ProductCard";
 import Title from "../../component/Title";
 import { useState , useEffect } from "react";
 import { useNavigate } from "react-router";
+import Spinner from "../../component/Spinner";
+import Footer from "../../component/Footer";
+import {PlusSquareIcon} from '@chakra-ui/icons'
+
 
 const Products=({user})=>{
     const navigate=useNavigate('');
@@ -22,10 +26,12 @@ const Products=({user})=>{
         {
           label: 'خدمات',
           path: '/products',
+          color: '#C08D5D'
         },
         {
           label: 'طلبات',
           path: '/venderRequests',
+          color: 'black'
         },
       ];
     
@@ -33,10 +39,12 @@ const Products=({user})=>{
         {
           label: 'حجوزات',
           path: '/VenderReservations',
+          color: 'black'
         },
         {
           label: 'اعدادات',
           path: '/vendor-setting',
+          color: 'black'
         },
       ];
 
@@ -79,11 +87,16 @@ return(
     
     <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2}/>
     <Title title={"خدمات"}/>
+    <HStack w={{sm:"100%" , lg:"75%"}} alignItems={"end"} justifyContent={"end"} onClick={()=>navigate('/addProduct')}> 
+      <Text  fontWeight={800}>إضافة خدمة</Text>
+      <PlusSquareIcon w={8} h={8} />
+    </HStack>
     {loading? <Spinner /> :
     <ProductCard productList={places}/>
     }
 
     </VStack>
+    <Footer/>
     </>
     )
 }
