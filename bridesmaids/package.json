@@ -14,9 +14,11 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
+    "axios": "^0.27.2",
     "emailjs": "^4.0.1",
     "emailjs-com": "^3.2.0",
     "framer-motion": "^6.5.1",
+    "imgbb-uploader": "^1.5.0",
     "react": "^18.2.0",
     "react-calendar": "^3.8.0",
     "react-datepicker": "^4.8.0",
@@ -51,7 +53,5 @@
       "last 1 safari version"
     ]
   },
-
-  "proxy": "http://10.20.40.20/:8090"
-
+  "proxy": "http://localhost:8090"
 }

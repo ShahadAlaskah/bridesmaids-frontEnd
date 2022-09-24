@@ -4,16 +4,17 @@ import { useNavigate } from 'react-router';
 import AccordionList from '../../component/Admin/AllUsers/AccordionList';
 import Decoration from '../../component/Decoration';
 import FilterBar from '../../component/FilterBar';
+import Footer from '../../component/Footer';
 import Navbar from '../../component/Navbar';
+import Spinner from '../../component/Spinner';
 import Title from '../../component/Title';
 
-const CustomerRequests = ({user}) => {
-const navigate=useNavigate('');
+const CustomerRequests = ({ user }) => {
+  const navigate = useNavigate('');
   useEffect(() => {
     if (user && user.role !== 'CUSTOMER') {
-      if(user && user.role ==='VENDOR')
-      navigate('/products');
-      else{
+      if (user && user.role === 'VENDOR') navigate('/products');
+      else {
         navigate('/registrationRequests');
       }
     }
@@ -23,32 +24,36 @@ const navigate=useNavigate('');
     {
       label: 'اعدادات',
       path: '/customer-setting',
-    },{
+    },
+    {
       label: 'طلبات',
       path: '/customerRequests',
-    },{
+    },
+    {
       label: 'حجوزات',
       path: '/customerReservations',
-    }
+    },
   ];
 
-  const navbarItems2=[
+  const navbarItems2 = [
     {
-        label:"تواصل معنا",
-        path:"/contact"
-    },{
-        label:"عن وصيفة",
-        path:"/about"
-    },{
-        label:"اماكن الزفاف",
-        path:"/places"
-    }
-]
-
+      label: 'تواصل معنا',
+      path: '/contact',
+    },
+    {
+      label: 'عن وصيفة',
+      path: '/about',
+    },
+    {
+      label: 'اماكن الزفاف',
+      path: '/places',
+    },
+  ];
 
   const [details, setDetails] = useState([]);
   const [renderFetchDataAll, setRenderFetchDataAll] = useState(false);
   const detailsMap = [];
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,10 +92,18 @@ const navigate=useNavigate('');
       }
 
       setDetails(detailsMap);
+      setLoading(false);
     };
 
     fetchData();
   }, [renderFetchDataAll]);
+
+  const booking = async id => {
+    const request = await fetch('/api/v1/request/getRequestById/' + id);
+    const data = await request.json();
+    const date = new Date(data.bookDate);
+    console.log(date.valueOf);
+  };
 
   const requestStatus = status => {
     if (status === 'new') {
@@ -111,13 +124,20 @@ const navigate=useNavigate('');
           <HStack>
             <Button
               id={id}
-              onClick={e => changeStatus('confirmedByCustomer', e.target.id)}
+              onClick={e => {
+                setLoading(true);
+                changeStatus('confirmedByCustomer', e.target.id);
+                booking(e.target.id);
+              }}
             >
               قبول
             </Button>
             <Button
               id={id}
-              onClick={e => changeStatus('rejected', e.target.id)}
+              onClick={e => {
+                setLoading(true);
+                changeStatus('rejected', e.target.id);
+              }}
             >
               رفض
             </Button>
@@ -209,7 +229,6 @@ const navigate=useNavigate('');
     },
   ];
 
- 
   return (
     <>
       <VStack>
@@ -220,8 +239,8 @@ const navigate=useNavigate('');
           <FilterBar buttonList={filterBarDetails} />
         </Flex>
 
-        <Flex p={5} width={'70%'} alignSelf="end">
-          <AccordionList details={details} />
+        <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">
+          {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
       </VStack>
 

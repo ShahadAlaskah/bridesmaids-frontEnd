@@ -235,7 +235,7 @@ const navigate=useNavigate('');
   ];
   const navbarItems = [
     {
-      label: 'منتجات',
+      label: 'خدمات',
       path: '/products',
     },
     {
@@ -264,7 +264,7 @@ const navigate=useNavigate('');
           <FilterBar buttonList={filterBarDetails} />
         </Flex>
 
-        <Flex p={5} width={'70%'} alignSelf="end">
+        <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">
           {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
       </VStack>
