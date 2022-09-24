@@ -3,13 +3,11 @@ import { Flex, Button, IconButton, Image } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 import logo from '../Images/logo.png';
-import {useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ navbarItems, navbarItems2 }) => {
   const [display, changeDisplay] = useState('none');
   const navigate = useNavigate();
-
 
   const navItemMap = navbarItems.map((item, index) => (
     <Link to={item.path} index={index}>
@@ -45,11 +43,8 @@ const Navbar = ({ navbarItems, navbarItems2 }) => {
   ));
 
   return (
-    <Flex w={"100%"}>
-      <Flex
-        top="1rem"
-        w={"100%"}
-      >
+    <Flex w={'100%'}>
+      <Flex top="1rem" w={'100%'}>
         {/* Desktop */}
         <Flex
           display={['none', 'none', 'flex', 'flex']}
@@ -58,39 +53,42 @@ const Navbar = ({ navbarItems, navbarItems2 }) => {
           align="center"
           justify={'center'}
           w="100%"
-          mt={"1rem"}
+          mt={'1rem'}
         >
-          <Flex w={"40%"} alignItems={"end"} justifyContent={"end"}>
-          {navItemMap2}
+          <Flex w={'40%'} alignItems={'end'} justifyContent={'end'}>
+            {navItemMap2}
           </Flex>
-          <Flex w={"10%"} alignItems={"center"} justifyContent={"center"}>
-          <Image
-            src={logo}
-            alt="Dan Abramov"
-            w="4rem"
-            h="4rem"
-            mr="2rem"
-            ml="2rem"
-            // onClick={()=> navigate('/')}
-          />
+          <Flex w={'10%'} alignItems={'center'} justifyContent={'center'}>
+            <Image
+              src={logo}
+              alt="Dan Abramov"
+              w="4rem"
+              h="4rem"
+              mr="2rem"
+              ml="2rem"
+              // onClick={()=> navigate('/')}
+            />
           </Flex>
-          <Flex w={"40%"}>
-          {navItemMap}
-          </Flex>
+          <Flex w={'40%'}>{navItemMap}</Flex>
         </Flex>
 
         {/* Mobile */}
-        <Flex alignItems={"end"} justifyContent={"end"} mt={"0.2rem"} ml={"0.2rem"}>
-        <IconButton
-          aria-label="Open Menu"
-          size="lg"
-          mr={2}
-          icon={<HamburgerIcon />}
-          bgColor="#CAA892"
-          onClick={() => changeDisplay('flex')}
-          display={['flex', 'flex', 'none', 'none']}
-          _hover={{ backgroundColor: '#CAA892' }}
-        />
+        <Flex
+          alignItems={'end'}
+          justifyContent={'end'}
+          mt={'0.2rem'}
+          ml={'0.2rem'}
+        >
+          <IconButton
+            aria-label="Open Menu"
+            size="lg"
+            mr={2}
+            icon={<HamburgerIcon />}
+            bgColor="#CAA892"
+            onClick={() => changeDisplay('flex')}
+            display={['flex', 'flex', 'none', 'none']}
+            _hover={{ backgroundColor: '#CAA892' }}
+          />
         </Flex>
       </Flex>
 

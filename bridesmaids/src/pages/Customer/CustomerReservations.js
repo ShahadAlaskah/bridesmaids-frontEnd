@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router';
 import AccordionList from '../../component/Admin/AllUsers/AccordionList';
 import Decoration from '../../component/Decoration';
 import FilterBar from '../../component/FilterBar';
+import Footer from '../../component/Footer';
 import Navbar from '../../component/Navbar';
 import Spinner from '../../component/Spinner';
 import Title from '../../component/Title';
@@ -118,6 +119,9 @@ const CustomerReservations = ({ user }) => {
         <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">
           {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
+        
+        <Footer />
+
       </VStack>
 
       <Decoration />

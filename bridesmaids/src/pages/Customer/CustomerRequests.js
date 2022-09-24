@@ -87,7 +87,11 @@ const CustomerRequests = ({ user }) => {
               bodyTd: requestStatus(dataR[index].status),
             },
           ],
-          listButton: listButtonValue(dataR[index].status, dataR[index].id),
+          listButton: listButtonValue(
+            dataR[index].status,
+            dataR[index].id,
+            dataR[index].productId
+          ),
         });
       }
 
@@ -98,11 +102,24 @@ const CustomerRequests = ({ user }) => {
     fetchData();
   }, [renderFetchDataAll]);
 
-  const booking = async id => {
+  const booking = async (id, productId) => {
     const request = await fetch('/api/v1/request/getRequestById/' + id);
     const data = await request.json();
-    const date = new Date(data.bookDate);
-    console.log(date.valueOf);
+    let date = data.bookDate.split('/');
+    console.log(date);
+    const body = {
+      productId: productId,
+      year: date[0],
+      month: date[1],
+      day: date[2],
+    };
+
+    const requestT = await fetch(`/api/v1/timeSlot/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const dataT = await requestT.json();
   };
 
   const requestStatus = status => {
@@ -116,7 +133,7 @@ const CustomerRequests = ({ user }) => {
       return 'مرفوضه';
     }
   };
-  const listButtonValue = (status, id) => {
+  const listButtonValue = (status, id, productId) => {
     //new-underNegotiation-confirmedByVendor-confirmedByCustomer-rejected
     if (status === 'confirmedByVendor') {
       return (
@@ -126,8 +143,8 @@ const CustomerRequests = ({ user }) => {
               id={id}
               onClick={e => {
                 setLoading(true);
-                changeStatus('confirmedByCustomer', e.target.id);
-                booking(e.target.id);
+                //changeStatus('confirmedByCustomer', e.target.id);
+                booking(e.target.id, productId);
               }}
             >
               قبول
@@ -242,6 +259,7 @@ const CustomerRequests = ({ user }) => {
         <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">
           {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
+        <Footer />
       </VStack>
 
       <Decoration />

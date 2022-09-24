@@ -18,19 +18,18 @@ import FilterBar from '../../component/FilterBar';
 import Navbar from '../../component/Navbar';
 import Title from '../../component/Title';
 import Spinner from '../../component/Spinner';
+import Footer from '../../component/Footer';
 import { useNavigate } from 'react-router';
-const VenderRequests = ({user}) => {
-const navigate=useNavigate('');
+const VenderRequests = ({ user }) => {
+  const navigate = useNavigate('');
   useEffect(() => {
     if (user && user.role !== 'VENDOR') {
-      if(user && user.role ==='ADMIN')
-      navigate('/registrationRequests');
-      else{
-        navigate('/')
+      if (user && user.role === 'ADMIN') navigate('/registrationRequests');
+      else {
+        navigate('/');
       }
     }
   }, [user]);
-
 
   const [loading, setLoading] = useState(true);
   const [details, setDetails] = useState([]);
@@ -79,7 +78,7 @@ const navigate=useNavigate('');
 
     fetchData();
   }, [renderFetchDataAll]);
-  
+
   const requestStatus = status => {
     if (status === 'new') {
       return 'جديد';
@@ -267,6 +266,7 @@ const navigate=useNavigate('');
         <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">
           {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
+        <Footer />
       </VStack>
 
       <Decoration />

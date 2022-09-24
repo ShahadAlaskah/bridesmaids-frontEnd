@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router';
 
 import AccordionList from '../../component/Admin/AllUsers/AccordionList';
 import Decoration from '../../component/Decoration';
-
+import emailjs from 'emailjs-com';
 import Navbar from '../../component/Navbar';
 import Spinner from '../../component/Spinner';
 import Title from '../../component/Title';
+import Footer from '../../component/Footer';
 
 const RegistrationRequests = ({ user }) => {
   const [loading, setLoading] = useState(true);
@@ -20,6 +21,14 @@ const RegistrationRequests = ({ user }) => {
     }
   }, [user]);
 
+  const logout = async () => {
+    const request = await fetch('/api/v1/auth/logout');
+    if (request.status === 204) {
+      localStorage.removeItem('loggedIn');
+      navigate('/login');
+    }
+  };
+
   const navbarItems = [
     {
       label: ' طلبات تزويد الخدمة',
@@ -30,7 +39,8 @@ const RegistrationRequests = ({ user }) => {
   const navbarItems2 = [
     {
       label: 'تسجيل الخروج',
-      path: '/non',
+      path: '/allRequest',
+      //onClick: logout(),
     },
     {
       label: 'الطلبات',
@@ -78,7 +88,10 @@ const RegistrationRequests = ({ user }) => {
               <HStack>
                 <Button
                   //id={id}
-                  onClick={() => vendorApproved(dataR[index].id)}
+                  onClick={() => {
+                    sendEmail(dataR[index].name, dataR[index].email);
+                    vendorApproved(dataR[index].id);
+                  }}
                 >
                   قبول
                 </Button>
@@ -110,12 +123,28 @@ const RegistrationRequests = ({ user }) => {
     console.log(dataR);
     setRenderFetchDataAll(!renderFetchDataAll);
   };
-  const logout = async () => {
-    const request = await fetch('/api/v1/auth/logout');
-    if (request.status === 204) {
-      localStorage.removeItem('loggedIn');
-      navigate('/login');
-    }
+
+  const sendEmail = (vendorName, email) => {
+    let templateParams = {
+      vendor_name: vendorName,
+      email: email,
+    };
+
+    emailjs
+      .send(
+        'service_05xv9lh',
+        'template_pu1ja3e',
+        templateParams,
+        'OlZqYySu9TtUdJuUg'
+      )
+      .then(
+        function (response) {
+          console.log('SUCCESS!', response.status, response.text);
+        },
+        function (error) {
+          console.log('FAILED...', error);
+        }
+      );
   };
 
   return (
@@ -128,6 +157,7 @@ const RegistrationRequests = ({ user }) => {
         <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">
           {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
+        <Footer />
       </VStack>
 
       <Decoration />
