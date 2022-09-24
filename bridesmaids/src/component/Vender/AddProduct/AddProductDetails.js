@@ -26,20 +26,22 @@ import Decoration from '../../Decoration';
 import Navbar from '../../Navbar';
 import Title from '../../Title';
 import Map from '../../Map';
-import { useEffect, useState} from 'react';
-const AddProductDetails = ({user}) => {
-const navigate=useNavigate('');
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+//import { imgbbUploader } from 'imgbb-uploader';
+const AddProductDetails = ({ user }) => {
+  //const imgbbUploader = require('imgbb-uploader');
+  const navigate = useNavigate('');
   useEffect(() => {
     if (user && user.role !== 'VENDOR') {
-      if(user && user.role ==='ADMIN')
-      navigate('/registrationRequests');
-      else{
-        navigate('/')
+      if (user && user.role === 'ADMIN') navigate('/registrationRequests');
+      else {
+        navigate('/');
       }
     }
   }, [user]);
 
-const navbarItems = [
+  const navbarItems = [
     {
       label: 'منتجات',
       path: '/products',
@@ -73,7 +75,8 @@ const navbarItems = [
   const [city, setCity] = useState('');
   const [capacity, setCapacity] = useState('');
   const [location, setLocation] = useState({ lat: '', lng: '' });
-  const [file, setFile] = useState();
+  const [pictureUlrList, setPictureUlrList] = useState([]);
+  const [fileList, setFileList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,11 +91,26 @@ const navbarItems = [
     fetchData();
   }, []);
 
-  function handleChange(e) {
-    setFile(URL.createObjectURL(e.target.files[0]));
-    console.log(e.target.files[0]);
-  }
+  const getImgURL = async () => {
+    let imgList = [];
+    for (let index = 0; index < fileList.length; index++) {
+      let body = new FormData();
+      body.set('key', '4178c08b973c71db51efc665717fe3e6');
+      body.append('image', fileList[index]);
+
+      let res = await axios({
+        method: 'post',
+        url: 'https://api.imgbb.com/1/upload',
+        data: body,
+      });
+      imgList.push(res.data.data.display_url);
+    }
+    return imgList;
+  };
+
   const formSubmit = async () => {
+    let imgList = await getImgURL();
+
     const body = {
       name: name,
       description: description,
@@ -111,21 +129,37 @@ const navbarItems = [
       body: JSON.stringify(body),
     });
     const data = await request.json();
+
     if (request.status === 201) {
-      setName('');
-      setCapacity('');
-      setCity('');
-      setDescription('');
-      setLocation({ lat: '', lng: '' });
-      setPrice('');
-      setSubCategoryId('');
-      toast({
-        title: 'تم اضافة المنتج بنجاح',
-        position: 'top',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      });
+      console.log(imgList.length);
+      for (let index = 0; index < imgList.length; index++) {
+        console.log(index);
+        let bodyP = {
+          productId: data,
+          pictureUlr: String(imgList[index]),
+        };
+        let requestP = await fetch(`/api/v1/picture/add`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bodyP),
+        });
+        let dataP = await requestP.json();
+        console.log(dataP);
+      }
+      // setName('');
+      // setCapacity('');
+      // setCity('');
+      // setDescription('');
+      // setLocation({ lat: '', lng: '' });
+      // setPrice('');
+      // setSubCategoryId('');
+      // toast({
+      //   title: 'تم اضافة المنتج بنجاح',
+      //   position: 'top',
+      //   status: 'success',
+      //   duration: 9000,
+      //   isClosable: true,
+      // });
     } else {
       toast({
         title: 'لم يتم اضافة المنتج :(',
@@ -136,8 +170,7 @@ const navbarItems = [
       });
     }
   };
-  console.log(location);
- 
+
   return (
     <>
       <VStack>
@@ -154,16 +187,15 @@ const navbarItems = [
                   </FormLabel>
                   <Input
                     type="file"
-                    onChange={handleChange}
+                    onChange={e => setFileList(e.target.files)}
                     width={'15rem'}
                     textAlign={'right'}
                     // value={password}
                     // onChange={e => setPassword(e.target.value)}
-
+                    multiple
                     id="InputPassword1"
                     variant={'flushed'}
                   />
-                  <Image src={file} />
                 </Box>
                 <Box backgroundColor={'gray.100'} w={235} h={150}>
                   <Map setLocation={setLocation} />
@@ -269,7 +301,10 @@ const navbarItems = [
               <Button
                 type="submit"
                 mt={'5rem'}
-                onClick={formSubmit}
+                onClick={() => {
+                  let imgList = getImgURL();
+                  formSubmit(imgList);
+                }}
                 backgroundColor={'#CAA892'}
                 textColor={'white'}
                 textAlign={'right'}

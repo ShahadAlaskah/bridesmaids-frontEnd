@@ -42,7 +42,7 @@ const AddProduct = ({user}) => {
 
 const navbarItems = [
     {
-      label: 'منتجات',
+      label: 'خدمات',
       path: '/products',
     },
     {
