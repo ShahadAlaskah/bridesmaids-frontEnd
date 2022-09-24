@@ -179,7 +179,7 @@ const AddProductDetails = ({ user }) => {
         <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2} />
         <Title title={'أضافة منتج'} />
 
-        <HStack px={10} alignSelf="end" width={'70%'}>
+        <HStack px={10} alignSelf="end" width={'70%'} pt={19}>
           <FormControl w={'100%'} marginTop={'2rem'} marginLeft={'4rem'}>
             <HStack alignSelf="end" spacing={8}>
               <VStack w={'30%'}>
