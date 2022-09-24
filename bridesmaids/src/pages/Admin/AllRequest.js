@@ -23,6 +23,7 @@ const AllRequest = ({ user }) => {
     {
       label: ' طلبات تزويد الخدمة',
       path: '/registrationRequests',
+      color: 'black'
     },
   ];
 
@@ -30,10 +31,12 @@ const AllRequest = ({ user }) => {
     {
       label: 'تسجيل الخروج',
       path: '/non',
+      color: 'black'
     },
     {
       label: 'الطلبات',
       path: '/allRequest',
+      color: '#C08D5D'
     },
   ];
 
@@ -64,7 +67,7 @@ const AllRequest = ({ user }) => {
               bodyTd: dataR[index].wayToCommunicate,
             },
             {
-              titleTd: 'ملاحضات',
+              titleTd: 'ملاحظات',
               bodyTd: dataR[index].note,
             },
             {

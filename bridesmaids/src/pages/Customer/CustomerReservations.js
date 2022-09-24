@@ -44,6 +44,7 @@ const CustomerReservations = ({ user }) => {
     {
       label: 'حجوزات',
       path: '/customerReservations',
+      color: '#C08D5D'
     },
   ];
 
@@ -88,7 +89,7 @@ const CustomerReservations = ({ user }) => {
               bodyTd: dataR[index].wayToCommunicate,
             },
             {
-              titleTd: 'ملاحضات',
+              titleTd: 'ملاحظات',
               bodyTd: dataR[index].note,
             },
             {

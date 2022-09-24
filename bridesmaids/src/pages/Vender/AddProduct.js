@@ -45,6 +45,7 @@ const navbarItems = [
     {
       label: 'خدمات',
       path: '/products',
+      color: '#C08D5D'
     },
     {
       label: 'طلبات',

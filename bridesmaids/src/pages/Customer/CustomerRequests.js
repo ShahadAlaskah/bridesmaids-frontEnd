@@ -24,14 +24,17 @@ const CustomerRequests = ({ user }) => {
     {
       label: 'اعدادات',
       path: '/customer-setting',
+      color: 'black'
     },
     {
       label: 'طلبات',
       path: '/customerRequests',
+      color: '#C08D5D'
     },
     {
       label: 'حجوزات',
       path: '/customerReservations',
+      color: 'black'
     },
   ];
 
@@ -54,6 +57,8 @@ const CustomerRequests = ({ user }) => {
   const [renderFetchDataAll, setRenderFetchDataAll] = useState(false);
   const detailsMap = [];
   const [loading, setLoading] = useState(true);
+  const [selected,setSelected]=useState();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -143,7 +148,7 @@ const CustomerRequests = ({ user }) => {
               id={id}
               onClick={e => {
                 setLoading(true);
-                //changeStatus('confirmedByCustomer', e.target.id);
+                changeStatus('confirmedByCustomer', e.target.id);
                 booking(e.target.id, productId);
               }}
             >
@@ -198,7 +203,7 @@ const CustomerRequests = ({ user }) => {
             bodyTd: dataR[index].wayToCommunicate,
           },
           {
-            titleTd: 'ملاحضات',
+            titleTd: 'ملاحظات',
             bodyTd: dataR[index].note,
           },
           {
@@ -218,29 +223,33 @@ const CustomerRequests = ({ user }) => {
   const filterBarDetails = [
     {
       title: 'الكل',
-      fun: () => {
+      fun: (e) => {
         setDetails([]);
+        setSelected(e.target.value)
         setRenderFetchDataAll(!renderFetchDataAll);
       },
     },
     {
       title: 'جديدة',
-      fun: () => {
+      fun: (e) => {
         setDetails([]);
+        setSelected(e.target.value)
         fetchDataByStatus('new');
       },
     },
     {
       title: 'قيد المفاوضه ',
-      fun: () => {
+      fun: (e) => {
         setDetails([]);
+        setSelected(e.target.value)
         fetchDataByStatus('underNegotiation');
       },
     },
     {
       title: 'مرفوضة',
-      fun: () => {
+      fun: (e) => {
         setDetails([]);
+        setSelected(e.target.value)
         fetchDataByStatus('rejected');
       },
     },
@@ -253,7 +262,7 @@ const CustomerRequests = ({ user }) => {
 
         <Title title={'طلباتي'} />
         <Flex p={5} alignSelf="end">
-          <FilterBar buttonList={filterBarDetails} />
+          <FilterBar buttonList={filterBarDetails} selected={selected}/>
         </Flex>
 
         <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">

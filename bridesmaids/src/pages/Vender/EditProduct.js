@@ -48,6 +48,7 @@ const EditProduct = ({ user }) => {
     {
       label: 'خدمات',
       path: '/products',
+      color: '#C08D5D'
     },
     {
       label: 'طلبات',
@@ -118,6 +119,8 @@ const EditProduct = ({ user }) => {
     setCancelEditing(!cancelEditing);
     setDisableEditing(true);
   };
+
+
   const getImgURL = async () => {
     let deleteImg = await deleteImgURL();
     let imgList = [];
@@ -135,6 +138,8 @@ const EditProduct = ({ user }) => {
     }
     return imgList;
   };
+
+
   const deleteImgURL = async () => {
     const requestD = await fetch('/api/v1/picture/byProduct/' + productId);
     const dataD = await requestD.json();
@@ -148,6 +153,8 @@ const EditProduct = ({ user }) => {
       }
     }
   };
+
+
   const saveEditing = async () => {
     if (fileList.length >= 1) {
       let imgList = await getImgURL();
@@ -198,14 +205,13 @@ const EditProduct = ({ user }) => {
     });
     const data = await request.json();
   };
-  // console.log(categoryId);
 
   return (
     <>
       <VStack width={'95%'}>
         <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2} />
         <Title title={'تعديل منتج'} />
-        <VStack alignSelf="end" width={'70%'}>
+        <VStack alignSelf="end" width={'70%'} pt={20} >
           <FormControl w={'100%'}>
             <HStack alignSelf="end" spacing={8}>
               <VStack w={'30%'} spacing={1}>

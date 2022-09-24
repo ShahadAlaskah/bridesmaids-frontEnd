@@ -152,7 +152,7 @@ const CustomerRegister = () => {
   }, []);
 
   return (
-    <HStack justifyContent={'center'}>
+    <HStack justifyContent={'center'} mt={"4rem"}>
       <Image
         src="https://i.pinimg.com/564x/34/ac/14/34ac14926963b749e84dc0e480d4114c.jpg"
         width={['0rem','0rem','28rem']}
@@ -325,29 +325,28 @@ const CustomerRegister = () => {
               id='InputGender'
                 onChange={e => setGender(e.target.value)}
                 variant={'flushed'}
-                placeholder="Select option"
+                placeholder="اختر"
                 size={'5px'}
-              
+                textAlign={"center"}
               >
                 <option value={options.value1}>{options.label1}</option>
                 <option value={options.value2}>{options.label2}</option>
               </Select>
             </Box>
           </VStack>
-          <HStack spacing={['3rem','8rem','8rem']}  mt={"2rem"}>
-          <Link to='/Login'>تسجيل الدخول</Link>
+          <VStack spacing={['1rem','8rem','0.5rem']} mt={"1rem"} marginRight={'2rem'}>
             <Button
               onClick={formSubmit}
               backgroundColor={'#CAA892'}
               textColor={'white'}
               textAlign={'right'}
               size={'sm'}
-              width={'10rem'}
-             
+              width={'15rem'}
             >
               تسجيل
             </Button>
-          </HStack>
+            <Link to='/Login'>تسجيل الدخول</Link>
+          </VStack>
         </FormControl>
         <AlertDialog
         isOpen={isOpen}
