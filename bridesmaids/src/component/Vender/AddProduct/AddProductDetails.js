@@ -28,6 +28,7 @@ import Title from '../../Title';
 import Map from '../../Map';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Footer from '../../Footer';
 //import { imgbbUploader } from 'imgbb-uploader';
 const AddProductDetails = ({ user }) => {
   //const imgbbUploader = require('imgbb-uploader');
@@ -146,20 +147,20 @@ const AddProductDetails = ({ user }) => {
         let dataP = await requestP.json();
         console.log(dataP);
       }
-      // setName('');
-      // setCapacity('');
-      // setCity('');
-      // setDescription('');
-      // setLocation({ lat: '', lng: '' });
-      // setPrice('');
-      // setSubCategoryId('');
-      // toast({
-      //   title: 'تم اضافة المنتج بنجاح',
-      //   position: 'top',
-      //   status: 'success',
-      //   duration: 9000,
-      //   isClosable: true,
-      // });
+      setName('');
+      setCapacity('');
+      setCity('');
+      setDescription('');
+      setLocation({ lat: '', lng: '' });
+      setPrice('');
+      setSubCategoryId('');
+      toast({
+        title: 'تم اضافة المنتج بنجاح',
+        position: 'top',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
     } else {
       toast({
         title: 'لم يتم اضافة المنتج :(',
@@ -316,6 +317,7 @@ const AddProductDetails = ({ user }) => {
             </VStack>
           </FormControl>
         </HStack>
+        <Footer />
       </VStack>
 
       <Decoration />

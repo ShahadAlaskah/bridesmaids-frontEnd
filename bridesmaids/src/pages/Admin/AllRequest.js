@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 import Navbar from '../../component/Navbar';
 import Title from '../../component/Title';
 import Spinner from '../../component/Spinner';
+import Footer from '../../component/Footer';
 const AllRequest = ({ user }) => {
   const navigate = useNavigate('');
   useEffect(() => {
@@ -105,6 +106,7 @@ const AllRequest = ({ user }) => {
         <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">
           {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
+        <Footer />
       </VStack>
 
       <Decoration />

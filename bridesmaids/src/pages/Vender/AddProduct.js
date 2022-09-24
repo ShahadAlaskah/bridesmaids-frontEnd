@@ -28,6 +28,7 @@ import Title from '../../component/Title';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import Footer from '../../component/Footer';
 const AddProduct = ({user}) => {
 
   useEffect(() => {
@@ -110,6 +111,7 @@ const navbarItems = [
             أضافة منتج
           </Button>
         </VStack>
+        <Footer/>
       </VStack>
 
       <Decoration />
