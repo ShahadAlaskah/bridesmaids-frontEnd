@@ -100,9 +100,9 @@ const CustomerRegister = () => {
               },
             });
             const dataE=await requeste.json();
-            if(dataE===true){
+            if(requeste===200){
               return toast({
-                title: " البريد الالكتروني موجود من قبل يرجى اختيار  بريد الكتروني اخر",
+                title: " البريد الالكتروني مسجل مسبقاً يرجى اختيار  بريد الكتروني اخر",
                 position:'top',
                 status:'error',
                 isClosable: true,
@@ -115,9 +115,9 @@ const CustomerRegister = () => {
               },
             });
             const dataU=await requestu.json();
-            if(dataU===true){
+            if(requestu===200){
               return toast({
-                title: " الاسم المستخدم موجود من قبل يرجى اختيار اسم مستخدم اخر",
+                title: " اسم المستخدم مسجل مسبقاً يرجى اختيار اسم مستخدم اخر",
                 position:'top',
                 status:'error',
                 isClosable: true,

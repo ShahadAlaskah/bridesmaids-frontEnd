@@ -117,22 +117,43 @@ const navbarItems = [
           about: about
         };
     
-        // const requestm = await fetch('/api/v1/vendor/checkmaerouf/'+maeroufNumber, {
-        //   method: 'GET',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        // });
-        // const dataM=await requestm.json();
-        // if(dataM===true){
-        //    toast({
-        //     title: "رقم معروف موجود مسبقاً يرجى ادخال رقم اخر",
-        //     position:'top',
-        //     status:'error',
-        //     isClosable: true,
-        //   })
-        //   return;
-        // }else{
+        //Check maeroufNo.
+        const requestm = await fetch('/api/v1/vendor/checkmaerouf/'+maeroufNumber);
+        const dataM=await requestm.json();
+
+        //Check email
+        const requeste = await fetch('/api/v1/user/checkemail/'+email)
+        const dataE=await requeste.json();
+
+        //check username
+        const requestu = await fetch('/api/v1/user/checkusername/'+username);
+        const dataU=await requestu.json();
+
+
+        if(requestm.status===200 && user.id!==dataM.userId){
+           toast({
+            title: "رقم معروف موجود مسبقاً يرجى ادخال رقم اخر",
+            position:'top',
+            status:'error',
+            isClosable: true,
+          })
+        }else if(requeste.status===200 && user.id!==dataE.id){
+          console.log(user.id)
+          console.log(dataE)
+          toast({
+            title: " البريد الالكتروني مسجل مسبقاً يرجى اختيار  بريد الكتروني اخر",
+            position:'top',
+            status:'error',
+            isClosable: true,
+          })
+        }else if(requestu.status===200 && user.id!==dataU.id){
+          toast({
+            title: " اسم المستخدم مسجل مسبقاً يرجى اختيار اسم مستخدم اخر",
+            position:'top',
+            status:'error',
+            isClosable: true,
+          })
+        }else{
         const request = await fetch(`/api/v1/user/update`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -144,7 +165,7 @@ const navbarItems = [
           setDisableEditing(true);
         }
       }
-    // }
+    }
     };
 
       const logout = async () => {

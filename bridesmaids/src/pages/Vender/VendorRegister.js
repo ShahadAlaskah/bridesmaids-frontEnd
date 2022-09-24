@@ -87,9 +87,9 @@ const VendorRegister = () => {
             },
           });
           const dataM=await requestm.json();
-          if(dataM===true){
+          if(requestm.status===200){
              toast({
-              title: " الرقم المعروف موجود من قبل يرجى اختيارادخال رقم اخر",
+              title: "رقم معروف مسجل مسبقاً",
               position:'top',
               status:'error',
               isClosable: true,
@@ -117,9 +117,9 @@ const VendorRegister = () => {
             },
           });
           const dataE=await requeste.json();
-          if(dataE===true){
+          if(requeste.status===200){
             return toast({
-              title: " البريد الالكتروني موجود من قبل يرجى اختيار  بريد الكتروني اخر",
+              title: " البريد الالكتروني مسجل مسبقاً يرجى اختيار  بريد الكتروني اخر",
               position:'top',
               status:'error',
               isClosable: true,
@@ -132,9 +132,9 @@ const VendorRegister = () => {
             },
           });
           const dataU=await requestu.json();
-          if(dataU===true){
+          if(requestu.status===200){
             return toast({
-              title: " الاسم المستخدم موجود من قبل يرجى اختيار اسم مستخدم اخر",
+              title: " اسم المستخدم مسجل مسبقاً يرجى اختيار اسم مستخدم اخر",
               position:'top',
               status:'error',
               isClosable: true,
