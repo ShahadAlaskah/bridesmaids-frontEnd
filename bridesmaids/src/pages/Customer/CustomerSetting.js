@@ -6,7 +6,8 @@ import {
   HStack,
   Input,
   Stack,
-  Button 
+  Button ,
+  useToast
 } from '@chakra-ui/react';
 import { useState , useEffect } from 'react';
 import Decoration from '../../component/Decoration';
@@ -76,6 +77,7 @@ const label = {
     const [cancelEditing, setCancelEditing] = useState(true);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const toast=useToast()
     const options = {
         value1: 'F',
         label1: 'انثى',
@@ -117,7 +119,30 @@ const label = {
           age: age,
           gender: gender
         };
+
+          //Check email
+          const requeste = await fetch('/api/v1/user/checkemail/'+email)
+          const dataE=await requeste.json();
+  
+          //check username
+          const requestu = await fetch('/api/v1/user/checkusername/'+username);
+          const dataU=await requestu.json();
     
+        if(requeste.status===200 && user.id!==dataE.id){
+          toast({
+            title: " البريد الالكتروني مسجل مسبقاً يرجى اختيار  بريد الكتروني اخر",
+            position:'top',
+            status:'error',
+            isClosable: true,
+          })
+        }else if(requestu.status===200 && user.id!==dataU.id){
+          toast({
+            title: " اسم المستخدم مسجل مسبقاً يرجى اختيار اسم مستخدم اخر",
+            position:'top',
+            status:'error',
+            isClosable: true,
+          })
+        }else{
         const request = await fetch(`/api/v1/user/update`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -129,6 +154,7 @@ const label = {
           setCancelEditing(!cancelEditing);
           setDisableEditing(true);
         }
+      }
       };
 
       const logout = async () => {
