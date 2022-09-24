@@ -10,6 +10,8 @@ import Footer from "../component/Footer";
 const Places=()=>{
   const [navbarItems,setNavbarItems]=useState([]);
   const [navbarItems2,setNavbarItems2]=useState([]);
+  const [selected,setSelected]=useState();
+
   useEffect(()=>{
     const fetchUser = async () => {
     const request = await fetch('/api/v1/user/me');
@@ -84,7 +86,8 @@ const Places=()=>{
     const buttonList = [
       {
         title: 'الكل',
-        fun: () => {
+        fun: (e) => {
+          setSelected(e.target.value)
           setPlaces([])
           setLoading(true)
           fetchAllPlaces()
@@ -92,7 +95,8 @@ const Places=()=>{
       },
       {
         title: 'قاعات',
-        fun: () => {
+        fun: (e) => {
+          setSelected(e.target.value)
           setPlaces([])
           setLoading(true)
           fetchPlacesBySubCategory(1)
@@ -100,7 +104,8 @@ const Places=()=>{
       },
       {
         title: 'فنادق',
-        fun: () => {
+        fun: (e) => {
+          setSelected(e.target.value)
           setPlaces([])
           setLoading(true)
           fetchPlacesBySubCategory(2)
@@ -108,7 +113,8 @@ const Places=()=>{
       },
       {
         title: 'استراحات',
-        fun: () => {
+        fun: (e) => {
+          setSelected(e.target.value)
           setPlaces([])
           setLoading(true)
           fetchPlacesBySubCategory(3)
@@ -116,7 +122,8 @@ const Places=()=>{
       },
       {
         title: 'شاليهات',
-        fun: () => {
+        fun: (e) => {
+          setSelected(e.target.value)
           setPlaces([])
           setLoading(true)
           fetchPlacesBySubCategory(4)
@@ -231,7 +238,7 @@ return(
     
     <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2}/>
     <Title title={"أماكن الزفاف"}/>
-    <FilterBar buttonList={buttonList}/>
+    <FilterBar buttonList={buttonList} selected={selected}/>
     {loading? <Spinner/> :
     <ProductCard productList={places}/>
     }
