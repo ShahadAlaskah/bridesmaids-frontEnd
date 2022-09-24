@@ -5,6 +5,7 @@ import ProductCard from "../component/ProductCard";
 import Title from "../component/Title";
 import { useState , useEffect } from "react";
 import Spinner from "../component/Spinner";
+import Footer from "../component/Footer";
 
 const Places=()=>{
   const [navbarItems,setNavbarItems]=useState([]);
@@ -19,10 +20,12 @@ const Places=()=>{
         {
           label: 'تسجيل الدخول',
           path: '/login',
+          color: 'black'
         },
         {
           label: 'تسجيل',
           path: '/role',
+          color: 'black'
         },
         
       ])
@@ -30,14 +33,17 @@ const Places=()=>{
         {
           label: 'تواصل معنا',
           path: '/contact',
+          color: 'black'
         },
         {
           label: 'عن وصيفة',
           path: '/about',
+          color: 'black'
         },
         {
           label: 'اماكن الزفاف',
           path: '/places',
+          color: '#C08D5D'
         },
       ])
     }else{
@@ -45,24 +51,30 @@ const Places=()=>{
         {
           label: 'اعدادات',
           path: '/customer-setting',
+          color: 'black'
         },{
           label: 'طلبات',
           path: '/customerRequests',
+          color: 'black'
         },{
           label: 'حجوزات',
           path: '/customerReservations',
+          color: 'black'
         }
       ])
       setNavbarItems2([
         {
             label:"تواصل معنا",
-            path:"/contact"
+            path:"/contact",
+            color: 'black'
         },{
             label:"عن وصيفة",
-            path:"/about"
+            path:"/about",
+            color: 'black'
         },{
             label:"اماكن الزفاف",
-            path:"/places"
+            path:"/places",
+            color: '#C08D5D'
         }
     ])
     }
@@ -224,6 +236,7 @@ return(
     }
 
     </VStack>
+    <Footer/>
     </>
     )
 }

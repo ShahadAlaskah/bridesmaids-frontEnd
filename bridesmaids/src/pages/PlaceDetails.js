@@ -1,4 +1,4 @@
-import  {HStack, Text, VStack ,Box , Heading , Button , Spinner , Input,  Modal,
+import  {HStack, Text, VStack ,Box , Stack, Heading , Button , Input,  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -10,19 +10,20 @@ import Title from "../component/Title";
 import ImagesGallery from "../component/ImagesGallery";
 import React, { useEffect, useRef, useState } from 'react';
 import {useParams} from 'react-router-dom';
-// import 'react-modern-calendar-datepicker/lib/DatePicker.css';
-// import {Calendar, utils } from "react-modern-calendar-datepicker";
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import {Calendar, utils } from '@hassanmojab/react-modern-calendar-datepicker';
 import {useNavigate } from 'react-router-dom';
 import emailjs from 'emailjs-com'
 import DisplayMap from "../component/DisplayMap";
+import Spinner from "../component/Spinner";
+import Footer from "../component/Footer";
 
 
 
 const PlaceDetails=()=>{
   const [navbarItems,setNavbarItems]=useState([]);
   const [navbarItems2,setNavbarItems2]=useState([]);
+
   useEffect(()=>{
     const fetchUser = async () => {
     const request = await fetch('/api/v1/user/me');
@@ -33,10 +34,12 @@ const PlaceDetails=()=>{
         {
           label: 'تسجيل الدخول',
           path: '/login',
+          color: 'black'
         },
         {
           label: 'تسجيل',
           path: '/role',
+          color: 'black'
         },
         
       ])
@@ -44,14 +47,17 @@ const PlaceDetails=()=>{
         {
           label: 'تواصل معنا',
           path: '/contact',
+          color: 'black'
         },
         {
           label: 'عن وصيفة',
           path: '/about',
+          color: 'black'
         },
         {
           label: 'اماكن الزفاف',
           path: '/places',
+          color: '#C08D5D'
         },
       ])
     }else{
@@ -59,30 +65,36 @@ const PlaceDetails=()=>{
         {
           label: 'اعدادات',
           path: '/customer-setting',
+          color: 'black'
         },{
           label: 'طلبات',
           path: '/customerRequests',
+          color: 'black'
         },{
           label: 'حجوزات',
           path: '/customerReservations',
+          color: 'black'
         }
       ])
       setNavbarItems2([
         {
             label:"تواصل معنا",
-            path:"/contact"
+            path:"/contact",
+            color: 'black'
         },{
             label:"عن وصيفة",
-            path:"/about"
+            path:"/about",
+            color: 'black'
         },{
             label:"اماكن الزفاف",
-            path:"/places"
+            path:"/places",
+            color: '#C08D5D'
         }
-    ])
-    }
-    }
+    ])}}
     fetchUser();
   },[])
+
+
   const toast=useToast()
   const params = useParams();
   const productId = params.id;
@@ -107,28 +119,9 @@ const PlaceDetails=()=>{
   const[selectedDay, setSelectedDay] = useState('');
   const[note,setNote] = useState("")
   const[value, setValue] = useState()
-//   const [cal,setCal]=useState(
-// (
-//   <Calendar
-//   value={selectedDay}
-//   onChange={(date) => setSelectedDay(date)}
-//   disabledDays={disabledDays} 
-//   minimumDate={utils().getToday()}
-//   colorPrimary="#CAA892"
- 
-//   />
-// )
-//   )
 
-//   const close = ()=>{
-//     setCal('');
-//     onClose();
-//   }
-  
 
   // Get user Data
-   
-  
   useEffect(()=>{
       const fetchUser = async () => {
           const request = await fetch("/api/v1/user/me");
@@ -168,7 +161,6 @@ const PlaceDetails=()=>{
         fetchPlaceDetails();
   },[]);
 
-  
   // Get Product Pictures
   useEffect(()=>{
       const fetchPictures= async()=>{
@@ -181,7 +173,6 @@ const PlaceDetails=()=>{
       };
       fetchPictures();
   },[]);
-
 
    // Get Product times
    useEffect(()=>{
@@ -202,7 +193,6 @@ const PlaceDetails=()=>{
 },[]);
 
 
-
   const sendEmail = () => {
     let templateParams = {
         vendor_name: vendorName,
@@ -218,15 +208,30 @@ const PlaceDetails=()=>{
         });
   };
 
-
   const sendRequest= async ()=>{
+
+    if(!selectedDay) {
+       return toast({
+          title: 'الرجاء اختيار تاريخ الحجز',
+          position:'top',
+          status:'error',
+          isClosable: true,
+        })
+      }else if(!value){
+        return toast({
+          title: 'الرجاء اختيار طريقة التواصل المفضلة ',
+          position:'top',
+          status:'error',
+          isClosable: true,
+        })
+      }else{
     let way=''
-    console.log(value)
     if(value=="1"){
       way="هاتف-"+phoneNumber
     }else{
       way="زيارة القاعة"
     }
+
     const bodyValue = {
       vendorId,
       productId,
@@ -236,6 +241,7 @@ const PlaceDetails=()=>{
       price,
       note,
     };
+
     try {
       const request = await fetch('/api/v1/request/add', {
         method: 'POST',
@@ -246,7 +252,6 @@ const PlaceDetails=()=>{
       });
 
       const data = await request.json();
-
      
       if (request.status === 201) {
         onClose()
@@ -265,19 +270,24 @@ const PlaceDetails=()=>{
       alert('Server error');
       console.log(e);
     }
+  }
   };
+
 
 return(
   <VStack> 
-{ loading ? <Spinner/> :
-<>
-  <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2}/>
+ { loading ? <Spinner/> :
+  <>
+    <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2}/>
 
-  <Title title={name}/>
+    <Title title={name}/>
 
-  <HStack w={"100%"} spacing={0} px={"5rem"} pt={"2rem"} mb={"4rem"}>
 
-      <VStack w={"60%"} >
+
+
+    <Stack w={"100%"} spacing={0} px={"5rem"} mb={"4rem"} direction={['column', 'row']}>
+
+      <VStack w={"60%"}>
       <ImagesGallery pictures={pictures} /> 
       </VStack>
 
@@ -285,17 +295,21 @@ return(
         flexDirection="column"
         justifyContent="start"
         alignItems="end"
-        pb={"4rem"}
         >
+
+
         <Heading fontSize={'1rem'} fontFamily={'body'}>
           {name}
         </Heading>
+
         <Text fontWeight={600} color={'gray.500'} size="sm" mb={4} onClick={()=>navigate('/vendordetails/'+vendorId)}>
          {vendorName} 
         </Text>
+
         <Text fontWeight={400} color={'gray.500'} size="sm" mb={4}>
          {city} 
         </Text>
+
         <Text
           textAlign={'end'}
           color={'gray.700'}
@@ -303,10 +317,19 @@ return(
           {description}
         </Text>
 
-        <HStack spacing={"10rem"}>
+        <Text fontWeight={600} color={'gray.500'} size="sm">
+        تبدأ الاسعار من : {price}ريال  
+        </Text>
 
-        <VStack>
-        <Button backgroundColor={"#CAA892"} onClick={()=>{
+        <Text fontWeight={600} color={'gray.500'} size="sm">
+          السعة : {capacity} شخص
+        </Text>
+      
+        <Box backgroundColor={'gray.100'} w={"20rem"} h={"15rem"}>
+        <DisplayMap  lat={lat} lng={lng}/>
+        </Box>
+        
+        <Button w={"10rem"} alignSelf={"start"} backgroundColor={"#CAA892"} onClick={()=>{
           if(localStorage.getItem('loggedIn')){
             onOpen()
           }else{
@@ -316,45 +339,29 @@ return(
           }} textColor={"white"} variant='solid' >
          طلب حجز
         </Button>
-        </VStack>
 
-        <VStack spacing={2} mt={2} align={"end"}>
-        <Text fontWeight={600} color={'gray.500'} size="sm">
-        تبدأ الاسعار من : {price}ريال  
-        </Text>
-        <Text fontWeight={600} color={'gray.500'} size="sm">
-          السعة : {capacity} شخص
-        </Text>
-        </VStack>
-
-        </HStack>
-
-        
-        <Box backgroundColor={'gray.100'} w={235} h={150}>
-        <DisplayMap  lat={lat} lng={lng}/>
-        </Box>
 
       </VStack>
     
-  </HStack>
+    </Stack>
   
-      <Modal  isOpen={isOpen} onClose={onClose} >
+
+    <Modal  isOpen={isOpen} onClose={onClose} >
       <ModalOverlay />
       <ModalContent>
       <ModalHeader textAlign={"center"}>طلب حجز</ModalHeader>
-     <ModalCloseButton />
+      <ModalCloseButton />
 
-       <ModalBody pb={10}> 
-       <VStack spacing={"2rem"}>
+      <ModalBody pb={5}> 
+      <VStack spacing={"2rem"}>
 
-<Calendar
-  value={selectedDay}
-  onChange={(date) => setSelectedDay(date)}
-  disabledDays={disabledDays} 
-  minimumDate={utils().getToday()}
-  colorPrimary="#CAA892"
- 
-  />
+      <Calendar
+       value={selectedDay}
+       onChange={(date) => setSelectedDay(date)}
+       disabledDays={disabledDays} 
+       minimumDate={utils().getToday()}
+       colorPrimary="#CAA892"
+       />
 
        <Input type="text" variant={"flushed"} placeholder="الملاحظات" color={"gray.800"} textAlign={"right"} value={note} onChange={(e)=>setNote(e.target.value)}/>
 
@@ -385,7 +392,8 @@ return(
     
 
   </>
-}
+ }
+  <Footer/>
   </VStack>
   
 

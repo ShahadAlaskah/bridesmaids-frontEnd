@@ -45,11 +45,15 @@ import CustomerSetting from './pages/Customer/CustomerSetting';
 
 import EditProduct from './pages/Vender/EditProduct';
 
+import "@fontsource/tajawal";
+import Theme from './component/Theme';
+
+
 
 function App() {
   const [user,setUser]=useState(null);
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={Theme}>
       <BrowserRouter>
         {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
         <Routes>
@@ -88,7 +92,7 @@ function App() {
           <Route path="/customerRegister" element={<CustomerRegister />} />
           <Route path="/role" element={<Role />} />
           <Route path="/places" element={<Places />} />
-          <Route path='/placeDetails/:id' element={<PlaceDetails/>}/>
+          <Route path='/place-details/:id' element={<PlaceDetails/>}/>
           <Route path='/vendordetails/:id'element={<VendorDetails/>}/>
 
         </Routes>

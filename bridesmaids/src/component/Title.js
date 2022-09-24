@@ -5,9 +5,9 @@ const Title=({title})=>{
     return(
      <VStack spacing={0}>
     <Text
-     fontSize="2rem"
+     fontSize="1.8rem"
      fontWeight="bold"
-     mt={"2rem"}
+     mt={"0.2rem"}
      >
         {title}
     </Text>

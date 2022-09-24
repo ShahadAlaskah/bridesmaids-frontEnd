@@ -7,6 +7,7 @@
     "@chakra-ui/react": "^2.3.2",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@fontsource/tajawal": "^4.5.9",
     "@googlemaps/react-wrapper": "^1.1.35",
     "@hassanmojab/react-modern-calendar-datepicker": "^3.1.7",
     "@react-google-maps/api": "^2.12.2",
@@ -51,7 +52,5 @@
       "last 1 safari version"
     ]
   },
-
-  "proxy": "http://10.20.40.20/:8090"
-
+  "proxy": "http://localhost:8090"
 }
