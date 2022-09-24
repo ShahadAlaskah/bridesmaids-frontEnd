@@ -33,7 +33,7 @@ const Decoration = () => {
           position={'absolute'}
           backgroundColor={'#FFFAF3'}
           width={'192px'}
-          height={'365px'}
+          height={'480px'}
           left={'48px'}
           top={'200px'}
           borderRadius={'94px 94px 0px 0px'}
@@ -42,7 +42,7 @@ const Decoration = () => {
           position={'absolute'}
           backgroundColor={'#CAA892'}
           width={'192px'}
-          height={'365px'}
+          height={'440px'}
           left={'148px'}
           top={'250px'}
           borderRadius={'94px 94px 0px 0px'}
