@@ -20,7 +20,7 @@ const Products=({user})=>{
     
     const navbarItems = [
         {
-          label: 'منتجات',
+          label: 'خدمات',
           path: '/products',
         },
         {

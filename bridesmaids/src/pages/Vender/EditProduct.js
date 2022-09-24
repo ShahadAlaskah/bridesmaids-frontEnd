@@ -33,21 +33,20 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import Map from '../../component/Map';
 import DisplayMap from '../../component/DisplayMap';
-const EditProduct = ({user}) => {
-
+import axios from 'axios';
+const EditProduct = ({ user }) => {
   useEffect(() => {
     if (user && user.role !== 'VENDOR') {
-      if(user && user.role ==='ADMIN')
-      navigate('/registrationRequests');
-      else{
-        navigate('/')
+      if (user && user.role === 'ADMIN') navigate('/registrationRequests');
+      else {
+        navigate('/');
       }
     }
   }, [user]);
 
-const navbarItems = [
+  const navbarItems = [
     {
-      label: 'منتجات',
+      label: 'خدمات',
       path: '/products',
     },
     {
@@ -67,8 +66,8 @@ const navbarItems = [
     },
   ];
 
-  const { productId,categoryId } = useParams();
-  
+  const { productId, categoryId } = useParams();
+
   const navigate = useNavigate();
   //const {  } = useParams();
   const toast = useToast();
@@ -85,7 +84,9 @@ const navbarItems = [
   const [file, setFile] = useState();
   const [disableEditing, setDisableEditing] = useState(true);
   const [cancelEditing, setCancelEditing] = useState(true);
- //const [categoryId, setCategoryId] = useState('');
+  const [fileList, setFileList] = useState([]);
+  const [pictureUlrList, setPictureUlrList] = useState([]);
+  //const [categoryId, setCategoryId] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,17 +102,70 @@ const navbarItems = [
       setCity(dataP.city);
       setCapacity(dataP.capacity);
       setLocation({ lat: dataP.lat, lng: dataP.lng });
-      //setCategoryList(data);
+      setSubCategoryId(dataP.subCategoryId);
+      const requestS = await fetch(
+        '/api/v1/SubCategory/getAllByCategoryid/' + categoryId
+      );
+      const dataS = await requestS.json();
+
+      setSubCategoryList(dataS);
     };
 
     fetchData();
   }, [cancelEditing]);
- // console.log()
+  // console.log()
   const cancel = () => {
     setCancelEditing(!cancelEditing);
     setDisableEditing(true);
   };
+  const getImgURL = async () => {
+    let deleteImg = await deleteImgURL();
+    let imgList = [];
+    for (let index = 0; index < fileList.length; index++) {
+      let body = new FormData();
+      body.set('key', '4178c08b973c71db51efc665717fe3e6');
+      body.append('image', fileList[index]);
+
+      let res = await axios({
+        method: 'post',
+        url: 'https://api.imgbb.com/1/upload',
+        data: body,
+      });
+      imgList.push(res.data.data.display_url);
+    }
+    return imgList;
+  };
+  const deleteImgURL = async () => {
+    const requestD = await fetch('/api/v1/picture/byProduct/' + productId);
+    const dataD = await requestD.json();
+    if (requestD.status == 200) {
+      for (let index = 0; index < dataD.length; index++) {
+        let request = await fetch('/api/v1/picture/delete/' + dataD[index].id, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        let data = await request.json();
+      }
+    }
+  };
   const saveEditing = async () => {
+    if (fileList.length >= 1) {
+      let imgList = await getImgURL();
+      for (let index = 0; index < imgList.length; index++) {
+        console.log(index);
+        let bodyP = {
+          productId: productId,
+          pictureUlr: String(imgList[index]),
+        };
+        let requestP = await fetch(`/api/v1/picture/add`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bodyP),
+        });
+        let dataP = await requestP.json();
+        console.log(dataP);
+      }
+    }
     const body = {
       name: name,
       description: description,
@@ -121,7 +175,7 @@ const navbarItems = [
       lat: location.lat,
       lng: location.lng,
       categoryId: categoryId,
-      subCategoryId: 1,
+      subCategoryId: subCategoryId,
     };
 
     const request = await fetch(`/api/v1/product/update/${productId}`, {
@@ -133,29 +187,29 @@ const navbarItems = [
     if (request.status === 200) {
       setCancelEditing(!cancelEditing);
       setDisableEditing(true);
+    } else {
+      console.log(data);
     }
   };
   const deleteProduct = async () => {
     const request = await fetch(`/api/v1/product/delete/${productId}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-     
     });
     const data = await request.json();
-  }
+  };
   // console.log(categoryId);
-
 
   return (
     <>
       <VStack width={'95%'}>
         <Navbar navbarItems={navbarItems} navbarItems2={navbarItems2} />
         <Title title={'تعديل منتج'} />
-        <HStack px={10} alignSelf="end" width={'70%'}>
-          <FormControl w={'100%'} marginTop={'2rem'} marginLeft={'4rem'}>
+        <VStack alignSelf="end" width={'70%'}>
+          <FormControl w={'100%'}>
             <HStack alignSelf="end" spacing={8}>
-              <VStack w={'30%'}>
-                <Box className="mb-3">
+              <VStack w={'30%'} spacing={1}>
+                <Box>
                   <FormLabel htmlFor="InputPassword1" textAlign={'right'}>
                     تحميل الصور
                   </FormLabel>
@@ -165,15 +219,19 @@ const navbarItems = [
                     width={'15rem'}
                     textAlign={'right'}
                     // value={password}
-                    // onChange={e => setPassword(e.target.value)}
+                    multiple
+                    onChange={e => setFileList(e.target.files)}
                     disabled={disableEditing}
                     id="InputPassword1"
                     variant={'flushed'}
                   />
-                  <Image src={file} />
                 </Box>
                 <Box backgroundColor={'gray.100'} w={235} h={150}>
-                  {disableEditing? <DisplayMap lat={location.lat} lng={location.lng}/>: <Map setLocation={setLocation} />}
+                  {disableEditing ? (
+                    <DisplayMap lat={location.lat} lng={location.lng} />
+                  ) : (
+                    <Map setLocation={setLocation} />
+                  )}
                 </Box>
               </VStack>
               <VStack w={'30%'}>
@@ -218,9 +276,10 @@ const navbarItems = [
                     id="InputAbout"
                     variant="flushed"
                     isSearchable
-                    value={subCategoryId}
+                    // value={subCategoryId}
                     disabled={disableEditing}
                     onClick={e => {
+                      console.log(e.target.value);
                       setSubCategoryId(e.target.value);
                     }}
                   >
@@ -278,30 +337,33 @@ const navbarItems = [
                 </Box>
               </VStack>
             </HStack>
-            <HStack w={'100%'}>
+            <HStack
+              w={'100%'}
+              pt={14}
+              justifyContent="center"
+              alignItems={'center'}
+            >
               {disableEditing ? (
                 <>
                   <Button
                     type="submit"
-                    mt={'5rem'}
                     onClick={() => setDisableEditing(false)}
                     backgroundColor={'#CAA892'}
                     textColor={'white'}
                     textAlign={'right'}
-                    marginRight={'7rem'}
-                    w={'50%'}
+                    // marginRight={'7rem'}
+                    w={'40%'}
                   >
                     تعديل
                   </Button>
                   <Button
                     type="submit"
-                    mt={'5rem'}
                     onClick={deleteProduct}
                     backgroundColor={'#CAA892'}
                     textColor={'white'}
                     textAlign={'right'}
-                    marginRight={'7rem'}
-                    w={'50%'}
+                    // marginRight={'7rem'}
+                    w={'40%'}
                   >
                     حذف المنتج
                   </Button>
@@ -310,25 +372,25 @@ const navbarItems = [
                 <>
                   <Button
                     type="submit"
-                    mt={'5rem'}
+                    //  mt={'5rem'}
                     onClick={saveEditing}
                     backgroundColor={'#CAA892'}
                     textColor={'white'}
                     textAlign={'right'}
-                    marginRight={'7rem'}
-                    w={'50%'}
+                    // marginRight={'7rem'}
+                    w={'40%'}
                   >
                     حفظ التغيرات
                   </Button>
                   <Button
                     type="submit"
-                    mt={'5rem'}
+                    // mt={'5rem'}
                     onClick={cancel}
                     backgroundColor={'#CAA892'}
                     textColor={'white'}
                     textAlign={'right'}
-                    marginRight={'7rem'}
-                    w={'50%'}
+                    // marginRight={'7rem'}
+                    w={'40%'}
                   >
                     الغاء
                   </Button>
@@ -336,7 +398,7 @@ const navbarItems = [
               )}
             </HStack>
           </FormControl>
-        </HStack>
+        </VStack>
       </VStack>
 
       <Decoration />

@@ -16,6 +16,7 @@ import Decoration from '../../component/Decoration';
 import Navbar from '../../component/Navbar';
 import Title from '../../component/Title';
 import { useNavigate } from 'react-router';
+import Spinner from '../../component/Spinner';
 const VenderReservations = ({user}) => {
 const navigate=useNavigate('');
   useEffect(() => {
@@ -29,6 +30,7 @@ const navigate=useNavigate('');
   }, [user]);
 
   const [details, setDetails] = useState([]);
+  const [loading, setLoading] = useState(true);
   const detailsMap = [];
   useEffect(() => {
     const fetchData = async () => {
@@ -67,13 +69,14 @@ const navigate=useNavigate('');
       }
 
       setDetails(detailsMap);
+      setLoading(false);
     };
 
     fetchData();
   }, []);
  const navbarItems = [
     {
-      label: 'منتجات',
+      label: 'خدمات',
       path: '/products',
     },
     {
@@ -100,8 +103,8 @@ const navigate=useNavigate('');
 
         <Title title={'حجوزات'} />
 
-        <Flex p={5} width={'70%'} alignSelf="end">
-          <AccordionList details={details} />
+        <Flex p={5} width={['99%', '99%', '70%']} alignSelf="end">
+        {loading ? <Spinner /> : <AccordionList details={details} />}
         </Flex>
       </VStack>
 
