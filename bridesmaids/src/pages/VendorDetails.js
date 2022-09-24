@@ -5,6 +5,7 @@ import Navbar from '../component/Navbar'
 import Title from '../component/Title'
 import { useParams } from 'react-router'
 import ProductCard from '../component/ProductCard'
+import Spinner from '../component/Spinner'
 const VendorDetails = () => {
     const params=useParams();
     const vendorid=params.id;
@@ -29,27 +30,29 @@ const VendorDetails = () => {
   },[]);
   useEffect(()=>{
     const fetchPlaces= async()=>{
-        const request= await fetch("api/v1/product/byVendorId/"+vendorid);
+        const request= await fetch("/api/v1/product/byVendorId/"+vendorid);
         const products= await request.json();
-        console.log(products)
-  console.log("1")
+    
+  
         for (let index = 0; index < products.length; index++) {
-          console.log("2")
+          
 
           //Get product pic
-          const requestPic= await fetch("api/v1/picture/byProduct/"+products[index].id);
+          const requestPic= await fetch("/api/v1/picture/byProduct/"+products[index].id);
           const pictures= await requestPic.json()
-
+ 
           placesMap.push({
             id: products[index].id,
             name:products[index].name,
             description: products[index].description,
             picture:pictures[0].pictureUlr,
           })
+         console.log(pictures[0].pictureUlr)
         }
-        console.log("3")
 
         console.log(placesMap)
+ 
+     
           setPlaces(placesMap)
           setLoading(false)
         }
@@ -124,15 +127,16 @@ useEffect(()=>{
         <Flex p={5} alignSelf="end">
         </Flex>
         <HStack>
-        <WrapItem>
-        <Text mt={'3rem'} ml={'35rem'}>{about}</Text>     
-       
-  </WrapItem>
+      
+          <Box width={['15rem','30rem','30rem']}>
+        <Text mt={['5rem','0rem','2rem']} mr={['1rem','13rem','1rem']} textAlign={['center','center','right']}>{about}</Text>     
+        </Box>
+
         
        <Box
              position={'absolute'}
              backgroundColor={'#FFFAF3'}
-             width={'148px'}
+             width={['0','0','148px']}
              height={'230px'}
              left={'882px'}
              top={'180px'}
@@ -146,16 +150,21 @@ useEffect(()=>{
              
              width={'104px'}
              height={'107px'}
-             left={'920px'}
-             top={'237px'}
+             left={['130px','130px','920px']}
+             top={['180px','180px','237px']}
              borderRadius={'94px'}
             border={'1px solid '}
       ></Box>
-      {loading? <></> :
-      <ProductCard productList={places}/>
-  }
+     
+    
        </HStack>
-          <Decoration /> 
+       <Flex mt={'3rem'}>
+       {loading? <Spinner/> :
+      <ProductCard productList={places}/>
+  }  
+  </Flex>
+   
+          <Decoration  /> 
          
    
           </VStack>

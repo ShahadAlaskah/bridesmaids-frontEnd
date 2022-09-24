@@ -80,10 +80,10 @@ const Login = () => {
   }, []);
 
   return (
-    <HStack spacing={'2rem'} justifyContent={'center'}>
+    <HStack spacing={'2rem'} mt={['2rem','4rem','0rem']} justifyContent={'center'}>
       <Image
         src="https://i.pinimg.com/564x/34/ac/14/34ac14926963b749e84dc0e480d4114c.jpg"
-        width={'28rem'}
+        width={['0rem','0rem','28rem']}
       />
       <Box boxShadow={'lg'} width={'20rem'} height={'30rem'}>
         <HStack>
@@ -98,6 +98,7 @@ const Login = () => {
               fontSize={'15px'}
               textAlign={'right'}
               htmlFor="InputUserName1"
+              mr={'2rem'}
             >
               اسم المستخدم
             </FormLabel>
@@ -118,6 +119,7 @@ const Login = () => {
               fontSize={'15px'}
               htmlFor="InputPassword1"
               textAlign={'right'}
+              mr={'2rem'}
             >
               الرمز السري
             </FormLabel>

@@ -154,7 +154,8 @@ const Places=()=>{
               description: products[index].description,
               picture:pictures[0].pictureUlr,
               vendorName:user.name,
-            })            
+            })      
+            console.log(pictures[0].pictureUlr)      
           }
             setPlaces(placesMap)
             setLoading(false)

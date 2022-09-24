@@ -18,6 +18,7 @@ AlertDialogFooter,
   HStack,
   Button,
   VStack,
+  Stack,
   Heading,
   useToast
 } from '@chakra-ui/react';
@@ -164,7 +165,7 @@ const VendorRegister = () => {
   }, []);
 
   return (
-    <Box boxShadow={'lg'} maxW="80%"  pb={'1rem'} ml={'7rem'} mt={'4rem'}>
+    <Box boxShadow={'lg'} maxW={"80%"}  pb={'1rem'} ml={'7rem'} mt={'4rem'} >
       <HStack ml={'15rem'}>
         <Text className="text-center" fontSize={'1.5rem'} ml={'35rem'}>
         تسجيل كمزود خدمه
@@ -172,8 +173,8 @@ const VendorRegister = () => {
         </Text>
         <Image src={logo} width={'4rem'} alt={'logo'} />
       </HStack>
-      <FormControl marginTop={'2rem'} marginLeft={'10rem'}>
-        <HStack spacing={'12'} marginRight={'12rem'}>
+      <FormControl marginTop={'2rem'} marginLeft={['1rem','1rem','10rem']}>
+        <Stack spacing={'12'} marginRight={'12rem'} direction={['column','column','row']}>
         <Box backgroundColor={'gray.100'} w={235} h={150}>
                  <Map    setLocation={setLocation}/>
                  </Box>   
@@ -206,9 +207,9 @@ const VendorRegister = () => {
               variant={'flushed'}
             />
           </Box>
-        </HStack>
-        <HStack spacing={'12'} marginLeft={'17.5rem'}>
-          <Box className="mb-3">
+        </Stack>
+        <Stack spacing={'12'} marginLeft={'17.5rem'} direction={['column','column','row']}>
+          <Box>
             <FormLabel htmlFor="InputEmail1" textAlign={'right'}>
               البريد الالكتروني
             </FormLabel>
@@ -236,8 +237,8 @@ const VendorRegister = () => {
               variant={'flushed'}
             />
           </Box>
-        </HStack>
-        <HStack spacing={'12'} marginLeft={'17.5rem'}>
+        </Stack>
+        <Stack spacing={'12'} marginLeft={'17.5rem'} direction={['column','column','row']}>
           <Box>
             <FormLabel htmlFor="InputPhoneNumber1" textAlign={'right'}>
               رقم الهاتف
@@ -267,8 +268,8 @@ const VendorRegister = () => {
                 variant={'flushed'}
               />
           </Box>
-        </HStack>
-        <HStack spacing={'12'} marginLeft={'17.5rem'}>
+        </Stack>
+        <Stack spacing={'12'} marginLeft={'17.5rem'} direction={['column','column','row']}>
           {/* <Box className='mb-3'>
         <FormLabel htmlFor='InputPic' textAlign={'right'}>
         اضف صورة 
@@ -309,7 +310,7 @@ const VendorRegister = () => {
               variant={'flushed'}
             />
           </Box>
-        </HStack>
+        </Stack>
         <HStack>
           <Button
             mt={'1rem'}

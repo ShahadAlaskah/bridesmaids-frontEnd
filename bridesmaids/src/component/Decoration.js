@@ -27,6 +27,7 @@ const Decoration = () => {
 
   return (
     <>
+
       <Hide breakpoint="(max-width: 400px)">
         <Box
           position={'absolute'}
@@ -48,6 +49,7 @@ const Decoration = () => {
           opacity={'0.5'}
         ></Box>
       </Hide>
+
     </>
   );
 };
