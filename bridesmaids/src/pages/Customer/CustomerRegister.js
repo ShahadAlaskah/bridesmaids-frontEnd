@@ -17,9 +17,12 @@ import {
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogFooter,
+  AlertDialogBody,
   useDisclosure
 } from '@chakra-ui/react';
 import logo from '../../Images/logo.png';
+import Spinner from '../../component/Spinner';
+
 
 const CustomerRegister = () => {
   const [username, setUsername] = React.useState('');
@@ -90,7 +93,9 @@ const CustomerRegister = () => {
         const data=await request.json();
           if(request.status === 201) {
             onOpen();
-            navigate('/login');
+            const timeout = setTimeout(() => {
+             navigate('/login')
+            }, 5000);
         }else if(request.status===400){
           if(data.message.startsWith('Duplicate')){
             const requeste = await fetch('/api/v1/user/checkemail/'+email, {
@@ -100,7 +105,7 @@ const CustomerRegister = () => {
               },
             });
             const dataE=await requeste.json();
-            if(requeste===200){
+            if(dataE.email===email){
               return toast({
                 title: " البريد الالكتروني مسجل مسبقاً يرجى اختيار  بريد الكتروني اخر",
                 position:'top',
@@ -115,7 +120,7 @@ const CustomerRegister = () => {
               },
             });
             const dataU=await requestu.json();
-            if(requestu===200){
+            if(dataU.username===username){
               return toast({
                 title: " اسم المستخدم مسجل مسبقاً يرجى اختيار اسم مستخدم اخر",
                 position:'top',
@@ -342,6 +347,7 @@ const CustomerRegister = () => {
               textAlign={'right'}
               size={'sm'}
               width={'15rem'}
+            
             >
               تسجيل
             </Button>
@@ -354,15 +360,15 @@ const CustomerRegister = () => {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent alignItems={'center'}>
+          <AlertDialogContent  alignItems={'center'} h={'12rem'} >
             
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
              !تم التسجيل بنجاح
             </AlertDialogHeader>
-
-            <AlertDialogFooter>
-            <Button backgroundColor={"#CAA892"} onClick={onClose} textColor={"white"} width={"120px"}>موافق</Button>
-            </AlertDialogFooter>
+           <AlertDialogBody>
+            سيتم نقلك الي صفحة تسجيل الدخول خلال ثواني
+            <Spinner/>
+           </AlertDialogBody>
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog> 

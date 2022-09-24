@@ -87,7 +87,7 @@ const VendorRegister = () => {
             },
           });
           const dataM=await requestm.json();
-          if(requestm.status===200){
+          if(dataM.maeroufNumber===maeroufNumber){
              toast({
               title: "رقم معروف مسجل مسبقاً",
               position:'top',
@@ -107,7 +107,10 @@ const VendorRegister = () => {
       const data = await request.json();
 
       if (request.status === 201) {
-        onOpen();  
+        onOpen();
+        const timeout = setTimeout(() => {
+         navigate('/')
+        }, 3000); 
       }else if(request.status===400){
         if(data.message.startsWith('Duplicate')){
           const requeste = await fetch('/api/v1/user/checkemail/'+email, {
@@ -117,7 +120,7 @@ const VendorRegister = () => {
             },
           });
           const dataE=await requeste.json();
-          if(requeste.status===200){
+          if(dataE.email===email){
             return toast({
               title: " البريد الالكتروني مسجل مسبقاً يرجى اختيار  بريد الكتروني اخر",
               position:'top',
@@ -132,7 +135,7 @@ const VendorRegister = () => {
             },
           });
           const dataU=await requestu.json();
-          if(requestu.status===200){
+          if(dataU.username===username){
             return toast({
               title: " اسم المستخدم مسجل مسبقاً يرجى اختيار اسم مستخدم اخر",
               position:'top',
@@ -173,7 +176,7 @@ const VendorRegister = () => {
         <Image src={logo} width={'4rem'} alt={'logo'} />
       </HStack>
       <FormControl marginTop={'2rem'}>
-
+     
       <VStack spacing={"2rem"}>
         <HStack spacing={"5rem"}>
           <VStack spacing={"3rem"}>
@@ -181,7 +184,36 @@ const VendorRegister = () => {
           <Map setLocation={setLocation}/>
           </Box> 
           </VStack>
-
+          <VStack spacing={"3rem"}>
+          <Box>
+            <FormLabel htmlFor="InputPhoneNumber5" textAlign={'right'}>
+              رقم معروف
+            </FormLabel>
+            <Input
+              width={'15rem'}
+              textAlign={'right'}
+              value={maeroufNumber}
+              onChange={e => setMaeroufNumber(e.target.value)}
+              type="text"
+              id="InputPhoneNumber5"
+              variant={'flushed'}
+            />
+          </Box>
+          <Box>
+            <FormLabel htmlFor="about" textAlign={'right'}>
+              الوصف 
+            </FormLabel>
+            <Input
+              width={'15rem'}
+              textAlign={'right'}
+              value={about}
+              onChange={e => setAbout(e.target.value)}
+              type="text"
+              id="about"
+              variant={'flushed'}
+            />
+          </Box> 
+          </VStack>
           <VStack spacing={"3rem"}>
           <Box>
             <FormLabel htmlFor="InputName1" textAlign={'right'} w={"15rem"}>
