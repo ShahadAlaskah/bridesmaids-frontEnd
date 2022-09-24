@@ -71,7 +71,7 @@ const Navbar = ({ navbarItems, navbarItems2 }) => {
             h="4rem"
             mr="2rem"
             ml="2rem"
-            onClick={()=> navigate('/')}
+            // onClick={()=> navigate('/')}
           />
           </Flex>
           <Flex w={"40%"}>
